@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="frc.robot.subsystems.IntakeTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-01-13T01:04:36" hostname="Brians-MacBook-Pro-2.local" time="0.72">
+  <properties/>
+  <testcase name="worksWhenOpen()" classname="frc.robot.subsystems.IntakeTest" time="0.714"/>
+  <testcase name="retractTest()" classname="frc.robot.subsystems.IntakeTest" time="0.001"/>
+  <testcase name="doesntWorkWhenClosed()" classname="frc.robot.subsystems.IntakeTest" time="0.003"/>
+  <testcase name="deployTest()" classname="frc.robot.subsystems.IntakeTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
