@@ -26,3 +26,6 @@ replay_pid*
 .gradle/8.11/executionHistory/executionHistory.lock
 .gradle/buildOutputCleanup/buildOutputCleanup.lock
 /.gradle
+/build
+/.gradle/8.11/checksums
+/.gradle/8.11
