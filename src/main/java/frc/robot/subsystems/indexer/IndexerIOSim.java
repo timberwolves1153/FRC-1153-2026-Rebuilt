@@ -6,13 +6,9 @@ import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 
 public class IndexerIOSim implements IndexerIO {
-    private DCMotorSim sim = new DCMotorSim(
-        LinearSystemId.createDCMotorSystem(
-            DCMotor.getNEO(1),
-            1,
-            1
-        ), DCMotor.getNEO(1)
-    );
+    private DCMotorSim indexerSim = new DCMotorSim(
+		LinearSystemId.createDCMotorSystem(
+			DCMotor.getKrakenX60(1), 0, 0), DCMotor.getKrakenX60(1));
 
     private double appliedVolts = 0.0;
 

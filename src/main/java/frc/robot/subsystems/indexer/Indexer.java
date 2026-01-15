@@ -18,8 +18,8 @@ public class Indexer extends SubsystemBase {
         Logger.processInputs("Indexer", inputs);
     }
 
-    public void run() {
-        io.setVoltage(3);
+    public void setVoltage(volts) {
+        io.setVoltage(volts);
     }
 
     public void stop() {

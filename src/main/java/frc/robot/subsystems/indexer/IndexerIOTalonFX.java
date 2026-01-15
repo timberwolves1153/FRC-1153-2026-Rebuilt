@@ -7,13 +7,14 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-public class IndexerIOSparkMax implements IndexerIO {
+public class IndexerIOTalonFX implements IndexerIO {
     private SparkMax indexerMotor;
     private SparkMaxConfig indexerConfig;
 
-    public IndexerIOSparkMax() {
-        indexerMotor = new SparkMax(0, MotorType.kBrushless); //TODO: ID
-        indexerConfig = new SparkMaxConfig();
+    public IndexerIOTalonFX() {
+        //indexerMotor = new TalonFX(), MotorType.kBrushless); //TODO: ID
+        new TalonFX()
+       // indexerConfig = new SparkMaxConfig();
     }
 
     public void configMotors() {
