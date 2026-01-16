@@ -4,7 +4,6 @@
 // Use of this source code is governed by a BSD
 // license that can be found in the LICENSE file
 // at the root directory of this project.
-
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -28,23 +27,37 @@ import frc.robot.subsystems.Indexer;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
  */
+
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final Indexer indexer = new Indexer();
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
+
+  // Op Controller
+  private final CommandXboxController opController = new CommandXboxController(1);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    //instantiates a new drive joystick with the XboxController class
+  private XboxController driveStick;
+  private XboxController opStick;
+  private XboxController overrideStick;
+
+    opLeftBumper = new JoystickButton(opStick, XboxController.Button.kLeftBumper.value);
+    opRightBumper = new JoystickButton(opStick, XboxController.Button.kRightBumper.value);
+
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
@@ -161,6 +174,24 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
+
+    controller
+        .rightBumper()
+        .whileTrue(
+            indexer.intakeCommand();
+        );
+    
+    controller
+        .rightTrigger()
+        .whileTrue(
+            indexer.feedToShooterCommand();
+        );
+    
+    controller
+        .leftBumper()
+        .whileTrue(
+            indexer.reverseCommand();
+        );
   }
 
   /**
