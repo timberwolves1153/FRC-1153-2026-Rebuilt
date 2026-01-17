@@ -23,7 +23,7 @@ public class Launcher extends SubsystemBase {
     io.updateInputs(inputs);
   }
 
-  public void runDutyCycle(double output) {
-    io.runDutyCycle(output);
-  }
+  // public void runDutyCycle(double output) {
+  //   io.runDutyCycle(output);
+  // }
 }

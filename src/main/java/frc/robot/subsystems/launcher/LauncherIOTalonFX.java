@@ -39,7 +39,7 @@ public class LauncherIOTalonFX implements LauncherIO {
   private final StatusSignal<Temperature> followerTemp = followerLauncherMotor.getDeviceTemp();
 
   public LauncherIOTalonFX() {
-    encoder = new CANcoder(0, "rio"); // Set ID, bus
+    encoder = new CANcoder(0, "rio"); //TODO: Set ID, bus
     voltageRequest = new VoltageOut(0);
 
     encoderConfig = new CANcoderConfiguration();
@@ -76,7 +76,7 @@ public class LauncherIOTalonFX implements LauncherIO {
 
     launcherConfig.Feedback.FeedbackRemoteSensorID = encoder.getDeviceID();
     launcherConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-    launcherConfig.Feedback.SensorToMechanismRatio = 0; // SET
+    launcherConfig.Feedback.SensorToMechanismRatio = 0; //TODO: SET
 
     leadLauncherMotor.getConfigurator().apply(launcherConfig);
     followerLauncherMotor.getConfigurator().apply(launcherConfig);

@@ -18,5 +18,5 @@ public interface LauncherIO {
 
   public default void runVolts(double volts) {}
 
-  public default void runDutyCycle(double output) {}
+  // public default void runDutyCycle(double output) {}
 }
