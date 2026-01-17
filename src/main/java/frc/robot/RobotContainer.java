@@ -37,7 +37,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
-  private final Indexer indexer = new Indexer();
+  private final Indexer m_indexer = new Indexer();
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -55,8 +55,11 @@ public class RobotContainer {
   private XboxController opStick;
   private XboxController overrideStick;
 
-    opLeftBumper = new JoystickButton(opStick, XboxController.Button.kLeftBumper.value);
-    opRightBumper = new JoystickButton(opStick, XboxController.Button.kRightBumper.value);
+    private final JoystickButton opLeftBumper = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton opRightBumper = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
+
+    private final AxisButton opLeftTrigger = new AxisButton(operator, XboxController.Axis.kLeftTrigger.value, 0.5);
+    private final AxisButton opRightTrigger = new AxisButton(operator, XboxController.Axis.kRightTrigger.value ,0.5);
 
     switch (Constants.currentMode) {
       case REAL:
@@ -178,19 +181,19 @@ public class RobotContainer {
     controller
         .rightBumper()
         .whileTrue(
-            indexer.intakeCommand();
+            m_indexer.intakeCommand();
         );
     
     controller
         .rightTrigger()
         .whileTrue(
-            indexer.feedToShooterCommand();
+            m_indexer.feedToShooterCommand();
         );
     
     controller
         .leftBumper()
         .whileTrue(
-            indexer.reverseCommand();
+            m_indexer.reverseCommand();
         );
   }
 
