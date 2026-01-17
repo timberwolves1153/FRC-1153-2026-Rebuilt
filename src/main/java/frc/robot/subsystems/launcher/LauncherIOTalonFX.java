@@ -4,9 +4,7 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -27,8 +25,8 @@ public class LauncherIOTalonFX implements LauncherIO {
   private TalonFXConfiguration launcherConfig;
   private CANcoderConfiguration encoderConfig;
 
-//   private DutyCycleOut dutyCycle = new DutyCycleOut(0.0);
-//   private MotionMagicDutyCycle motionMagic = new MotionMagicDutyCycle(0.0).withSlot(0);
+  //   private DutyCycleOut dutyCycle = new DutyCycleOut(0.0);
+  //   private MotionMagicDutyCycle motionMagic = new MotionMagicDutyCycle(0.0).withSlot(0);
 
   private final StatusSignal<Voltage> leadAppliedVoltage = leadLauncherMotor.getMotorVoltage();
   private final StatusSignal<Voltage> followerAppliedVoltage =
