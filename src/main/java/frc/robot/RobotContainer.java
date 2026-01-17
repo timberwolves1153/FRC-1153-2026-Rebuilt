@@ -23,43 +23,30 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
-import frc.robot.subsystems.Indexer;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a "declarative" paradigm, very little robot logic should
- * actually be handled in the {@link Robot} periodic methods (other than the
- * scheduler calls). Instead, the structure of the robot (including subsystems,
- * commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * subsystems, commands, and button mappings) should be declared here.
  */
-
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
-  private final Indexer m_indexer = new Indexer();
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
 
   // Op Controller
-  private final CommandXboxController opController = new CommandXboxController(1);
+  //   private final CommandXboxController opController = new CommandXboxController(1);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    //instantiates a new drive joystick with the XboxController class
-  private XboxController driveStick;
-  private XboxController opStick;
-  private XboxController overrideStick;
-
-    private final JoystickButton opLeftBumper = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton opRightBumper = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
-
-    private final AxisButton opLeftTrigger = new AxisButton(operator, XboxController.Axis.kLeftTrigger.value, 0.5);
-    private final AxisButton opRightTrigger = new AxisButton(operator, XboxController.Axis.kRightTrigger.value ,0.5);
+    // instantiates a new drive joystick with the XboxController class
 
     switch (Constants.currentMode) {
       case REAL:
@@ -177,24 +164,6 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
-
-    controller
-        .rightBumper()
-        .whileTrue(
-            m_indexer.intakeCommand();
-        );
-    
-    controller
-        .rightTrigger()
-        .whileTrue(
-            m_indexer.feedToShooterCommand();
-        );
-    
-    controller
-        .leftBumper()
-        .whileTrue(
-            m_indexer.reverseCommand();
-        );
   }
 
   /**
