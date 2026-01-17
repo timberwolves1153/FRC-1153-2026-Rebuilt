@@ -14,10 +14,15 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Climber.Climber;
+import frc.robot.subsystems.Climber.ClimberIO;
+import frc.robot.subsystems.Climber.ClimberIOSim;
+import frc.robot.subsystems.Climber.ClimberIOTalonFX;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -35,6 +40,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final Climber climber;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -56,6 +62,7 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.FrontRight),
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight));
+        climber = new Climber(new ClimberIOTalonFX());
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The
@@ -85,6 +92,9 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.FrontRight),
                 new ModuleIOSim(TunerConstants.BackLeft),
                 new ModuleIOSim(TunerConstants.BackRight));
+        climber = new Climber(new ClimberIOSim());
+
+        
         break;
 
       default:
@@ -96,7 +106,10 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {});
+        climber = new Climber(new ClimberIO() {});
         break;
+        
+        
     }
 
     // Set up auto routines
@@ -133,8 +146,8 @@ public class RobotContainer {
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,
-            () -> -controller.getLeftY(),
-            () -> -controller.getLeftX(),
+            () -> controller.getLeftY(),
+            () -> controller.getLeftX(),
             () -> -controller.getRightX()));
 
     // Lock to 0° when A button is held
@@ -143,8 +156,8 @@ public class RobotContainer {
         .whileTrue(
             DriveCommands.joystickDriveAtAngle(
                 drive,
-                () -> -controller.getLeftY(),
-                () -> -controller.getLeftX(),
+                () -> controller.getLeftY(),
+                () -> controller.getLeftX(),
                 () -> Rotation2d.kZero));
 
     // Switch to X pattern when X button is pressed
@@ -160,7 +173,14 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
+
+    // controller.povDown().onTrue(new InstantCommand(() -> climber.setVoltage(-12)));
+    // controller.povUp().onTrue(new InstantCommand(() -> climber.setVoltage(12)));
+    // controller.povUp().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
+    // controller.povDown().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
   }
+
+  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
