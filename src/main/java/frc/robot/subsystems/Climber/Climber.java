@@ -124,12 +124,12 @@ public class Climber extends SubsystemBase {
     climberMech2d =
         new LoggedMechanism2d(0, 0); /* change these values based on real time updates */
 
-    double rootX = 0; /* Delete when you have the values */
-    double rootY = 0; /* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
+    double rootX = (3.0 / 2.0) + Units.inchesToMeters(9.053); /* Delete when you have the values */
+    double rootY = Units.inchesToMeters(12.689); /* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
 
     climberRoot2d = climberMech2d.getRoot("Climber", rootX, rootY);
 
-    double length = 0;
+    double length = 10;
     double angle = 0;
     climberLig2d = new LoggedMechanismLigament2d("Climber Lig", length, angle);
     climberRoot2d.append(climberLig2d);

@@ -15,18 +15,18 @@ public class ClimberIOSim implements ClimberIO {
   private ElevatorSim climberSim;
   private Voltage volts;
 
-  double maxVel = 0;
-  double maxAcc = 0;
+  double maxVel = 2;
+  double maxAcc = 2;
   TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(maxVel, maxAcc);
 
-  double kp = 0; /* proportional coefficent */
-  double ki = 0; /* integral coefficent */
-  double kd = 0; /* derivitve coefficent */
+  double kp = 5; /* proportional coefficent */
+  double ki = 5; /* integral coefficent */
+  double kd = 5; /* derivitve coefficent */
   ProfiledPIDController profiledPIDController = new ProfiledPIDController(kp, ki, kd, constraints);
 
-  double ks = 0; /* static gain in volts */
-  double kg = 0; /* gravity gain in volts */
-  double kv = 0; /* velocity gain in V/(m/s)*/
+  double ks = 5; /* static gain in volts */
+  double kg = 5; /* gravity gain in volts */
+  double kv = 5; /* velocity gain in V/(m/s)*/
   ElevatorFeedforward climberFF = new ElevatorFeedforward(ks, kg, kv);
 
   public ClimberIOSim() {

@@ -94,7 +94,6 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.BackRight));
         climber = new Climber(new ClimberIOSim());
 
-        
         break;
 
       default:
@@ -108,8 +107,6 @@ public class RobotContainer {
                 new ModuleIO() {});
         climber = new Climber(new ClimberIO() {});
         break;
-        
-        
     }
 
     // Set up auto routines
@@ -174,13 +171,11 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    // controller.povDown().onTrue(new InstantCommand(() -> climber.setVoltage(-12)));
-    // controller.povUp().onTrue(new InstantCommand(() -> climber.setVoltage(12)));
-    // controller.povUp().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
-    // controller.povDown().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
+    controller.povDown().onTrue(new InstantCommand(() -> climber.setVoltage(-5)));
+    controller.povUp().onTrue(new InstantCommand(() -> climber.setVoltage(5)));
+    controller.povUp().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
+    controller.povDown().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
   }
-
-  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
