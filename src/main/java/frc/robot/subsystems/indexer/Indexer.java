@@ -20,7 +20,13 @@ public class Indexer extends SubsystemBase {
   private final TalonFX spinMotor;
   private final TalonFX feedMotor;
 
+  public IndexerIO indexerIO;
+  public IndexerIOInputsAutoLogged indexerInputs;
+
   public Indexer() {
+
+    indexerInputs = new IndexerIOInputsAutoLogged();
+    this.indexerIO = indexerIO;
     // Initialize motors
     spinMotor = new TalonFX(SPIN_MOTOR_ID);
     feedMotor = new TalonFX(FEED_MOTOR_ID);
