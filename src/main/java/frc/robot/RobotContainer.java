@@ -20,6 +20,10 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Climber.Climber;
+import frc.robot.subsystems.Climber.ClimberIO;
+import frc.robot.subsystems.Climber.ClimberIOSim;
+import frc.robot.subsystems.Climber.ClimberIOTalonFX;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -42,6 +46,7 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Launcher launcher;
+  private final Climber climber;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -63,6 +68,7 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.FrontRight),
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight));
+        climber = new Climber(new ClimberIOTalonFX());
 
         launcher = new Launcher(new LauncherIOTalonFX());
 
@@ -96,6 +102,7 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.BackRight));
 
         launcher = new Launcher(new LauncherIOSim());
+        climber = new Climber(new ClimberIOSim());
 
         break;
 
@@ -111,6 +118,7 @@ public class RobotContainer {
 
         launcher = new Launcher(new LauncherIO() {});
 
+        climber = new Climber(new ClimberIO() {});
         break;
     }
 
@@ -185,6 +193,10 @@ public class RobotContainer {
     controller.y().onFalse(new InstantCommand(() -> launcher.runVoltsFollower(0), launcher));
 
     // controller.y().onTrue(new InstantCommand(() -> launcher.runVoltsFollower(5), launcher));
+    controller.povDown().onTrue(new InstantCommand(() -> climber.setVoltage(-5)));
+    controller.povUp().onTrue(new InstantCommand(() -> climber.setVoltage(5)));
+    controller.povUp().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
+    controller.povDown().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
   }
 
   /**
