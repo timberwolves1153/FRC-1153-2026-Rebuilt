@@ -12,7 +12,7 @@ public class Launcher extends SubsystemBase {
   // private SimpleMotorFeedforward launcherFF;
 
   public Launcher(LauncherIO launcherIO) {
-    io = new LauncherIOTalonFX();
+    io = launcherIO;
 
     //  launcherPID = new PIDController(0.1, 0, 0);
     //  launcherFF = new SimpleMotorFeedforward(0, 0.0075);

@@ -5,6 +5,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LauncherIOSim implements LauncherIO {
   private final FlywheelSim simLeader;
@@ -43,6 +44,7 @@ public class LauncherIOSim implements LauncherIO {
   @Override
   public void runVoltsLeader(double volts) {
     appliedVoltsLeader = MathUtil.clamp(volts, -12.0, 12.0);
+    SmartDashboard.putNumber("Flyhweel volts", volts);
     simLeader.setInputVoltage(appliedVoltsLeader);
   }
 
