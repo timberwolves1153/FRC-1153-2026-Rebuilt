@@ -16,7 +16,13 @@ public interface LauncherIO {
 
   public default void updateInputs(LauncherIOInputs inputs) {}
 
-  public default void runVolts(double volts) {}
+  public default void runVoltsLeader(double volts) {}
+
+  public default void runVoltsFollower(double volts) {}
+
+  public default void stopLeader() {}
+
+  public default void stopFollower() {}
 
   // public default void runDutyCycle(double output) {}
 }

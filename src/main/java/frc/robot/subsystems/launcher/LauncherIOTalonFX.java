@@ -39,7 +39,7 @@ public class LauncherIOTalonFX implements LauncherIO {
   private final StatusSignal<Temperature> followerTemp = followerLauncherMotor.getDeviceTemp();
 
   public LauncherIOTalonFX() {
-    encoder = new CANcoder(0, "rio"); //TODO: Set ID, bus
+    encoder = new CANcoder(0, "rio"); // TODO: Set ID, bus
     voltageRequest = new VoltageOut(0);
 
     encoderConfig = new CANcoderConfiguration();
@@ -55,13 +55,13 @@ public class LauncherIOTalonFX implements LauncherIO {
     launcherConfig = new TalonFXConfiguration();
     encoderConfig = new CANcoderConfiguration();
 
-    var slot0Configs = launcherConfig.Slot0;
-    slot0Configs.kS = 0;
-    slot0Configs.kV = 0;
-    slot0Configs.kA = 0;
-    slot0Configs.kP = 0;
-    slot0Configs.kI = 0;
-    slot0Configs.kD = 0;
+    // var slot0Configs = launcherConfig.Slot0;
+    // slot0Configs.kS = 0;
+    // slot0Configs.kV = 0;
+    // slot0Configs.kA = 0;
+    // slot0Configs.kP = 0;
+    // slot0Configs.kI = 0;
+    // slot0Configs.kD = 0;
 
     launcherConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
     launcherConfig.CurrentLimits.StatorCurrentLimitEnable = true;
@@ -76,7 +76,7 @@ public class LauncherIOTalonFX implements LauncherIO {
 
     launcherConfig.Feedback.FeedbackRemoteSensorID = encoder.getDeviceID();
     launcherConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-    launcherConfig.Feedback.SensorToMechanismRatio = 0; //TODO: SET
+    launcherConfig.Feedback.SensorToMechanismRatio = 0; // TODO: SET
 
     leadLauncherMotor.getConfigurator().apply(launcherConfig);
     followerLauncherMotor.getConfigurator().apply(launcherConfig);
@@ -115,8 +115,8 @@ public class LauncherIOTalonFX implements LauncherIO {
     launcherInputs.followerTemp = followerTemp.getValueAsDouble();
   }
 
-  @Override
-  public void runVolts(double volts) {
-    leadLauncherMotor.setControl(voltageRequest.withOutput(volts));
-  }
+  // @Override
+  // public void runVolts(double volts) {
+  //   leadLauncherMotor.setControl(voltageRequest.withOutput(volts));
+  // }
 }
