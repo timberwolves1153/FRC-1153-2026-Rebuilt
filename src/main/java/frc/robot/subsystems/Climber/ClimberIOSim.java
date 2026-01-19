@@ -1,4 +1,4 @@
-package frc.robot.subsystems.climber;
+package frc.robot.subsystems.Climber;
 
 import static edu.wpi.first.units.Units.Volts;
 
