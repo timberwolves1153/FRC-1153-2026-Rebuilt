@@ -4,29 +4,30 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
 
 public class LauncherIOTalonFX implements LauncherIO {
-  private final TalonFX leadLauncherMotor = new TalonFX(63, "rio");
-  private final TalonFX followerLauncherMotor = new TalonFX(64, "rio");
-  private final CANcoder encoder;
-  private VoltageOut voltageRequest;
+  /* Flywheel */
+
+  private final TalonFX leadLauncherMotor = new TalonFX(64, "rio");
+  private final TalonFX followerLauncherMotor = new TalonFX(65, "rio");
 
   private TalonFXConfiguration launcherConfig;
-  private CANcoderConfiguration encoderConfig;
-
-  //   private DutyCycleOut dutyCycle = new DutyCycleOut(0.0);
-  //   private MotionMagicDutyCycle motionMagic = new MotionMagicDutyCycle(0.0).withSlot(0);
+  private CANcoderConfiguration flywheelEncoder;
 
   private final StatusSignal<Voltage> leadAppliedVoltage = leadLauncherMotor.getMotorVoltage();
   private final StatusSignal<Voltage> followerAppliedVoltage =
@@ -38,30 +39,42 @@ public class LauncherIOTalonFX implements LauncherIO {
   private final StatusSignal<Temperature> leadTemp = leadLauncherMotor.getDeviceTemp();
   private final StatusSignal<Temperature> followerTemp = followerLauncherMotor.getDeviceTemp();
 
-  public LauncherIOTalonFX() {
-    encoder = new CANcoder(0, "rio"); // TODO: Set ID, bus
-    voltageRequest = new VoltageOut(0);
+  /* Hood */
 
-    encoderConfig = new CANcoderConfiguration();
-    // var magnetSensorConfigs = new MagnetSensorConfigs();
-    // encoderConfig.withMagnetSensor(magnetSensorConfigs);
-    // magnetSensorConfigs.AbsoluteSensorDiscontinuityPoint = 0.05;
-    encoder.getConfigurator().apply(encoderConfig);
+  private final TalonFX hoodMotor = new TalonFX(61, "rio");
+
+  private TalonFXConfiguration hoodConfig;
+
+  /* Turret */
+
+  private final TalonFX turretMotor = new TalonFX(60, "rio");
+  private final CANcoder turretEncoder = new CANcoder(61, "rio");
+
+  private DutyCycleOut turretDutyCycle = new DutyCycleOut(0.0);
+  private MotionMagicDutyCycle turretMotionMagic = new MotionMagicDutyCycle(0.0);
+
+  private double turretSetpointRadians = 0.0;
+
+  private TalonFXConfiguration turretConfig;
+  private CANcoderConfiguration turretEncoderConfig;
+
+  private final StatusSignal<Voltage> turretAppliedVoltage = turretMotor.getMotorVoltage();
+  private final StatusSignal<Current> turretCurrent = turretMotor.getSupplyCurrent();
+  private final StatusSignal<Angle> turretPositionRadians = turretMotor.getPosition();
+  private final StatusSignal<Temperature> turretTemp = turretMotor.getDeviceTemp();
+
+  public LauncherIOTalonFX() {
+    launcherConfig = new TalonFXConfiguration();
+    flywheelEncoder = new CANcoderConfiguration();
+
+    turretConfig = new TalonFXConfiguration();
+    turretEncoderConfig = new CANcoderConfiguration();
 
     configMotors();
   }
 
   public void configMotors() {
-    launcherConfig = new TalonFXConfiguration();
-    encoderConfig = new CANcoderConfiguration();
-
-    // var slot0Configs = launcherConfig.Slot0;
-    // slot0Configs.kS = 0;
-    // slot0Configs.kV = 0;
-    // slot0Configs.kA = 0;
-    // slot0Configs.kP = 0;
-    // slot0Configs.kI = 0;
-    // slot0Configs.kD = 0;
+    /* Flywheel */
 
     launcherConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
     launcherConfig.CurrentLimits.StatorCurrentLimitEnable = true;
@@ -69,19 +82,52 @@ public class LauncherIOTalonFX implements LauncherIO {
     launcherConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     launcherConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    // var motionMagicConfigs = launcherConfig.MotionMagic;
-    // motionMagicConfigs.MotionMagicCruiseVelocity = 640;
-    // motionMagicConfigs.MotionMagicAcceleration = 320;
-    // motionMagicConfigs.MotionMagicJerk = 1600;
-
-    launcherConfig.Feedback.FeedbackRemoteSensorID = encoder.getDeviceID();
-    launcherConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-    launcherConfig.Feedback.SensorToMechanismRatio = 0; // TODO: SET
-
     leadLauncherMotor.getConfigurator().apply(launcherConfig);
     followerLauncherMotor.getConfigurator().apply(launcherConfig);
 
     followerLauncherMotor.setControl(new Follower(63, MotorAlignmentValue.Opposed));
+
+    leadLauncherMotor.optimizeBusUtilization();
+    followerLauncherMotor.optimizeBusUtilization();
+
+    /* Hood */
+
+    hoodConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
+    turretConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+
+    hoodConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    hoodConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+
+    hoodMotor.getConfigurator().apply(hoodConfig);
+
+    /* Turret */
+
+    turretConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
+    turretConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+
+    turretConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    turretConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+
+    turretMotor.getConfigurator().apply(turretConfig);
+
+    turretEncoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.0; // TODO: Set
+
+    turretEncoder.getConfigurator().apply(turretEncoderConfig);
+
+    turretConfig.MotionMagic.MotionMagicCruiseVelocity = 0;
+    turretConfig.MotionMagic.MotionMagicAcceleration = 0; // TODO: Set all
+
+    turretConfig.Feedback.FeedbackRemoteSensorID = turretEncoder.getDeviceID();
+    turretConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+    turretConfig.Feedback.SensorToMechanismRatio = 1;
+
+    var slot0Configs = turretConfig.Slot0;
+    slot0Configs.kS = 0.0;
+    slot0Configs.kV = 0.0;
+    slot0Configs.kA = 0.0;
+    slot0Configs.kP = 0.0;
+    slot0Configs.kI = 0.0;
+    slot0Configs.kD = 0.0; // TODO: Set all
 
     BaseStatusSignal.setUpdateFrequencyForAll(
         50,
@@ -90,10 +136,11 @@ public class LauncherIOTalonFX implements LauncherIO {
         leadAppliedVoltage,
         followerAppliedVoltage,
         leadTemp,
-        followerTemp);
-
-    leadLauncherMotor.optimizeBusUtilization();
-    followerLauncherMotor.optimizeBusUtilization();
+        followerTemp,
+        turretAppliedVoltage,
+        turretCurrent,
+        turretPositionRadians,
+        turretTemp);
   }
 
   @Override
@@ -105,7 +152,13 @@ public class LauncherIOTalonFX implements LauncherIO {
         leadAppliedVoltage,
         followerAppliedVoltage,
         leadTemp,
-        followerTemp);
+        followerTemp,
+        turretAppliedVoltage,
+        turretCurrent,
+        turretPositionRadians,
+        turretTemp);
+
+    /* Flywheel */
 
     launcherInputs.leadCurrent = leadCurrent.getValueAsDouble();
     launcherInputs.followerCurrent = followerCurrent.getValueAsDouble();
@@ -113,10 +166,43 @@ public class LauncherIOTalonFX implements LauncherIO {
     launcherInputs.followerAppliedVoltage = followerAppliedVoltage.getValueAsDouble();
     launcherInputs.leadTemp = leadTemp.getValueAsDouble();
     launcherInputs.followerTemp = followerTemp.getValueAsDouble();
+
+    /* Hood */
+
+    /* Turret */
+
+    launcherInputs.turretAppliedVoltage = turretAppliedVoltage.getValueAsDouble();
+    launcherInputs.turretCurrent = turretCurrent.getValueAsDouble();
+    launcherInputs.turretPositionRadians = turretCurrent.getValueAsDouble();
+    launcherInputs.turretTemp = turretTemp.getValueAsDouble();
   }
 
-  // @Override
-  // public void runVolts(double volts) {
-  //   leadLauncherMotor.setControl(voltageRequest.withOutput(volts));
-  // }
+  /* Flywheel */
+
+  @Override
+  public void setVoltageLeader(double volts) {
+    leadLauncherMotor.setVoltage(volts);
+  }
+
+  @Override
+  public void setVoltageFollower(double volts) {
+    followerLauncherMotor.setVoltage(volts);
+  }
+
+  @Override
+  public void stopLauncher() {
+    leadLauncherMotor.setVoltage(0);
+    followerLauncherMotor.setVoltage(0);
+  }
+
+  /* Hood */
+
+  /* Turret */
+
+  @Override
+  public void setPositionTurret(Rotation2d turretSetpoint) {
+    turretSetpoint = Rotation2d.fromRadians(MathUtil.clamp(turretSetpoint.getRadians(), 0, 0));
+
+    turretMotor.setControl(turretMotionMagic.withPosition(turretSetpoint.getRotations()));
+  }
 }
