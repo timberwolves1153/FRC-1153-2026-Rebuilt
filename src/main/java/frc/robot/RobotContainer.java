@@ -33,6 +33,10 @@ import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.launcher.LauncherIO;
 import frc.robot.subsystems.launcher.LauncherIOSim;
 import frc.robot.subsystems.launcher.LauncherIOTalonFX;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.VisionConstants;
+import frc.robot.subsystems.vision.VisionIO;
+import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -46,6 +50,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Launcher launcher;
   private final Climber climber;
+  private final Vision vision;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -74,6 +79,8 @@ public class RobotContainer {
         climber = new Climber(new ClimberIOTalonFX());
 
         launcher = new Launcher(new LauncherIOTalonFX());
+
+        vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The
@@ -107,6 +114,12 @@ public class RobotContainer {
         launcher = new Launcher(new LauncherIOSim());
         climber = new Climber(new ClimberIOSim());
 
+        vision =
+            new Vision(
+                drive::addVisionMeasurement,
+                new VisionIOPhotonVisionSim(
+                    "camera0", VisionConstants.robotToCamera0, drive::getPose));
+
         break;
 
       default:
@@ -120,8 +133,9 @@ public class RobotContainer {
                 new ModuleIO() {});
 
         launcher = new Launcher(new LauncherIO() {});
-
         climber = new Climber(new ClimberIO() {});
+        vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+
         break;
     }
 
