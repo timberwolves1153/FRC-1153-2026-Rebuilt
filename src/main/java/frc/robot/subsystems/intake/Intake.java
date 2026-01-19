@@ -1,6 +1,6 @@
 // Intake
 
-package frc.robot.subsystems.drive.Intake;
+package frc.robot.subsystems.intake;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;

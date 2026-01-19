@@ -1,6 +1,6 @@
 // IntakeIO
 
-package frc.robot.subsystems.drive.Intake;
+package frc.robot.subsystems.intake;
 
 import org.littletonrobotics.junction.AutoLog;
 

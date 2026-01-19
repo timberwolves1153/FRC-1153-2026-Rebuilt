@@ -1,6 +1,6 @@
 // IntakeIOSim
 
-package frc.robot.subsystems.drive.Intake;
+package frc.robot.subsystems.intake;
 
 import static edu.wpi.first.units.Units.Volts;
 
