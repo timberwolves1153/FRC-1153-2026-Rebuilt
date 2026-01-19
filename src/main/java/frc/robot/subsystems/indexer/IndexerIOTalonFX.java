@@ -1,46 +1,89 @@
-// package frc.robot.subsystems.indexer;
+package frc.robot.subsystems.indexer;
 
-// import com.revrobotics.spark.SparkMax;
-// import com.revrobotics.spark.SparkBase.PersistMode;
-// import com.revrobotics.spark.SparkBase.ResetMode;
-// import com.revrobotics.spark.SparkLowLevel.MotorType;
-// import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-// import com.revrobotics.spark.config.SparkMaxConfig;
+import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
+import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.units.measure.Voltage;
 
-// public class IndexerIOTalonFX implements IndexerIO {
-//     private SparkMax indexerMotor;
-//     private SparkMaxConfig indexerConfig;
+public class IndexerIOTalonFX implements IndexerIO {
 
-//     public IndexerIOTalonFX() {
-//         //indexerMotor = new TalonFX(), MotorType.kBrushless); //TODO: ID
-//         new TalonFX()
-//        // indexerConfig = new SparkMaxConfig();
-//     }
+  //     private SparkMax indexerMotor;
+  //     private SparkMaxConfig indexerConfig;
+  // --- Constants ---
+  // Update these if IDs are swapped
+  private static final int SPIN_MOTOR_ID = 51;
+  private static final int FEED_MOTOR_ID = 62;
 
-//     public void configMotors() {
-//         indexerConfig
-//             .smartCurrentLimit(40)
-//             .idleMode(IdleMode.kBrake);
+  // Speeds (0.0 to 1.0)
+  private static final double INDEX_SPEED = 0.5;
+  private static final double FEED_SPEED = 0.8;
 
-//         indexerMotor.clearFaults();
-//         indexerMotor.configure(indexerConfig, ResetMode.kResetSafeParameters,
-// PersistMode.kPersistParameters);
-//     }
+  // --- Hardware ---
+  // Krakens controlled by TalonFX class in Phoenix 6
+  private final TalonFX spinMotor = new TalonFX(SPIN_MOTOR_ID);
+  private final TalonFX feedMotor = new TalonFX(FEED_MOTOR_ID);
 
-//     @Override
-//     public void updateInputs(IndexerIOInputs inputs) {
-//         inputs.appliedVolts = indexerMotor.getAppliedOutput() * indexerMotor.getBusVoltage();
-//         inputs.currentAmps = indexerMotor.getOutputCurrent();
-//     }
+  // --- Inputs to log ---
+  private final StatusSignal<Voltage> spinAppliedVoltage = spinMotor.getMotorVoltage();
+  private final StatusSignal<Current> spinCurrent = spinMotor.getSupplyCurrent();
 
-//     @Override
-//     public void setVoltage(double volts) {
-//         indexerMotor.setVoltage(volts);
-//     }
+  private final StatusSignal<Voltage> feedAppliedVoltage = feedMotor.getMotorVoltage();
 
-//     @Override
-//     public void stop() {
-//         indexerMotor.setVoltage(0);
-//     }
+  private final StatusSignal<Current> feedCurrent = feedMotor.getSupplyCurrent();
 
-// }
+  public IndexerIOTalonFX() {
+    configMotors();
+  }
+
+  private void configMotors() {
+    TalonFXConfiguration spinConfig = new TalonFXConfiguration();
+    TalonFXConfiguration feedConfig = new TalonFXConfiguration();
+
+    spinMotor.getConfigurator().apply(spinConfig);
+    feedMotor.getConfigurator().apply(feedConfig);
+
+    spinMotor.optimizeBusUtilization();
+    feedMotor.optimizeBusUtilization();
+  }
+
+  @Override
+  public void updateInputs(IndexerIOInputs indexerInputs) {
+    BaseStatusSignal.refreshAll(spinAppliedVoltage, spinCurrent, feedAppliedVoltage, feedCurrent);
+
+    indexerInputs.spinAppliedVolts = spinAppliedVoltage.getValueAsDouble();
+    indexerInputs.spinCurrentAmps = spinCurrent.getValueAsDouble();
+    indexerInputs.feedAppliedVolts = feedAppliedVoltage.getValueAsDouble();
+    indexerInputs.feedCurrentAmps = feedCurrent.getValueAsDouble();
+  }
+
+  /** Runs the Spin motor to serialize game pieces. */
+  @Override
+  public void runSpin(double volts) {
+    spinMotor.setVoltage(volts);
+  }
+
+  /** Runs the Feed motor to push piece into shooter. */
+  @Override
+  public void runFeeder(double volts) {
+    feedMotor.setVoltage(volts);
+  }
+
+  /** Stops both motors. */
+  @Override
+  public void stopAll() {
+    stopSpin();
+    stopFeeder();
+  }
+
+  @Override
+  public void stopSpin() {
+    spinMotor.setVoltage(0);
+  }
+
+  @Override
+  public void stopFeeder() {
+    feedMotor.setVoltage(0);
+  }
+}
