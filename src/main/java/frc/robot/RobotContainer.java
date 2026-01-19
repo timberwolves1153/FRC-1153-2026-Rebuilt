@@ -29,6 +29,10 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.IntakeIO;
+import frc.robot.subsystems.intake.IntakeIOSim;
+import frc.robot.subsystems.intake.IntakeIOTalonFX;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.launcher.LauncherIO;
 import frc.robot.subsystems.launcher.LauncherIOSim;
@@ -51,6 +55,7 @@ public class RobotContainer {
   private final Launcher launcher;
   private final Climber climber;
   private final Vision vision;
+  private final Intake intake;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -79,6 +84,8 @@ public class RobotContainer {
         climber = new Climber(new ClimberIOTalonFX());
 
         launcher = new Launcher(new LauncherIOTalonFX());
+
+        intake = new Intake(new IntakeIOTalonFX());
 
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
 
@@ -113,6 +120,7 @@ public class RobotContainer {
 
         launcher = new Launcher(new LauncherIOSim());
         climber = new Climber(new ClimberIOSim());
+        intake = new Intake(new IntakeIOSim());
 
         vision =
             new Vision(
@@ -134,6 +142,7 @@ public class RobotContainer {
 
         launcher = new Launcher(new LauncherIO() {});
         climber = new Climber(new ClimberIO() {});
+        intake = new Intake(new IntakeIO() {});
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
 
         break;
@@ -214,6 +223,12 @@ public class RobotContainer {
     controller.povUp().onTrue(new InstantCommand(() -> climber.setVoltage(5)));
     controller.povUp().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
     controller.povDown().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
+
+    controller.leftBumper().onTrue(new InstantCommand(() -> intake.setDeployVoltage(2)));
+    controller.leftBumper().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
+
+    controller.rightBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(5)));
+    controller.rightBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
   }
 
   /**
