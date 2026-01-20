@@ -1,5 +1,6 @@
 package frc.robot.subsystems.launcher;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface LauncherIO {
@@ -12,6 +13,8 @@ public interface LauncherIO {
     public double followerCurrent = 0.0;
     public double followerAppliedVoltage = 0.0;
     public double followerTemp = 0.0;
+
+    public Rotation2d turretDesiredAngle = Rotation2d.kZero;
   }
 
   public default void updateInputs(LauncherIOInputs inputs) {}

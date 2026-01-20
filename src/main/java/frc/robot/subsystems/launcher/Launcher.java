@@ -1,5 +1,7 @@
 package frc.robot.subsystems.launcher;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import org.littletonrobotics.junction.Logger;
@@ -43,5 +45,15 @@ public class Launcher extends SubsystemBase {
   public void stop() {
     io.stopLeader();
     io.stopFollower();
+  }
+
+  public Rotation2d calculateTurretAngle(Pose2d robotPose, Pose2d goalPose) {
+    // Calculate differences
+    double deltaY = goalPose.getY() - robotPose.getY();
+    double deltaX = goalPose.getX() - robotPose.getX();
+
+    // Calculate angle in radians (using Math.Atan2 or similar)
+    double angleRad = Math.atan2(deltaY, deltaX);
+    return Rotation2d.fromRadians(angleRad);
   }
 }
