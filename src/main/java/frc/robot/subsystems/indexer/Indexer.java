@@ -34,7 +34,7 @@ public class Indexer extends SubsystemBase {
   }
 
   /** Runs the Feed motor to push piece into shooter. */
-  public void runFeed(double volts) {
+  public void runFeeder(double volts) {
     indexerIO.runFeeder(volts);
   }
 

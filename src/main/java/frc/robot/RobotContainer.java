@@ -29,6 +29,10 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.indexer.Indexer;
+import frc.robot.subsystems.indexer.IndexerIO;
+import frc.robot.subsystems.indexer.IndexerIOSim;
+import frc.robot.subsystems.indexer.IndexerIOTalonFX;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOSim;
@@ -56,6 +60,7 @@ public class RobotContainer {
   private final Climber climber;
   private final Vision vision;
   private final Intake intake;
+  private final Indexer indexer;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -86,6 +91,8 @@ public class RobotContainer {
         launcher = new Launcher(new LauncherIOTalonFX());
 
         intake = new Intake(new IntakeIOTalonFX());
+
+        indexer = new Indexer(new IndexerIOTalonFX());
 
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
 
@@ -121,6 +128,7 @@ public class RobotContainer {
         launcher = new Launcher(new LauncherIOSim());
         climber = new Climber(new ClimberIOSim());
         intake = new Intake(new IntakeIOSim());
+        indexer = new Indexer(new IndexerIOSim());
 
         vision =
             new Vision(
@@ -143,6 +151,7 @@ public class RobotContainer {
         launcher = new Launcher(new LauncherIO() {});
         climber = new Climber(new ClimberIO() {});
         intake = new Intake(new IntakeIO() {});
+        indexer = new Indexer(new IndexerIO() {});
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
 
         break;
@@ -229,6 +238,14 @@ public class RobotContainer {
 
     controller.rightBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(5)));
     controller.rightBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
+
+    // ====
+
+    controller.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(5)));
+    controller.rightTrigger().onFalse(new InstantCommand(() -> indexer.runSpin(0)));
+
+    controller.leftTrigger().onTrue(new InstantCommand(() -> indexer.runFeeder(5)));
+    controller.leftTrigger().onFalse(new InstantCommand(() -> indexer.runFeeder(0)));
   }
 
   /**
