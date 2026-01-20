@@ -4,31 +4,41 @@
 // Use of this source code is governed by a BSD
 // license that can be found in the LICENSE file
 // at the root directory of this project.
-
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.climber.ClimberIO;
+import frc.robot.subsystems.climber.ClimberIOSim;
+import frc.robot.subsystems.climber.ClimberIOTalonFX;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
-import frc.robot.subsystems.drive.Vision.Vision;
-import frc.robot.subsystems.drive.Vision.VisionConstants;
-import frc.robot.subsystems.drive.Vision.VisionIO;
-import frc.robot.subsystems.drive.Vision.VisionIOPhotonVisionSim;
-
+import frc.robot.subsystems.launcher.Launcher;
+import frc.robot.subsystems.launcher.LauncherIO;
+import frc.robot.subsystems.launcher.LauncherIOSim;
+import frc.robot.subsystems.launcher.LauncherIOTalonFX;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.VisionConstants;
+import frc.robot.subsystems.vision.VisionIO;
+import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -40,16 +50,24 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final Launcher launcher;
+  private final Climber climber;
   private final Vision vision;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
 
+  //   private final CommandXboxController opController = new CommandXboxController(1);
+
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
 
+  // Match constants
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    // instantiates a new drive joystick with the XboxController class
+
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
@@ -62,6 +80,11 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.FrontRight),
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight));
+        climber = new Climber(new ClimberIOTalonFX());
+
+        launcher = new Launcher(new LauncherIOTalonFX());
+
+        vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
 
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
 
@@ -94,9 +117,15 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.BackLeft),
                 new ModuleIOSim(TunerConstants.BackRight));
 
-        vision = new Vision(drive::addVisionMeasurement,
-            new VisionIOPhotonVisionSim(
-                "camera0", VisionConstants.robotToCamera0, drive::getPose));
+        launcher = new Launcher(new LauncherIOSim());
+        climber = new Climber(new ClimberIOSim());
+
+        vision =
+            new Vision(
+                drive::addVisionMeasurement,
+                new VisionIOPhotonVisionSim(
+                    "camera0", VisionConstants.robotToCamera0, drive::getPose));
+
         break;
 
       default:
@@ -109,8 +138,10 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
 
+        launcher = new Launcher(new LauncherIO() {});
+        climber = new Climber(new ClimberIO() {});
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
-        
+
         break;
     }
 
@@ -133,8 +164,22 @@ public class RobotContainer {
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
+    updateDesiredHub();
     // Configure the button bindings
     configureButtonBindings();
+  }
+
+  public void updateDesiredHub() {
+    Pose2d hubPose =
+        DriverStation.getAlliance()
+            .map(
+                alliance ->
+                    alliance == Alliance.Red
+                        ? FieldConstants.Hub.redHubCenter
+                        : FieldConstants.Hub.blueHubCenter)
+            .orElse(FieldConstants.Hub.redHubCenter); // or "" or "Unknown"
+
+    drive.setDesiredHub(hubPose);
   }
 
   /**
@@ -158,13 +203,15 @@ public class RobotContainer {
         .whileTrue(
             DriveCommands.joystickDriveAtAngle(
                 drive,
-                () -> -controller.getLeftY(),
-                () -> -controller.getLeftX(),
+                () -> controller.getLeftY(),
+                () -> controller.getLeftX(),
                 () -> Rotation2d.kZero));
 
     // Switch to X pattern when X button is pressed
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
+    // Drive Forward Button for testing
+    controller.povUp().whileTrue(drive.sysIdDynamic(Direction.kForward));
     // Reset gyro to 0° when B button is pressed
     controller
         .b()
@@ -175,6 +222,18 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
+
+    controller.y().onTrue(new InstantCommand(() -> launcher.runVoltsLeader(5), launcher));
+    controller.y().onFalse(new InstantCommand(() -> launcher.runVoltsLeader(0), launcher));
+
+    controller.y().onTrue(new InstantCommand(() -> launcher.runVoltsFollower(-5), launcher));
+    controller.y().onFalse(new InstantCommand(() -> launcher.runVoltsFollower(0), launcher));
+
+    // controller.y().onTrue(new InstantCommand(() -> launcher.runVoltsFollower(5), launcher));
+    controller.povDown().onTrue(new InstantCommand(() -> climber.setVoltage(-5)));
+    controller.povUp().onTrue(new InstantCommand(() -> climber.setVoltage(5)));
+    controller.povUp().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
+    controller.povDown().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
   }
 
   /**

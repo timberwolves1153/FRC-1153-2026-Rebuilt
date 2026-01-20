@@ -41,6 +41,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
+import frc.robot.FieldConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.LocalADStarAK;
 import java.util.concurrent.locks.Lock;
@@ -97,6 +98,8 @@ public class Drive extends SubsystemBase {
       };
   private SwerveDrivePoseEstimator poseEstimator =
       new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, Pose2d.kZero);
+
+  private Pose2d desiredHub = FieldConstants.Hub.redHubCenter;
 
   public Drive(
       GyroIO gyroIO,
@@ -355,5 +358,31 @@ public class Drive extends SubsystemBase {
       new Translation2d(TunerConstants.BackLeft.LocationX, TunerConstants.BackLeft.LocationY),
       new Translation2d(TunerConstants.BackRight.LocationX, TunerConstants.BackRight.LocationY)
     };
+  }
+
+  public void setDesiredHub(Pose2d desiredHubPose2d) {
+    desiredHub = desiredHubPose2d;
+  }
+
+  /** Returns the desired Turret Angle. */
+  @AutoLogOutput(key = "Odometry/TurretAngle")
+  public Rotation2d calculateTurretAngle(Pose2d robotPose, Pose2d goalPose) {
+    // Calculate differences
+    double deltaY = goalPose.getY() - robotPose.getY();
+    double deltaX = goalPose.getX() - robotPose.getX();
+
+    // Calculate angle in radians (using Math.Atan2 or similar)
+    double angleRad = Math.atan2(deltaY, deltaX);
+    return Rotation2d.fromRadians(angleRad);
+  }
+
+  /** Returns the desired Turret pose. */
+  @AutoLogOutput(key = "Odometry/Turret")
+  public Pose2d turretPose() {
+    Pose2d robotPose = getPose();
+    return new Pose2d(
+        robotPose.getX(), robotPose.getY(), calculateTurretAngle(robotPose, desiredHub));
+
+    // return Rotation2d.fromRadians(angleRad);
   }
 }
