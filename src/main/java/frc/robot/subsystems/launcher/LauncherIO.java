@@ -1,6 +1,5 @@
 package frc.robot.subsystems.launcher;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface LauncherIO {
@@ -20,14 +19,14 @@ public interface LauncherIO {
 
     public double hoodAppliedVoltage = 0.0;
     public double hoodCurrent = 0.0;
-    public double hoodPositionRadians = 0.0;
+    public double hoodPosition = 0.0;
     public double hoodTemp = 0.0;
 
     /* Turret */
 
     public double turretAppliedVoltage = 0.0;
     public double turretCurrent = 0.0;
-    public double turretPositionRadians = 0.0;
+    public double turretPositionRad = 0.0;
     public double turretTemp = 0.0;
   }
 
@@ -47,5 +46,5 @@ public interface LauncherIO {
 
   /* Turret */
 
-  public default void setPositionTurret(Rotation2d turretSetpoint) {}
+  public default void setPositionTurretRad(double turretSetpointRad) {}
 }

@@ -175,11 +175,14 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageLeader(5), launcher));
-    controller.y().onFalse(new InstantCommand(() -> launcher.setVoltageLeader(0), launcher));
+    // controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageLeader(5), launcher));
+    // controller.y().onFalse(new InstantCommand(() -> launcher.setVoltageLeader(0), launcher));
 
-    controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageFollower(-5), launcher));
-    controller.y().onFalse(new InstantCommand(() -> launcher.setVoltageFollower(0), launcher));
+    // controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageFollower(-5), launcher));
+    // controller.y().onFalse(new InstantCommand(() -> launcher.setVoltageFollower(0), launcher));
+
+    controller.y().onTrue(new InstantCommand(() -> launcher.setPositionTurretRad(10), launcher));
+    controller.y().onFalse(new InstantCommand(() -> launcher.setPositionTurretRad(0), launcher));
 
     // controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageFollower(5), launcher));
   }

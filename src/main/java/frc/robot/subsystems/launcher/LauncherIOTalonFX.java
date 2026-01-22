@@ -13,8 +13,6 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
@@ -173,7 +171,7 @@ public class LauncherIOTalonFX implements LauncherIO {
 
     launcherInputs.turretAppliedVoltage = turretAppliedVoltage.getValueAsDouble();
     launcherInputs.turretCurrent = turretCurrent.getValueAsDouble();
-    launcherInputs.turretPositionRadians = turretCurrent.getValueAsDouble();
+    launcherInputs.turretPositionRad = turretCurrent.getValueAsDouble();
     launcherInputs.turretTemp = turretTemp.getValueAsDouble();
   }
 
@@ -199,10 +197,10 @@ public class LauncherIOTalonFX implements LauncherIO {
 
   /* Turret */
 
-  @Override
-  public void setPositionTurret(Rotation2d turretSetpoint) {
-    turretSetpoint = Rotation2d.fromRadians(MathUtil.clamp(turretSetpoint.getRadians(), 0, 0));
+  // @Override
+  // public void setPositionTurret(double turretSetpoint) {
+  //   turretSetpoint = Rotation2d.fromRadians(MathUtil.clamp(turretSetpoint.getRadians(), 0, 0));
 
-    turretMotor.setControl(turretMotionMagic.withPosition(turretSetpoint.getRotations()));
-  }
+  //   turretMotor.setControl(turretMotionMagic.withPosition(turretSetpoint.getRotations()));
+  // }
 }

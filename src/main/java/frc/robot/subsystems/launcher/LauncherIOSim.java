@@ -1,5 +1,6 @@
 package frc.robot.subsystems.launcher;
 
+import com.ctre.phoenix6.hardware.CANcoder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
@@ -21,15 +22,17 @@ public class LauncherIOSim implements LauncherIO {
   /* Hood */
 
   private final DCMotorSim simHood;
+  private CANcoder turretEncoder;
 
   private double appliedVoltsHood = 0.0;
-  private double positionDegreesHood = 0.0;
 
   /* Turret */
 
   private final DCMotorSim simTurret;
 
-  private double appliedVoltsTurret = 0.0;
+  // private final TalonFX turretKraken;
+
+  // private final CANcoder turretAbsoluteEncoder;
 
   public LauncherIOSim() {
 
@@ -58,6 +61,8 @@ public class LauncherIOSim implements LauncherIO {
         new DCMotorSim(
             LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX44(1), 1, 1),
             DCMotor.getKrakenX44(1));
+
+    turretEncoder = new CANcoder(61);
   }
 
   @Override
@@ -77,9 +82,21 @@ public class LauncherIOSim implements LauncherIO {
 
     /* Hood */
 
-    // inputs.hoodAppliedVoltage = simHood.getInputVoltage();
-    // inputs.hoodCurrent = simHood.getCurrentDrawAmps();
-    // inputs.hoodPositionDegrees =
+    inputs.hoodAppliedVoltage = simHood.getInputVoltage();
+    inputs.hoodCurrent = simHood.getCurrentDrawAmps();
+
+    /* Turret */
+
+    inputs.turretAppliedVoltage = simTurret.getInputVoltage();
+    inputs.turretCurrent = simTurret.getCurrentDrawAmps();
+    inputs.turretPositionRad = simTurret.getAngularPositionRad();
+
+    getAbsolutePosition();
+
+    // TalonFXSimState turretFXSim = turretKraken.getSimState();
+    // turretFXSim.setSupplyVoltage(RobotController.getBatteryVoltage());
+    // Voltage turretVoltage = turretFXSim.getMotorVoltageMeasure();
+
   }
 
   /* Flywheel */
@@ -105,9 +122,14 @@ public class LauncherIOSim implements LauncherIO {
 
   /* Hood */
 
-  // @Override
-  // public void setPositionHood(double hoodDegrees) {
-  //   simHood.setPositionHood(hoodDegrees);
-  // }
+  /* Turret */
 
+  @Override
+  public void setPositionTurretRad(double turretSetpointRad) {
+    simTurret.setAngle(turretSetpointRad);
+  }
+
+  public double getAbsolutePosition() {
+    return turretEncoder.getAbsolutePosition().getValueAsDouble();
+  }
 }

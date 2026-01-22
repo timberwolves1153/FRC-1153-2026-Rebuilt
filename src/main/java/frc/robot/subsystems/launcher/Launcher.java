@@ -1,6 +1,5 @@
 package frc.robot.subsystems.launcher;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import org.littletonrobotics.junction.Logger;
@@ -55,8 +54,8 @@ public class Launcher extends SubsystemBase {
 
   /* Turret */
 
-  public void setPositionTurret(Rotation2d turretSetpoint) {
-    io.setPositionTurret(turretSetpoint);
+  public void setPositionTurretRad(double turretSetpointRad) {
+    io.setPositionTurretRad(turretSetpointRad);
   }
 }
 
