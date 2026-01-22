@@ -21,6 +21,11 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.alignment.Alignment;
+import frc.robot.subsystems.alignment.AlignmentConstants;
+import frc.robot.subsystems.alignment.AlignmentIO;
+import frc.robot.subsystems.alignment.AlignmentIOPhotonVision;
+import frc.robot.subsystems.alignment.AlignmentIOPhotonVisionSim;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberIO;
 import frc.robot.subsystems.climber.ClimberIOSim;
@@ -53,6 +58,7 @@ public class RobotContainer {
   private final Launcher launcher;
   private final Climber climber;
   private final Vision vision;
+  private final Alignment alignment;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -86,7 +92,10 @@ public class RobotContainer {
 
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
 
-        vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+        alignment =
+            new Alignment(
+                new AlignmentIOPhotonVision(
+                    AlignmentConstants.cameraName, AlignmentConstants.robotToCamera));
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The
@@ -124,7 +133,16 @@ public class RobotContainer {
             new Vision(
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVisionSim(
-                    "camera0", VisionConstants.robotToCamera0, drive::getPose));
+                    "camera0", VisionConstants.robotToCamera0, drive::getPose),
+                new VisionIOPhotonVisionSim(
+                    "camera1", VisionConstants.robotToCamera1, drive::getPose));
+
+        alignment =
+            new Alignment(
+                new AlignmentIOPhotonVisionSim(
+                    AlignmentConstants.cameraName,
+                    AlignmentConstants.robotToCamera,
+                    drive::getPose));
 
         break;
 
@@ -141,6 +159,8 @@ public class RobotContainer {
         launcher = new Launcher(new LauncherIO() {});
         climber = new Climber(new ClimberIO() {});
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+
+        alignment = new Alignment(new AlignmentIO() {});
 
         break;
     }
