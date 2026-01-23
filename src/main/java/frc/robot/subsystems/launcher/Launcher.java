@@ -1,7 +1,5 @@
 package frc.robot.subsystems.launcher;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import org.littletonrobotics.junction.Logger;
@@ -17,7 +15,7 @@ public class Launcher extends SubsystemBase {
     io = launcherIO;
 
     //  launcherPID = new PIDController(0.1, 0, 0);
-    //  launcherFF = new SimpleMotorFeedforward(0, 0.0075);
+    //  launcherFF = new SimpleMotorFeedforward(0, 0.0075); //TODO: Tune
     switch (Constants.currentMode) {
       case REAL:
       case REPLAY:
@@ -34,26 +32,44 @@ public class Launcher extends SubsystemBase {
     Logger.processInputs("Launcher", inputs);
   }
 
-  public void runVoltsLeader(double volts) {
-    io.runVoltsLeader(volts);
+  /* Flywheel */
+
+  public void setVoltageLeader(double volts) {
+    io.setVoltageLeader(volts);
   }
 
-  public void runVoltsFollower(double volts) {
-    io.runVoltsFollower(volts);
+  public void setVoltageFollower(double volts) {
+    io.setVoltageFollower(volts);
   }
 
-  public void stop() {
-    io.stopLeader();
-    io.stopFollower();
+  public void stopLauncher() {
+    io.stopLauncher();
   }
 
-  public Rotation2d calculateTurretAngle(Pose2d robotPose, Pose2d goalPose) {
-    // Calculate differences
-    double deltaY = goalPose.getY() - robotPose.getY();
-    double deltaX = goalPose.getX() - robotPose.getX();
+  /* Hood */
 
-    // Calculate angle in radians (using Math.Atan2 or similar)
-    double angleRad = Math.atan2(deltaY, deltaX);
-    return Rotation2d.fromRadians(angleRad);
+  // public void setPositionHood(double hoodDegrees) {
+  //   io.setPositionHood(hoodDegrees);
+  // }
+
+  /* Turret */
+
+  public void setTurretPositionRad(double radians) {
+    io.setTurretPositionRad(radians);
+  }
+
+  public void setTurretPositionRotaions(double rotations) {
+    io.setTurretPositionRotaions(rotations);
   }
 }
+
+/*
+ *  IDS [delete soon]
+ *
+ * Flywheel: 64 (lead), 65 (follower), 66 (encoder)
+ *
+ * Hood: 62 (motor), 63? (encoder)
+ *
+ * Turret: 60 (motor), 61 (encoder)
+ *
+ */

@@ -21,15 +21,15 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Climber.Climber;
+import frc.robot.subsystems.Climber.ClimberIO;
+import frc.robot.subsystems.Climber.ClimberIOSim;
+import frc.robot.subsystems.Climber.ClimberIOTalonFX;
 import frc.robot.subsystems.alignment.Alignment;
 import frc.robot.subsystems.alignment.AlignmentConstants;
 import frc.robot.subsystems.alignment.AlignmentIO;
 import frc.robot.subsystems.alignment.AlignmentIOPhotonVision;
 import frc.robot.subsystems.alignment.AlignmentIOPhotonVisionSim;
-import frc.robot.subsystems.climber.Climber;
-import frc.robot.subsystems.climber.ClimberIO;
-import frc.robot.subsystems.climber.ClimberIOSim;
-import frc.robot.subsystems.climber.ClimberIOTalonFX;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -135,7 +135,11 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(
                     "camera0", VisionConstants.robotToCamera0, drive::getPose),
                 new VisionIOPhotonVisionSim(
-                    "camera1", VisionConstants.robotToCamera1, drive::getPose));
+                    "camera1", VisionConstants.robotToCamera1, drive::getPose),
+                new VisionIOPhotonVisionSim(
+                    "camera2", VisionConstants.robotToCamera2, drive::getPose),
+                new VisionIOPhotonVisionSim(
+                    "camera3", VisionConstants.robotToCamera3, drive::getPose));
 
         alignment =
             new Alignment(
@@ -243,11 +247,11 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller.y().onTrue(new InstantCommand(() -> launcher.runVoltsLeader(5), launcher));
-    controller.y().onFalse(new InstantCommand(() -> launcher.runVoltsLeader(0), launcher));
+    controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageLeader(5), launcher));
+    controller.y().onFalse(new InstantCommand(() -> launcher.setVoltageLeader(0), launcher));
 
-    controller.y().onTrue(new InstantCommand(() -> launcher.runVoltsFollower(-5), launcher));
-    controller.y().onFalse(new InstantCommand(() -> launcher.runVoltsFollower(0), launcher));
+    controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageFollower(-5), launcher));
+    controller.y().onFalse(new InstantCommand(() -> launcher.setVoltageFollower(0), launcher));
 
     // controller.y().onTrue(new InstantCommand(() -> launcher.runVoltsFollower(5), launcher));
     controller.povDown().onTrue(new InstantCommand(() -> climber.setVoltage(-5)));
