@@ -1,4 +1,4 @@
-package frc.robot.subsystems.Climber;
+package frc.robot.subsystems.climber;
 
 import edu.wpi.first.units.measure.Voltage;
 import org.littletonrobotics.junction.AutoLog;
@@ -12,7 +12,7 @@ public interface ClimberIO {
     public double getAppliedVolts = 0.0;
     public double tempCelsius = 0.0;
     public boolean isSwitchTriggered = false;
-    /*public double goal = 0;*/
+    public double goal = 0;
   }
 
   public default void updateInputs(ClimberInputs climberInputs) {}

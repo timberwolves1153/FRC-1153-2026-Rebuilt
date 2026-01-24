@@ -19,10 +19,10 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.Climber.Climber;
-import frc.robot.subsystems.Climber.ClimberIO;
-import frc.robot.subsystems.Climber.ClimberIOSim;
-import frc.robot.subsystems.Climber.ClimberIOTalonFX;
+import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.climber.ClimberIO;
+import frc.robot.subsystems.climber.ClimberIOSim;
+import frc.robot.subsystems.climber.ClimberIOTalonFX;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -62,7 +62,6 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // instantiates a new drive joystick with the XboxController class
 
     switch (Constants.currentMode) {
       case REAL:
@@ -214,6 +213,18 @@ public class RobotContainer {
     controller.povUp().onTrue(new InstantCommand(() -> climber.setVoltage(5)));
     controller.povUp().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
     controller.povDown().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
+
+    controller
+        .leftBumper()
+        .onTrue(new InstantCommand(() -> climber.setTargetHeight(Climber.ClimberGoal.L1)));
+    controller.leftBumper().onFalse(new InstantCommand(() -> climber.holdTargetHeight()));
+    controller
+        .rightBumper()
+        .onTrue(new InstantCommand(() -> climber.setTargetHeight(Climber.ClimberGoal.L3)));
+    controller.rightBumper().onFalse(new InstantCommand(() -> climber.holdTargetHeight()));
+    controller
+        .povRight()
+        .onFalse(new InstantCommand(() -> climber.setTargetHeight(Climber.ClimberGoal.STOW)));
   }
 
   /**

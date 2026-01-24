@@ -1,4 +1,4 @@
-package frc.robot.subsystems.Climber;
+package frc.robot.subsystems.climber;
 
 import static edu.wpi.first.units.Units.Volts;
 
@@ -39,11 +39,11 @@ public class Climber extends SubsystemBase {
   private final double pitchDiameter = 0; /* ^^^^^^^^^^^^^^^^^^^^^ */
 
   public enum ClimberGoal {
-  // STOW(),
-  // L1(),
-  // L2(),
-  // L3();
-  ;
+    STOW(0),
+    L1(15),
+    L2(20),
+    L3(25);
+    ;
     /*check back for more */
 
     private double heightinInches;
@@ -184,7 +184,7 @@ public class Climber extends SubsystemBase {
     climberIO.updateInputs(climberInputs);
     Logger.processInputs("Climber", climberInputs);
     Logger.recordOutput("Elevator/Mechanism2D", climberMech2d);
-    Logger.recordOutput("Elevator Height", climberInputs.leaderRotations);
+    Logger.recordOutput("Elevator Height", climberInputs.heightInches);
     climberLig2d.setLength(Units.inchesToMeters(climberInputs.heightInches));
     SmartDashboard.putNumber("elevator height", climberInputs.heightInches);
     SmartDashboard.putNumber("elevator rotations", climberInputs.leaderRotations);
