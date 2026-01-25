@@ -360,6 +360,10 @@ public class Drive extends SubsystemBase {
     };
   }
 
+  public void resetGyro(double angle) {
+    gyroIO.resetGyro(angle);
+  }
+
   public void setDesiredHub(Pose2d desiredHubPose2d) {
     desiredHub = desiredHubPose2d;
   }
