@@ -1,5 +1,7 @@
 package frc.robot.subsystems.launcher;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import org.littletonrobotics.junction.Logger;
@@ -8,14 +10,12 @@ public class Launcher extends SubsystemBase {
   private final LauncherIO io;
   private final LauncherIOInputsAutoLogged inputs = new LauncherIOInputsAutoLogged();
 
-  // private PIDController launcherPID;
-  // private SimpleMotorFeedforward launcherFF;
+  private PIDController launcherPID;
+  private SimpleMotorFeedforward launcherFF;
 
   public Launcher(LauncherIO launcherIO) {
     io = launcherIO;
 
-    //  launcherPID = new PIDController(0.1, 0, 0);
-    //  launcherFF = new SimpleMotorFeedforward(0, 0.0075); //TODO: Tune
     switch (Constants.currentMode) {
       case REAL:
       case REPLAY:
@@ -24,6 +24,9 @@ public class Launcher extends SubsystemBase {
       case SIM:
         break;
     }
+
+    launcherPID = new PIDController(0.1, 0, 0);
+    launcherFF = new SimpleMotorFeedforward(0, 0.0075); // TODO: Tune
   }
 
   @Override
@@ -56,6 +59,18 @@ public class Launcher extends SubsystemBase {
 
   public void setPositionTurretRad(double turretSetpointRad) {
     io.setPositionTurretRad(turretSetpointRad);
+  }
+
+  public void setTurretPosition(double rotations) {
+    io.setTurretPosition(rotations);
+  }
+
+  public void setVoltageTurret(double volts) {
+    io.setVoltageTurret(volts);
+  }
+
+  public void stopTurret() {
+    io.stopTurret();
   }
 }
 

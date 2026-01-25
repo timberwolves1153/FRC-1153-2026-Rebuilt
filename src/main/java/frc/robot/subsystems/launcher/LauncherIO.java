@@ -47,4 +47,10 @@ public interface LauncherIO {
   /* Turret */
 
   public default void setPositionTurretRad(double turretSetpointRad) {}
+
+  public default void setTurretPosition(double rotations) {}
+
+  public default void setVoltageTurret(double volts) {}
+
+  public default void stopTurret() {}
 }

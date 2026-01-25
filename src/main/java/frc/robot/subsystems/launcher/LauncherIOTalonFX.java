@@ -4,9 +4,9 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
@@ -39,26 +39,24 @@ public class LauncherIOTalonFX implements LauncherIO {
 
   /* Hood */
 
-  private final TalonFX hoodMotor = new TalonFX(61, "rio");
+  private TalonFX hoodMotor = new TalonFX(61, "rio");
 
   private TalonFXConfiguration hoodConfig;
 
   /* Turret */
 
-  private final TalonFX turretMotor = new TalonFX(60, "rio");
-  private final CANcoder turretEncoder = new CANcoder(61, "rio");
+  private TalonFX turretMotor = new TalonFX(60, "rio");
+  private CANcoder turretEncoder = new CANcoder(61, "rio");
 
-  private DutyCycleOut turretDutyCycle = new DutyCycleOut(0.0);
-  private MotionMagicDutyCycle turretMotionMagic = new MotionMagicDutyCycle(0.0);
-
-  private double turretSetpointRadians = 0.0;
+  private VoltageOut turretVoltageRequest = new VoltageOut(0);
+  private MotionMagicVoltage turretPositionRequest = new MotionMagicVoltage(0);
 
   private TalonFXConfiguration turretConfig;
   private CANcoderConfiguration turretEncoderConfig;
 
   private final StatusSignal<Voltage> turretAppliedVoltage = turretMotor.getMotorVoltage();
   private final StatusSignal<Current> turretCurrent = turretMotor.getSupplyCurrent();
-  private final StatusSignal<Angle> turretPositionRadians = turretMotor.getPosition();
+  private final StatusSignal<Angle> turretPosition = turretMotor.getPosition();
   private final StatusSignal<Temperature> turretTemp = turretMotor.getDeviceTemp();
 
   public LauncherIOTalonFX() {
@@ -106,26 +104,18 @@ public class LauncherIOTalonFX implements LauncherIO {
     turretConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     turretConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    turretMotor.getConfigurator().apply(turretConfig);
-
     turretEncoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.0; // TODO: Set
 
-    turretEncoder.getConfigurator().apply(turretEncoderConfig);
-
-    turretConfig.MotionMagic.MotionMagicCruiseVelocity = 0;
-    turretConfig.MotionMagic.MotionMagicAcceleration = 0; // TODO: Set all
+    turretConfig.MotionMagic.MotionMagicCruiseVelocity = 25;
+    turretConfig.MotionMagic.MotionMagicAcceleration = 10; // TODO: Set all
 
     turretConfig.Feedback.FeedbackRemoteSensorID = turretEncoder.getDeviceID();
     turretConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
     turretConfig.Feedback.SensorToMechanismRatio = 1;
+    turretConfig.Feedback.RotorToSensorRatio = 6;
 
-    var slot0Configs = turretConfig.Slot0;
-    slot0Configs.kS = 0.0;
-    slot0Configs.kV = 0.0;
-    slot0Configs.kA = 0.0;
-    slot0Configs.kP = 0.0;
-    slot0Configs.kI = 0.0;
-    slot0Configs.kD = 0.0; // TODO: Set all
+    turretMotor.getConfigurator().apply(turretConfig);
+    turretEncoder.getConfigurator().apply(turretEncoderConfig);
 
     BaseStatusSignal.setUpdateFrequencyForAll(
         50,
@@ -137,7 +127,7 @@ public class LauncherIOTalonFX implements LauncherIO {
         followerTemp,
         turretAppliedVoltage,
         turretCurrent,
-        turretPositionRadians,
+        turretPosition,
         turretTemp);
   }
 
@@ -153,7 +143,7 @@ public class LauncherIOTalonFX implements LauncherIO {
         followerTemp,
         turretAppliedVoltage,
         turretCurrent,
-        turretPositionRadians,
+        turretPosition,
         turretTemp);
 
     /* Flywheel */
@@ -197,10 +187,18 @@ public class LauncherIOTalonFX implements LauncherIO {
 
   /* Turret */
 
-  // @Override
-  // public void setPositionTurret(double turretSetpoint) {
-  //   turretSetpoint = Rotation2d.fromRadians(MathUtil.clamp(turretSetpoint.getRadians(), 0, 0));
+  @Override
+  public void setTurretPosition(double rotations) {
+    turretMotor.setControl(turretPositionRequest.withPosition(rotations));
+  }
 
-  //   turretMotor.setControl(turretMotionMagic.withPosition(turretSetpoint.getRotations()));
-  // }
+  @Override
+  public void setVoltageTurret(double volts) {
+    turretMotor.setControl(turretVoltageRequest.withOutput(volts));
+  }
+
+  @Override
+  public void stopTurret() {
+    turretMotor.setControl(turretVoltageRequest.withOutput(0));
+  }
 }
