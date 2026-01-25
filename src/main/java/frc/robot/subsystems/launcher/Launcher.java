@@ -13,6 +13,8 @@ public class Launcher extends SubsystemBase {
   private PIDController launcherPID;
   private SimpleMotorFeedforward launcherFF;
 
+  private PIDController turretPID;
+
   public Launcher(LauncherIO launcherIO) {
     io = launcherIO;
 
@@ -27,6 +29,8 @@ public class Launcher extends SubsystemBase {
 
     launcherPID = new PIDController(0.1, 0, 0);
     launcherFF = new SimpleMotorFeedforward(0, 0.0075); // TODO: Tune
+
+    turretPID = new PIDController(0, 0, 0);
   }
 
   @Override
