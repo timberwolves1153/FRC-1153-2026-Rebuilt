@@ -29,6 +29,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
+import org.littletonrobotics.junction.Logger;
 
 public class DriveCommands {
   private static final double DEADBAND = 0.1;
@@ -36,6 +37,11 @@ public class DriveCommands {
   private static final double ANGLE_KD = 0.4;
   private static final double ANGLE_MAX_VELOCITY = 8.0;
   private static final double ANGLE_MAX_ACCELERATION = 20.0;
+
+  private static final double DRIVE_KP = 5.0;
+  private static final double DRIVE_KD = 0.0;
+  private static final double DRIVE_TOLERANCE = 0.02;
+
   private static final double FF_START_DELAY = 2.0; // Secs
   private static final double FF_RAMP_RATE = 0.1; // Volts/Sec
   private static final double WHEEL_RADIUS_MAX_VELOCITY = 0.25; // Rad/Sec
@@ -148,6 +154,66 @@ public class DriveCommands {
 
         // Reset PID controller when command starts
         .beforeStarting(() -> angleController.reset(drive.getRotation().getRadians()));
+  }
+
+  public static Command driveToPose(Drive drive, Supplier<Pose2d> pose) {
+
+    // Create PID Controller's for possible outputs
+    ProfiledPIDController angleController =
+        new ProfiledPIDController(
+            ANGLE_KP,
+            0.0,
+            ANGLE_KD,
+            new TrapezoidProfile.Constraints(
+                drive.getMaxAngularSpeedRadPerSec(), ANGLE_MAX_ACCELERATION));
+    angleController.enableContinuousInput(-Math.PI, Math.PI);
+
+    ProfiledPIDController driveXDirectionController =
+        new ProfiledPIDController(
+            DRIVE_KP,
+            0,
+            DRIVE_KD,
+            new TrapezoidProfile.Constraints(drive.getMaxLinearSpeedMetersPerSec(), 15));
+    driveXDirectionController.setTolerance(DRIVE_TOLERANCE);
+
+    ProfiledPIDController driveYDirectionController =
+        new ProfiledPIDController(
+            DRIVE_KP,
+            0,
+            DRIVE_KD,
+            new TrapezoidProfile.Constraints(drive.getMaxLinearSpeedMetersPerSec(), 15));
+    driveYDirectionController.setTolerance(DRIVE_TOLERANCE);
+
+    return Commands.run(
+            () -> {
+              Logger.recordOutput("Setpoint", pose.get());
+
+              double omega =
+                  angleController.calculate(
+                      drive.getRotation().getRadians(), pose.get().getRotation().getRadians());
+
+              double driveXDirection =
+                  driveXDirectionController.calculate(drive.getPose().getX(), pose.get().getX());
+
+              double driveYDirection =
+                  driveYDirectionController.calculate(drive.getPose().getY(), pose.get().getY());
+
+              ChassisSpeeds robotSpeeds =
+                  new ChassisSpeeds(driveXDirection, driveYDirection, omega);
+              drive.runVelocity(
+                  ChassisSpeeds.fromFieldRelativeSpeeds(robotSpeeds, drive.getRotation()));
+            },
+            drive)
+        // Reset PIDS
+        .beforeStarting(
+            () -> {
+              angleController.reset(drive.getRotation().getRadians());
+              driveXDirectionController.reset(drive.getPose().getX());
+              driveYDirectionController.reset(drive.getPose().getY());
+            })
+        .until(
+            () -> drive.getPose().getTranslation().getDistance(pose.get().getTranslation()) < 0.2)
+        .finallyDo(drive::stop);
   }
 
   /**
