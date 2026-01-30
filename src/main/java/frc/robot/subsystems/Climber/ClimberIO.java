@@ -1,4 +1,4 @@
-package frc.robot.subsystems.Climber;
+package frc.robot.subsystems.climber;
 
 import edu.wpi.first.units.measure.Voltage;
 import org.littletonrobotics.junction.AutoLog;
