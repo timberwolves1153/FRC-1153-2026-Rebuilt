@@ -26,6 +26,9 @@ public class TurretIOTalonFX implements TurretIO {
   private TalonFXConfiguration turretConfig;
   private CANcoderConfiguration encoderConfig;
 
+  private double TURRET_RADIUS = 4.743; //IN
+  private double TURRET_GEAR_RATIO = 30;
+
   private final StatusSignal<Voltage> turretAppliedVoltage = turretMotor.getMotorVoltage();
   private final StatusSignal<Current> turretCurrent = turretMotor.getSupplyCurrent();
   private final StatusSignal<Angle> turretPosition = turretMotor.getPosition();

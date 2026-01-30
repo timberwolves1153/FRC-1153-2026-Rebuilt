@@ -10,7 +10,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
@@ -27,7 +26,7 @@ public class FlywheelIOTalonFX implements FlywheelIO {
 
   private final StatusSignal<Voltage> leadAppliedVoltage = leadMotor.getMotorVoltage();
   private final StatusSignal<Voltage> followerAppliedVoltage = followerMotor.getMotorVoltage();
-  
+
   private final StatusSignal<AngularVelocity> leadVelocity = leadMotor.getVelocity();
   private final StatusSignal<AngularVelocity> FollowerVelocity = followerMotor.getVelocity();
 
@@ -75,8 +74,7 @@ public class FlywheelIOTalonFX implements FlywheelIO {
         followerAppliedVoltage,
         FollowerVelocity,
         followerCurrent,
-        followerTemp
-    );
+        followerTemp);
   }
 
   @Override
@@ -89,8 +87,7 @@ public class FlywheelIOTalonFX implements FlywheelIO {
         followerAppliedVoltage,
         FollowerVelocity,
         followerCurrent,
-        followerTemp
-    );
+        followerTemp);
 
     flywheelInputs.leadCurrent = leadCurrent.getValueAsDouble();
     flywheelInputs.leadVelocity = leadVelocity.getValueAsDouble();
