@@ -37,6 +37,7 @@ public class DriveCommands {
   private static final double ANGLE_KD = 0.4;
   private static final double ANGLE_MAX_VELOCITY = 8.0;
   private static final double ANGLE_MAX_ACCELERATION = 20.0;
+  private static final double ANGLE_TOLERANCE = Units.degreesToRadians(5);
 
   private static final double DRIVE_KP = 5.0;
   private static final double DRIVE_KD = 0.0;
@@ -46,6 +47,9 @@ public class DriveCommands {
   private static final double FF_RAMP_RATE = 0.1; // Volts/Sec
   private static final double WHEEL_RADIUS_MAX_VELOCITY = 0.25; // Rad/Sec
   private static final double WHEEL_RADIUS_RAMP_RATE = 0.05; // Rad/Sec^2
+
+  private static boolean correctDriveSetpoint = false;
+  private static boolean correctAngularSetpoint = false;
 
   private DriveCommands() {}
 
@@ -156,7 +160,7 @@ public class DriveCommands {
         .beforeStarting(() -> angleController.reset(drive.getRotation().getRadians()));
   }
 
-  public static Command driveToPose(Drive drive, Supplier<Pose2d> pose) {
+  public static Command driveToPose(Supplier<Pose2d> pose, Drive drive) {
 
     // Create PID Controller's for possible outputs
     ProfiledPIDController angleController =
@@ -166,14 +170,15 @@ public class DriveCommands {
             ANGLE_KD,
             new TrapezoidProfile.Constraints(
                 drive.getMaxAngularSpeedRadPerSec(), ANGLE_MAX_ACCELERATION));
-    angleController.enableContinuousInput(-Math.PI, Math.PI);
+    angleController.setTolerance(ANGLE_TOLERANCE);
 
     ProfiledPIDController driveXDirectionController =
         new ProfiledPIDController(
             DRIVE_KP,
             0,
             DRIVE_KD,
-            new TrapezoidProfile.Constraints(drive.getMaxLinearSpeedMetersPerSec(), 15));
+            new TrapezoidProfile.Constraints(
+              drive.getMaxLinearSpeedMetersPerSec(), 15));
     driveXDirectionController.setTolerance(DRIVE_TOLERANCE);
 
     ProfiledPIDController driveYDirectionController =
@@ -202,6 +207,10 @@ public class DriveCommands {
                   new ChassisSpeeds(driveXDirection, driveYDirection, omega);
               drive.runVelocity(
                   ChassisSpeeds.fromFieldRelativeSpeeds(robotSpeeds, drive.getRotation()));
+
+              correctDriveSetpoint =
+                  pose.get().relativeTo(drive.getPose()).getTranslation().getNorm()
+                      < DRIVE_TOLERANCE;
             },
             drive)
         // Reset PIDS
@@ -210,10 +219,16 @@ public class DriveCommands {
               angleController.reset(drive.getRotation().getRadians());
               driveXDirectionController.reset(drive.getPose().getX());
               driveYDirectionController.reset(drive.getPose().getY());
+
+              correctDriveSetpoint = false;
             })
         .until(
             () -> drive.getPose().getTranslation().getDistance(pose.get().getTranslation()) < 0.2)
         .finallyDo(drive::stop);
+  }
+
+  public static boolean correctDriveToPoseSetpoint() {
+    return correctDriveSetpoint;
   }
 
   /**

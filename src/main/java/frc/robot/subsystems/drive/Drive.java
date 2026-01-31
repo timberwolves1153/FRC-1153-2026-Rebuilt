@@ -102,6 +102,12 @@ public class Drive extends SubsystemBase {
   private Pose2d desiredHub = FieldConstants.Hub.redHubCenter;
   private Translation2d tower = FieldConstants.Tower.centerPoint;
 
+  public Pose2d testPose =
+      new Pose2d(
+          FieldConstants.fieldWidth / 2,
+          FieldConstants.Tower.frontFaceX,
+          Rotation2d.fromDegrees(90));
+
   public Drive(
       GyroIO gyroIO,
       ModuleIO flModuleIO,
@@ -314,6 +320,10 @@ public class Drive extends SubsystemBase {
       output += modules[i].getFFCharacterizationVelocity() / 4.0;
     }
     return output;
+  }
+
+  public Pose2d getTestPose() {
+    return testPose;
   }
 
   /** Returns the current odometry pose. */
