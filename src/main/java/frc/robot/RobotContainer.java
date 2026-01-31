@@ -219,16 +219,6 @@ public class RobotContainer {
 
     // Drive Forward Button for testing
     controller.povUp().whileTrue(drive.sysIdDynamic(Direction.kForward));
-    // Reset gyro to 0° when B button is pressed
-    controller
-        .b()
-        .onTrue(
-            Commands.runOnce(
-                    () ->
-                        drive.setPose(
-                            new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
-                    drive)
-                .ignoringDisable(true));
 
     // controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageLeader(5), launcher));
     // controller.y().onFalse(new InstantCommand(() -> launcher.setVoltageLeader(0), launcher));
@@ -255,6 +245,22 @@ public class RobotContainer {
     controller
         .rightBumper()
         .onTrue(new InstantCommand(() -> turret.setPositionTurret(0.75), turret));
+
+    controller
+        .b()
+        .onTrue(new InstantCommand(() -> indexer.runSpin(.5)));
+    
+    controller
+        .b()
+        .onFalse(new InstantCommand(() -> indexer.stopSpin()));
+
+    controller
+        .y()
+        .onTrue(new InstantCommand(() -> indexer.runSpin(-.5)));
+    
+    controller
+        .y()
+        .onFalse(new InstantCommand(() -> indexer.stopSpin()));
   }
 
   /**
