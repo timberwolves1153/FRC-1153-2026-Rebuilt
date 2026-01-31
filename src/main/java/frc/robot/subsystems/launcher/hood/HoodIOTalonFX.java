@@ -8,71 +8,65 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
 
 public class HoodIOTalonFX implements HoodIO {
-    private TalonFX hoodMotor = new TalonFX(61, "rio");
+  private TalonFX hoodMotor = new TalonFX(61, "rio");
 
-    private VoltageOut voltageRequest = new VoltageOut(0);
-    private MotionMagicVoltage positionRequest = new MotionMagicVoltage(0);
+  private VoltageOut voltageRequest = new VoltageOut(0);
+  private MotionMagicVoltage positionRequest = new MotionMagicVoltage(0);
 
-    private TalonFXConfiguration hoodConfig;
+  private TalonFXConfiguration hoodConfig;
 
-    private final StatusSignal<Voltage> hoodAppliedVoltage = hoodMotor.getMotorVoltage();
-    private final StatusSignal<Current> hoodCurrent = hoodMotor.getSupplyCurrent();
-    private final StatusSignal<Angle> hoodPosition = hoodMotor.getPosition();
-    private final StatusSignal<Temperature> hoodTemp = hoodMotor.getDeviceTemp();
+  private final StatusSignal<Voltage> hoodAppliedVoltage = hoodMotor.getMotorVoltage();
+  private final StatusSignal<Current> hoodCurrent = hoodMotor.getSupplyCurrent();
+  private final StatusSignal<Angle> hoodPosition = hoodMotor.getPosition();
+  private final StatusSignal<Temperature> hoodTemp = hoodMotor.getDeviceTemp();
 
-    public HoodIOTalonFX() {
-        hoodConfig = new TalonFXConfiguration();
+  public HoodIOTalonFX() {
+    hoodConfig = new TalonFXConfiguration();
 
-        configMotors();
-    }
+    configMotors();
+  }
 
-    public void configMotors() {
-        hoodConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
-        hoodConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+  public void configMotors() {
+    hoodConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
+    hoodConfig.CurrentLimits.StatorCurrentLimitEnable = true;
 
-        hoodConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-        hoodConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    hoodConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    hoodConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-        hoodConfig.MotionMagic.MotionMagicCruiseVelocity = 25;
-        hoodConfig.MotionMagic.MotionMagicAcceleration = 10;
+    hoodConfig.MotionMagic.MotionMagicCruiseVelocity = 25;
+    hoodConfig.MotionMagic.MotionMagicAcceleration = 10;
 
-        hoodMotor.getConfigurator().apply(hoodConfig);
+    hoodMotor.getConfigurator().apply(hoodConfig);
 
-        BaseStatusSignal.setUpdateFrequencyForAll(
-            50,
-            hoodAppliedVoltage,
-            hoodCurrent,
-            hoodPosition,
-            hoodTemp
-        );
-    }
+    BaseStatusSignal.setUpdateFrequencyForAll(
+        50, hoodAppliedVoltage, hoodCurrent, hoodPosition, hoodTemp);
+  }
 
-    @Override
-    public void updateInputs(HoodIOInputs hoodInputs) {
-        BaseStatusSignal.refreshAll(
-            hoodAppliedVoltage,
-            hoodCurrent,
-            hoodPosition,
-            hoodTemp
-        );
-    }
+  @Override
+  public void updateInputs(HoodIOInputs hoodInputs) {
+    BaseStatusSignal.refreshAll(hoodAppliedVoltage, hoodCurrent, hoodPosition, hoodTemp);
 
-    public void setVoltageHood(double volts) {
-        hoodMotor.setControl(voltageRequest.withOutput(volts));
-    }
+    hoodInputs.hoodAppliedVoltage = hoodAppliedVoltage.getValueAsDouble();
+    hoodInputs.hoodCurrent = hoodCurrent.getValueAsDouble();
+    hoodInputs.hoodPosition = hoodPosition.getValueAsDouble();
+    hoodInputs.hoodTemp = hoodTemp.getValueAsDouble();
+  }
 
-    public void setPositionHood(double position) {
-        hoodMotor.setControl(positionRequest.withPosition(position));
-    }
+  public void setVoltageHood(double volts) {
+    hoodMotor.setControl(voltageRequest.withOutput(volts));
+  }
 
-    public void stopHood() {
-        hoodMotor.setControl(voltageRequest.withOutput(0));
-    }
+  public void setPositionHood(double position) {
+    hoodMotor.setControl(positionRequest.withPosition(position));
+  }
+
+  public void stopHood() {
+    hoodMotor.setControl(voltageRequest.withOutput(0));
+  }
 }

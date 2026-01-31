@@ -24,7 +24,7 @@ public class TurretIOSim implements TurretIO {
 
     inputs.turretAppliedVoltage = turretSim.getInputVoltage();
     inputs.turretCurrent = turretSim.getCurrentDrawAmps();
-    inputs.turretPositionRad = turretSim.getAngularPositionRad();
+    inputs.turretPosition = turretSim.getAngularPositionRad();
   }
 
   // TODO: add methods

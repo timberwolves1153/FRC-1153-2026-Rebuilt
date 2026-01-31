@@ -7,7 +7,7 @@ public interface TurretIO {
   public static class TurretIOInputs {
     public double turretAppliedVoltage = 0.0;
     public double turretCurrent = 0.0;
-    public double turretPositionRad = 0.0;
+    public double turretPosition = 0.0;
     public double turretTemp = 0.0;
   }
 

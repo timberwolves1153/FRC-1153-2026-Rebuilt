@@ -1,6 +1,5 @@
 package frc.robot.subsystems.launcher.turret;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import org.littletonrobotics.junction.Logger;
@@ -8,8 +7,6 @@ import org.littletonrobotics.junction.Logger;
 public class Turret extends SubsystemBase {
   private final TurretIO io;
   private final TurretIOInputsAutoLogged inputs = new TurretIOInputsAutoLogged();
-
-  private PIDController turretPID;
 
   public Turret(TurretIO turretIO) {
     io = turretIO;
@@ -22,8 +19,6 @@ public class Turret extends SubsystemBase {
       case SIM:
         break;
     }
-
-    turretPID = new PIDController(0, 0, 0);
   }
 
   @Override

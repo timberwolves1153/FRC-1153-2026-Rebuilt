@@ -26,7 +26,7 @@ public class TurretIOTalonFX implements TurretIO {
   private TalonFXConfiguration turretConfig;
   private CANcoderConfiguration encoderConfig;
 
-  private double TURRET_RADIUS = 4.743; //IN
+  private double TURRET_RADIUS = 4.743; // IN
   private double TURRET_GEAR_RATIO = 30;
 
   private final StatusSignal<Voltage> turretAppliedVoltage = turretMotor.getMotorVoltage();
@@ -50,24 +50,39 @@ public class TurretIOTalonFX implements TurretIO {
 
     encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.0; // TODO: Set
 
-    turretConfig.MotionMagic.MotionMagicCruiseVelocity = 25;
-    turretConfig.MotionMagic.MotionMagicAcceleration = 10; // TODO: Set all
+    turretConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
+    turretConfig.MotionMagic.MotionMagicAcceleration = 5; // TODO: Set all
 
     turretConfig.Feedback.FeedbackRemoteSensorID = encoder.getDeviceID();
     turretConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
     turretConfig.Feedback.SensorToMechanismRatio = 1;
-    turretConfig.Feedback.RotorToSensorRatio = 6;
+    turretConfig.Feedback.RotorToSensorRatio = 30;
 
     turretMotor.getConfigurator().apply(turretConfig);
     encoder.getConfigurator().apply(encoderConfig);
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-        50, turretAppliedVoltage, turretCurrent, turretPosition, turretTemp);
+        50,
+        turretAppliedVoltage,
+        turretCurrent,
+        turretPosition,
+        turretTemp
+      );
   }
 
   @Override
-  public void updateInputs(TurretIOInputs launcherInputs) {
-    BaseStatusSignal.refreshAll(turretAppliedVoltage, turretCurrent, turretPosition, turretTemp);
+  public void updateInputs(TurretIOInputs turretInputs) {
+    BaseStatusSignal.refreshAll(
+      turretAppliedVoltage,
+      turretCurrent,
+      turretPosition,
+      turretTemp
+    );
+
+    turretInputs.turretAppliedVoltage = turretAppliedVoltage.getValueAsDouble();
+    turretInputs.turretCurrent = turretCurrent.getValueAsDouble();
+    turretInputs.turretPosition = turretPosition.getValueAsDouble();
+    turretInputs.turretTemp = turretTemp.getValueAsDouble();
   }
 
   @Override

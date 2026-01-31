@@ -25,10 +25,10 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
-import frc.robot.subsystems.launcher.Launcher;
-import frc.robot.subsystems.launcher.LauncherIO;
-import frc.robot.subsystems.launcher.LauncherIOSim;
-import frc.robot.subsystems.launcher.LauncherIOTalonFX;
+import frc.robot.subsystems.launcher.turret.Turret;
+import frc.robot.subsystems.launcher.turret.TurretIO;
+import frc.robot.subsystems.launcher.turret.TurretIOSim;
+import frc.robot.subsystems.launcher.turret.TurretIOTalonFX;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -40,7 +40,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
-  private final Launcher launcher;
+  private final Turret turret;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -63,7 +63,7 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight));
 
-        launcher = new Launcher(new LauncherIOTalonFX());
+        turret = new Turret(new TurretIOTalonFX());
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The
@@ -94,7 +94,7 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.BackLeft),
                 new ModuleIOSim(TunerConstants.BackRight));
 
-        launcher = new Launcher(new LauncherIOSim());
+        turret = new Turret(new TurretIOSim());
 
         break;
 
@@ -108,7 +108,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
 
-        launcher = new Launcher(new LauncherIO() {});
+        turret = new Turret(new TurretIO() {});
 
         break;
     }
@@ -181,10 +181,13 @@ public class RobotContainer {
     // controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageFollower(-5), launcher));
     // controller.y().onFalse(new InstantCommand(() -> launcher.setVoltageFollower(0), launcher));
 
-    controller.y().onTrue(new InstantCommand(() -> launcher.setPositionTurretRad(10), launcher));
-    controller.y().onFalse(new InstantCommand(() -> launcher.setPositionTurretRad(0), launcher));
+    // controller.y().onTrue(new InstantCommand(() -> launcher.setPositionTurretRad(10), launcher));
+    // controller.y().onFalse(new InstantCommand(() -> launcher.setPositionTurretRad(0), launcher));
 
     // controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageFollower(5), launcher));
+
+    controller.y().onTrue(new InstantCommand(() -> turret.setVoltageTurret(2.5), turret));
+    controller.y().onFalse(new InstantCommand(() -> turret.stopTurret(), turret));
   }
 
   /**
