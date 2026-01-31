@@ -1,66 +1,135 @@
-package frc.robot.subsystems.launcher;
+// package frc.robot.subsystems.launcher;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.math.system.plant.LinearSystemId;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.simulation.FlywheelSim;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import com.ctre.phoenix6.hardware.CANcoder;
+// import edu.wpi.first.math.MathUtil;
+// import edu.wpi.first.math.system.plant.DCMotor;
+// import edu.wpi.first.math.system.plant.LinearSystemId;
+// import edu.wpi.first.wpilibj.DriverStation;
+// import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+// import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class LauncherIOSim implements LauncherIO {
-  private final FlywheelSim simLeader;
-  private final FlywheelSim simFollower;
+// public class LauncherIOSim implements LauncherIO {
 
-  private double appliedVoltsLeader = 0.0;
-  private double appliedVoltsFollower = 0.0;
+//   /* Flywheel */
 
-  public LauncherIOSim() {
-    simLeader =
-        new FlywheelSim(
-            LinearSystemId.createFlywheelSystem(DCMotor.getKrakenX60(1), 1, 1),
-            DCMotor.getKrakenX60(1));
+//   private final FlywheelSim simLeader;
+//   private final FlywheelSim simFollower;
 
-    simFollower =
-        new FlywheelSim(
-            LinearSystemId.createFlywheelSystem(DCMotor.getKrakenX60(1), 1, 1),
-            DCMotor.getKrakenX60(1));
-  }
+//   private double appliedVoltsLeader = 0.0;
+//   private double appliedVoltsFollower = 0.0;
 
-  @Override
-  public void updateInputs(LauncherIOInputs inputs) {
+//   /* Hood */
 
-    if (DriverStation.isDisabled()) {
-      simLeader.setInputVoltage(0);
-      simFollower.setInputVoltage(0);
-    }
+//   private final DCMotorSim simHood;
+//   private CANcoder turretEncoder;
 
-    inputs.leadAppliedVoltage = simLeader.getInputVoltage();
-    inputs.leadCurrent = simLeader.getCurrentDrawAmps();
+//   private double appliedVoltsHood = 0.0;
 
-    inputs.followerAppliedVoltage = simFollower.getInputVoltage();
-    inputs.followerCurrent = simFollower.getCurrentDrawAmps();
-  }
+//   /* Turret */
 
-  @Override
-  public void runVoltsLeader(double volts) {
-    appliedVoltsLeader = MathUtil.clamp(volts, -12.0, 12.0);
-    SmartDashboard.putNumber("Flyhweel volts", volts);
-    simLeader.setInputVoltage(appliedVoltsLeader);
-  }
+//   private final DCMotorSim simTurret;
 
-  @Override
-  public void runVoltsFollower(double volts) {
-    appliedVoltsFollower = MathUtil.clamp(volts, -12.0, 12.0);
-    simFollower.setInputVoltage(appliedVoltsFollower);
-  }
+//   // private final TalonFX turretKraken;
 
-  @Override
-  public void stopLeader() {
-    simLeader.setInputVoltage(0);
-  }
+//   // private final CANcoder turretAbsoluteEncoder;
 
-  @Override
-  public void stopFollower() {
-    simFollower.setInputVoltage(0);
-  }
-}
+//   public LauncherIOSim() {
+
+//     /* Flywheel */
+
+//     simLeader =
+//         new FlywheelSim(
+//             LinearSystemId.createFlywheelSystem(DCMotor.getKrakenX60(1), 1, 1),
+//             DCMotor.getKrakenX60(1));
+
+//     simFollower =
+//         new FlywheelSim(
+//             LinearSystemId.createFlywheelSystem(DCMotor.getKrakenX60(1), 1, 1),
+//             DCMotor.getKrakenX60(1));
+
+//     /* Hood */
+
+//     simHood =
+//         new DCMotorSim(
+//             LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX44(1), 1, 1),
+//             DCMotor.getKrakenX44(1));
+
+//     /* Turret */
+
+//     simTurret =
+//         new DCMotorSim(
+//             LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX44(1), 1, 1),
+//             DCMotor.getKrakenX44(1));
+
+//     turretEncoder = new CANcoder(61);
+//   }
+
+//   @Override
+//   public void updateInputs(LauncherIOInputs inputs) {
+//     /*Flywheel */
+
+//     if (DriverStation.isDisabled()) {
+//       simLeader.setInputVoltage(0);
+//       simFollower.setInputVoltage(0);
+//     }
+
+//     inputs.leadAppliedVoltage = simLeader.getInputVoltage();
+//     inputs.leadCurrent = simLeader.getCurrentDrawAmps();
+
+//     inputs.followerAppliedVoltage = simFollower.getInputVoltage();
+//     inputs.followerCurrent = simFollower.getCurrentDrawAmps();
+
+//     /* Hood */
+
+//     inputs.hoodAppliedVoltage = simHood.getInputVoltage();
+//     inputs.hoodCurrent = simHood.getCurrentDrawAmps();
+
+//     /* Turret */
+
+//     inputs.turretAppliedVoltage = simTurret.getInputVoltage();
+//     inputs.turretCurrent = simTurret.getCurrentDrawAmps();
+//     inputs.turretPositionRad = simTurret.getAngularPositionRad();
+
+//     getAbsolutePosition();
+
+//     // TalonFXSimState turretFXSim = turretKraken.getSimState();
+//     // turretFXSim.setSupplyVoltage(RobotController.getBatteryVoltage());
+//     // Voltage turretVoltage = turretFXSim.getMotorVoltageMeasure();
+
+//   }
+
+//   /* Flywheel */
+
+//   @Override
+//   public void setVoltageLeader(double volts) {
+//     appliedVoltsLeader = MathUtil.clamp(volts, -12.0, 12.0);
+//     SmartDashboard.putNumber("Flyhweel volts", volts);
+//     simLeader.setInputVoltage(appliedVoltsLeader);
+//   }
+
+//   @Override
+//   public void setVoltageFollower(double volts) {
+//     appliedVoltsFollower = MathUtil.clamp(volts, -12.0, 12.0);
+//     simFollower.setInputVoltage(appliedVoltsFollower);
+//   }
+
+//   @Override
+//   public void stopLauncher() {
+//     simLeader.setInputVoltage(0);
+//     simFollower.setInputVoltage(0);
+//   }
+
+//   /* Hood */
+
+//   /* Turret */
+
+//   @Override
+//   public void setPositionTurretRad(double turretSetpointRad) {
+//     simTurret.setAngle(turretSetpointRad);
+//   }
+
+//   public double getAbsolutePosition() {
+//     return turretEncoder.getAbsolutePosition().getValueAsDouble();
+//   }
+// }

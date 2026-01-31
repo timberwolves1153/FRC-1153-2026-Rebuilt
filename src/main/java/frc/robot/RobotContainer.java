@@ -31,14 +31,14 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
-import frc.robot.subsystems.launcher.Launcher;
-import frc.robot.subsystems.launcher.LauncherIO;
-import frc.robot.subsystems.launcher.LauncherIOSim;
-import frc.robot.subsystems.launcher.LauncherIOTalonFX;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionConstants;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
+import frc.robot.subsystems.launcher.turret.Turret;
+import frc.robot.subsystems.launcher.turret.TurretIO;
+import frc.robot.subsystems.launcher.turret.TurretIOSim;
+import frc.robot.subsystems.launcher.turret.TurretIOTalonFX;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -50,9 +50,9 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
-  private final Launcher launcher;
   private final Climber climber;
   private final Vision vision;
+  private final Turret turret;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -82,7 +82,7 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackRight));
         climber = new Climber(new ClimberIOTalonFX());
 
-        launcher = new Launcher(new LauncherIOTalonFX());
+        turret = new Turret(new TurretIOTalonFX());
 
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
 
@@ -115,7 +115,6 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.BackLeft),
                 new ModuleIOSim(TunerConstants.BackRight));
 
-        launcher = new Launcher(new LauncherIOSim());
         climber = new Climber(new ClimberIOSim());
 
         vision =
@@ -123,6 +122,7 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVisionSim(
                     "camera0", VisionConstants.robotToCamera0, drive::getPose));
+        turret = new Turret(new TurretIOSim());
 
         break;
 
@@ -136,9 +136,9 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
 
-        launcher = new Launcher(new LauncherIO() {});
         climber = new Climber(new ClimberIO() {});
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+        turret = new Turret(new TurretIO() {});
 
         break;
     }
@@ -221,17 +221,31 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller.y().onTrue(new InstantCommand(() -> launcher.runVoltsLeader(5), launcher));
-    controller.y().onFalse(new InstantCommand(() -> launcher.runVoltsLeader(0), launcher));
+    // controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageLeader(5), launcher));
+    // controller.y().onFalse(new InstantCommand(() -> launcher.setVoltageLeader(0), launcher));
 
-    controller.y().onTrue(new InstantCommand(() -> launcher.runVoltsFollower(-5), launcher));
-    controller.y().onFalse(new InstantCommand(() -> launcher.runVoltsFollower(0), launcher));
+    // controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageFollower(-5), launcher));
+    // controller.y().onFalse(new InstantCommand(() -> launcher.setVoltageFollower(0), launcher));
 
     // controller.y().onTrue(new InstantCommand(() -> launcher.runVoltsFollower(5), launcher));
     controller.povDown().onTrue(new InstantCommand(() -> climber.setVoltage(-5)));
     controller.povUp().onTrue(new InstantCommand(() -> climber.setVoltage(5)));
     controller.povUp().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
     controller.povDown().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
+    // controller.y().onTrue(new InstantCommand(() -> launcher.setPositionTurretRad(10), launcher));
+    // controller.y().onFalse(new InstantCommand(() -> launcher.setPositionTurretRad(0), launcher));
+
+    // controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageFollower(5), launcher));
+
+    // controller.y().onTrue(new InstantCommand(() -> turret.setVoltageTurret(2.5), turret));
+    // controller.y().onFalse(new InstantCommand(() -> turret.stopTurret(), turret));
+
+    controller
+        .leftBumper()
+        .onTrue(new InstantCommand(() -> turret.setPositionTurret(0.25), turret));
+    controller
+        .rightBumper()
+        .onTrue(new InstantCommand(() -> turret.setPositionTurret(0.75), turret));
   }
 
   /**

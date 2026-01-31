@@ -1,59 +1,90 @@
-package frc.robot.subsystems.launcher;
+// package frc.robot.subsystems.launcher;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import org.littletonrobotics.junction.Logger;
+// import edu.wpi.first.math.controller.PIDController;
+// import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+// import edu.wpi.first.wpilibj2.command.SubsystemBase;
+// import frc.robot.Constants;
+// import org.littletonrobotics.junction.Logger;
 
-public class Launcher extends SubsystemBase {
-  private final LauncherIO io;
-  private final LauncherIOInputsAutoLogged inputs = new LauncherIOInputsAutoLogged();
+// public class Launcher extends SubsystemBase {
+//   private final LauncherIO io;
+//   private final LauncherIOInputsAutoLogged inputs = new LauncherIOInputsAutoLogged();
 
-  // private PIDController launcherPID;
-  // private SimpleMotorFeedforward launcherFF;
+//   private PIDController launcherPID;
+//   private SimpleMotorFeedforward launcherFF;
 
-  public Launcher(LauncherIO launcherIO) {
-    io = launcherIO;
+//   private PIDController turretPID;
 
-    //  launcherPID = new PIDController(0.1, 0, 0);
-    //  launcherFF = new SimpleMotorFeedforward(0, 0.0075);
-    switch (Constants.currentMode) {
-      case REAL:
-      case REPLAY:
-        break;
+//   public Launcher(LauncherIO launcherIO) {
+//     io = launcherIO;
 
-      case SIM:
-        break;
-    }
-  }
+//     switch (Constants.currentMode) {
+//       case REAL:
+//       case REPLAY:
+//         break;
 
-  @Override
-  public void periodic() {
-    io.updateInputs(inputs);
-    Logger.processInputs("Launcher", inputs);
-  }
+//       case SIM:
+//         break;
+//     }
 
-  public void runVoltsLeader(double volts) {
-    io.runVoltsLeader(volts);
-  }
+//     launcherPID = new PIDController(0.1, 0, 0);
+//     launcherFF = new SimpleMotorFeedforward(0, 0.0075); // TODO: Tune
 
-  public void runVoltsFollower(double volts) {
-    io.runVoltsFollower(volts);
-  }
+//     turretPID = new PIDController(0, 0, 0);
+//   }
 
-  public void stop() {
-    io.stopLeader();
-    io.stopFollower();
-  }
+//   @Override
+//   public void periodic() {
+//     io.updateInputs(inputs);
+//     Logger.processInputs("Launcher", inputs);
+//   }
 
-  public Rotation2d calculateTurretAngle(Pose2d robotPose, Pose2d goalPose) {
-    // Calculate differences
-    double deltaY = goalPose.getY() - robotPose.getY();
-    double deltaX = goalPose.getX() - robotPose.getX();
+//   /* Flywheel */
 
-    // Calculate angle in radians (using Math.Atan2 or similar)
-    double angleRad = Math.atan2(deltaY, deltaX);
-    return Rotation2d.fromRadians(angleRad);
-  }
-}
+//   public void setVoltageLeader(double volts) {
+//     io.setVoltageLeader(volts);
+//   }
+
+//   public void setVoltageFollower(double volts) {
+//     io.setVoltageFollower(volts);
+//   }
+
+//   public void stopLauncher() {
+//     io.stopLauncher();
+//   }
+
+//   /* Hood */
+
+//   // public void setPositionHood(double hoodDegrees) {
+//   //   io.setPositionHood(hoodDegrees);
+//   // }
+
+//   /* Turret */
+
+//   public void setPositionTurretRad(double turretSetpointRad) {
+//     io.setPositionTurretRad(turretSetpointRad);
+//   }
+
+//   public void setTurretPosition(double rotations) {
+//     io.setTurretPosition(rotations);
+//   }
+
+//   public void setVoltageTurret(double volts) {
+//     io.setVoltageTurret(volts);
+//   }
+
+//   public void stopTurret() {
+//     io.stopTurret();
+//   }
+// }
+
+// /*
+//  *  IDS [delete soon]
+//  *
+//  * Flywheel: 64 (lead), 65 (follower), 66 (encoder)
+//  *
+//  * Hood: 62 (motor), 63? (encoder)
+//  *
+//  * Turret: 60 (motor), 61 (encoder)
+//  *
+//  */
