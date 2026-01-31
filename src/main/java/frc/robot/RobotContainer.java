@@ -31,6 +31,10 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.indexer.Indexer;
+import frc.robot.subsystems.indexer.IndexerIO;
+import frc.robot.subsystems.indexer.IndexerIOSim;
+import frc.robot.subsystems.indexer.IndexerIOTalonFX;
 import frc.robot.subsystems.launcher.turret.Turret;
 import frc.robot.subsystems.launcher.turret.TurretIO;
 import frc.robot.subsystems.launcher.turret.TurretIOSim;
@@ -53,6 +57,7 @@ public class RobotContainer {
   private final Climber climber;
   private final Vision vision;
   private final Turret turret;
+  private final Indexer indexer;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -85,6 +90,8 @@ public class RobotContainer {
         turret = new Turret(new TurretIOTalonFX());
 
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+
+        indexer = new Indexer(new IndexerIOTalonFX());
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The
@@ -123,6 +130,7 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(
                     "camera0", VisionConstants.robotToCamera0, drive::getPose));
         turret = new Turret(new TurretIOSim());
+        indexer = new Indexer(new IndexerIOSim());
 
         break;
 
@@ -139,6 +147,7 @@ public class RobotContainer {
         climber = new Climber(new ClimberIO() {});
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
         turret = new Turret(new TurretIO() {});
+        indexer = new Indexer(new IndexerIO() {});
 
         break;
     }
