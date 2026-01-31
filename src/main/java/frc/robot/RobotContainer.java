@@ -186,8 +186,15 @@ public class RobotContainer {
 
     // controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageFollower(5), launcher));
 
-    controller.y().onTrue(new InstantCommand(() -> turret.setVoltageTurret(2.5), turret));
-    controller.y().onFalse(new InstantCommand(() -> turret.stopTurret(), turret));
+    // controller.y().onTrue(new InstantCommand(() -> turret.setVoltageTurret(2.5), turret));
+    // controller.y().onFalse(new InstantCommand(() -> turret.stopTurret(), turret));
+
+    controller
+        .leftBumper()
+        .onTrue(new InstantCommand(() -> turret.setPositionTurret(0.25), turret));
+    controller
+        .rightBumper()
+        .onTrue(new InstantCommand(() -> turret.setPositionTurret(0.75), turret));
   }
 
   /**

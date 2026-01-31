@@ -24,10 +24,10 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Launcher", inputs);
+    Logger.processInputs("Turret", inputs);
   }
 
-  public void setTurretPosition(double rotations) {
+  public void setPositionTurret(double rotations) {
     io.setPositionTurret(rotations);
   }
 

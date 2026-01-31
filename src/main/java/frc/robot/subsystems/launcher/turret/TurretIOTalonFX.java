@@ -15,6 +15,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurretIOTalonFX implements TurretIO {
   private TalonFX turretMotor = new TalonFX(60, "rio");
@@ -48,10 +49,10 @@ public class TurretIOTalonFX implements TurretIO {
     turretConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     turretConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.0; // TODO: Set
+    // encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1; // TODO: Set
 
-    turretConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
-    turretConfig.MotionMagic.MotionMagicAcceleration = 5; // TODO: Set all
+    turretConfig.MotionMagic.MotionMagicCruiseVelocity = 100;
+    turretConfig.MotionMagic.MotionMagicAcceleration = 100; // TODO: Set all
 
     turretConfig.Feedback.FeedbackRemoteSensorID = encoder.getDeviceID();
     turretConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
@@ -62,27 +63,19 @@ public class TurretIOTalonFX implements TurretIO {
     encoder.getConfigurator().apply(encoderConfig);
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-        50,
-        turretAppliedVoltage,
-        turretCurrent,
-        turretPosition,
-        turretTemp
-      );
+        50, turretAppliedVoltage, turretCurrent, turretPosition, turretTemp);
   }
 
   @Override
   public void updateInputs(TurretIOInputs turretInputs) {
-    BaseStatusSignal.refreshAll(
-      turretAppliedVoltage,
-      turretCurrent,
-      turretPosition,
-      turretTemp
-    );
+    BaseStatusSignal.refreshAll(turretAppliedVoltage, turretCurrent, turretPosition, turretTemp);
 
     turretInputs.turretAppliedVoltage = turretAppliedVoltage.getValueAsDouble();
     turretInputs.turretCurrent = turretCurrent.getValueAsDouble();
     turretInputs.turretPosition = turretPosition.getValueAsDouble();
     turretInputs.turretTemp = turretTemp.getValueAsDouble();
+
+    SmartDashboard.putNumber("Encoder Position", encoder.getPosition().getValueAsDouble());
   }
 
   @Override
