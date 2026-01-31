@@ -22,7 +22,7 @@ public class TurretIOTalonFX implements TurretIO {
   private CANcoder encoder = new CANcoder(61, "rio");
 
   private VoltageOut voltageRequest = new VoltageOut(0);
-  private MotionMagicVoltage positionRequest = new MotionMagicVoltage(0);
+  private MotionMagicVoltage positionRequest = new MotionMagicVoltage(0).withSlot(0);
 
   private TalonFXConfiguration turretConfig;
   private CANcoderConfiguration encoderConfig;
@@ -32,7 +32,7 @@ public class TurretIOTalonFX implements TurretIO {
 
   private final StatusSignal<Voltage> turretAppliedVoltage = turretMotor.getMotorVoltage();
   private final StatusSignal<Current> turretCurrent = turretMotor.getSupplyCurrent();
-  private final StatusSignal<Angle> turretPosition = turretMotor.getPosition();
+  private final StatusSignal<Angle> turretPosition = encoder.getPosition();
   private final StatusSignal<Temperature> turretTemp = turretMotor.getDeviceTemp();
 
   public TurretIOTalonFX() {
@@ -47,12 +47,20 @@ public class TurretIOTalonFX implements TurretIO {
     turretConfig.CurrentLimits.StatorCurrentLimitEnable = true;
 
     turretConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    turretConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    turretConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
-     encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1; // TODO: Set
+    var slot0Configs = turretConfig.Slot0;
+    slot0Configs.kS = 0;
+    slot0Configs.kV = 0;
+    slot0Configs.kA = 0;
+    slot0Configs.kP = 20;
+    slot0Configs.kI = 0;
+    slot0Configs.kD = 0;
 
-    turretConfig.MotionMagic.MotionMagicCruiseVelocity = 100;
-    turretConfig.MotionMagic.MotionMagicAcceleration = 100; // TODO: Set all
+    encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1; // TODO: Set
+
+    turretConfig.MotionMagic.MotionMagicCruiseVelocity = 10;
+    turretConfig.MotionMagic.MotionMagicAcceleration = 10;
 
     turretConfig.Feedback.FeedbackRemoteSensorID = encoder.getDeviceID();
     turretConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
