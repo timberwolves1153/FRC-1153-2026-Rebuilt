@@ -246,21 +246,13 @@ public class RobotContainer {
         .rightBumper()
         .onTrue(new InstantCommand(() -> turret.setPositionTurret(0.75), turret));
 
-    controller
-        .b()
-        .onTrue(new InstantCommand(() -> indexer.runSpin(.5)));
-    
-    controller
-        .b()
-        .onFalse(new InstantCommand(() -> indexer.stopSpin()));
+    controller.b().onTrue(new InstantCommand(() -> indexer.runSpin(.5)));
 
-    controller
-        .y()
-        .onTrue(new InstantCommand(() -> indexer.runSpin(-.5)));
-    
-    controller
-        .y()
-        .onFalse(new InstantCommand(() -> indexer.stopSpin()));
+    controller.b().onFalse(new InstantCommand(() -> indexer.stopSpin()));
+
+    controller.y().onTrue(new InstantCommand(() -> indexer.runSpin(-12)));
+
+    controller.y().onFalse(new InstantCommand(() -> indexer.stopSpin()));
   }
 
   /**
