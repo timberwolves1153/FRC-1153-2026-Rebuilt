@@ -53,11 +53,11 @@ public class TurretIOTalonFX implements TurretIO {
     slot0Configs.kS = 0;
     slot0Configs.kV = 0;
     slot0Configs.kA = 0;
-    slot0Configs.kP = 100;
+    slot0Configs.kP = 115;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0;
 
-    encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1; // TODO: Set
+    encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.375; // TODO: Set
 
     turretConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
     turretConfig.MotionMagic.MotionMagicAcceleration = 5;

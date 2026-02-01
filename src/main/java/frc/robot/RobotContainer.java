@@ -194,7 +194,7 @@ public class RobotContainer {
         .onTrue(new InstantCommand(() -> turret.setPositionTurret(0.25), turret));
     controller
         .rightBumper()
-        .onTrue(new InstantCommand(() -> turret.setPositionTurret(0.75), turret));
+        .onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.5), turret));
   }
 
   /**
