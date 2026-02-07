@@ -19,10 +19,6 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.Climber.Climber;
-import frc.robot.subsystems.Climber.ClimberIO;
-import frc.robot.subsystems.Climber.ClimberIOSim;
-import frc.robot.subsystems.Climber.ClimberIOTalonFX;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -37,14 +33,6 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.subsystems.intake.IntakeIOTalonFX;
-import frc.robot.subsystems.launcher.Launcher;
-import frc.robot.subsystems.launcher.LauncherIO;
-import frc.robot.subsystems.launcher.LauncherIOSim;
-import frc.robot.subsystems.launcher.LauncherIOTalonFX;
-import frc.robot.subsystems.vision.Vision;
-import frc.robot.subsystems.vision.VisionConstants;
-import frc.robot.subsystems.vision.VisionIO;
-import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -56,9 +44,9 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
-  private final Launcher launcher;
-  private final Climber climber;
-  private final Vision vision;
+  // private final Launcher launcher;
+  // private final Climber climber;
+  // private final Vision vision;
   private final Intake intake;
   private final Indexer indexer;
 
@@ -86,15 +74,15 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.FrontRight),
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight));
-        climber = new Climber(new ClimberIOTalonFX());
+        //    climber = new Climber(new ClimberIOTalonFX());
 
-        launcher = new Launcher(new LauncherIOTalonFX());
+        //    launcher = new Launcher(new LauncherIOTalonFX());
 
         intake = new Intake(new IntakeIOTalonFX());
 
         indexer = new Indexer(new IndexerIOTalonFX());
 
-        vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+        //   vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The
@@ -125,16 +113,16 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.BackLeft),
                 new ModuleIOSim(TunerConstants.BackRight));
 
-        launcher = new Launcher(new LauncherIOSim());
-        climber = new Climber(new ClimberIOSim());
+        //   launcher = new Launcher(new LauncherIOSim());
+        //   climber = new Climber(new ClimberIOSim());
         intake = new Intake(new IntakeIOSim());
         indexer = new Indexer(new IndexerIOSim());
 
-        vision =
-            new Vision(
-                drive::addVisionMeasurement,
-                new VisionIOPhotonVisionSim(
-                    "camera0", VisionConstants.robotToCamera0, drive::getPose));
+        // vision =
+        //     new Vision(
+        //         drive::addVisionMeasurement,
+        //         new VisionIOPhotonVisionSim(
+        //             "camera0", VisionConstants.robotToCamera0, drive::getPose));
 
         break;
 
@@ -148,11 +136,11 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
 
-        launcher = new Launcher(new LauncherIO() {});
-        climber = new Climber(new ClimberIO() {});
+        // launcher = new Launcher(new LauncherIO() {});
+        // climber = new Climber(new ClimberIO() {});
         intake = new Intake(new IntakeIO() {});
         indexer = new Indexer(new IndexerIO() {});
-        vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+        // vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
 
         break;
     }
@@ -221,31 +209,31 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller.y().onTrue(new InstantCommand(() -> launcher.runVoltsLeader(5), launcher));
-    controller.y().onFalse(new InstantCommand(() -> launcher.runVoltsLeader(0), launcher));
+    // controller.y().onTrue(new InstantCommand(() -> launcher.runVoltsLeader(5), launcher));
+    // controller.y().onFalse(new InstantCommand(() -> launcher.runVoltsLeader(0), launcher));
 
-    controller.y().onTrue(new InstantCommand(() -> launcher.runVoltsFollower(-5), launcher));
-    controller.y().onFalse(new InstantCommand(() -> launcher.runVoltsFollower(0), launcher));
+    // controller.y().onTrue(new InstantCommand(() -> launcher.runVoltsFollower(-5), launcher));
+    // controller.y().onFalse(new InstantCommand(() -> launcher.runVoltsFollower(0), launcher));
 
-    // controller.y().onTrue(new InstantCommand(() -> launcher.runVoltsFollower(5), launcher));
-    controller.povDown().onTrue(new InstantCommand(() -> climber.setVoltage(-5)));
-    controller.povUp().onTrue(new InstantCommand(() -> climber.setVoltage(5)));
-    controller.povUp().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
-    controller.povDown().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
+    // // controller.y().onTrue(new InstantCommand(() -> launcher.runVoltsFollower(5), launcher));
+    // controller.povDown().onTrue(new InstantCommand(() -> climber.setVoltage(-5)));
+    // controller.povUp().onTrue(new InstantCommand(() -> climber.setVoltage(5)));
+    // controller.povUp().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
+    // controller.povDown().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
 
-    controller.leftBumper().onTrue(new InstantCommand(() -> intake.setDeployVoltage(2)));
-    controller.leftBumper().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
+    // controller.leftBumper().onTrue(new InstantCommand(() -> intake.setDeployVoltage(2)));
+    // controller.leftBumper().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
 
-    controller.rightBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(5)));
+    controller.rightBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-5)));
     controller.rightBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
 
     // ====
 
-    controller.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(5)));
+    controller.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(12)));
     controller.rightTrigger().onFalse(new InstantCommand(() -> indexer.runSpin(0)));
 
-    controller.leftTrigger().onTrue(new InstantCommand(() -> indexer.runFeeder(5)));
-    controller.leftTrigger().onFalse(new InstantCommand(() -> indexer.runFeeder(0)));
+    // controller.leftTrigger().onTrue(new InstantCommand(() -> indexer.runFeeder(5)));
+    // controller.leftTrigger().onFalse(new InstantCommand(() -> indexer.runFeeder(0)));
   }
 
   /**
