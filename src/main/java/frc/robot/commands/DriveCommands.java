@@ -177,8 +177,7 @@ public class DriveCommands {
             DRIVE_KP,
             0,
             DRIVE_KD,
-            new TrapezoidProfile.Constraints(
-              drive.getMaxLinearSpeedMetersPerSec(), 15));
+            new TrapezoidProfile.Constraints(drive.getMaxLinearSpeedMetersPerSec(), 15));
     driveXDirectionController.setTolerance(DRIVE_TOLERANCE);
 
     ProfiledPIDController driveYDirectionController =

@@ -77,9 +77,9 @@ public class Intake extends SubsystemBase {
     intakeIO.setDeployVoltage(volts);
   }
 
-  public void stopDeploy() {
-    intakeIO.stopDeploy();
-  }
+  // public void stopDeploy() {
+  //   intakeIO.stopDeploy();
+  // }
 
   public void resetDeployEncoder() {
     intakeIO.resetDeployEncoder();
@@ -89,9 +89,9 @@ public class Intake extends SubsystemBase {
     intakeIO.setCollectVoltage(volts);
   }
 
-  public void stopCollect() {
-    intakeIO.stopCollect();
-  }
+  // public void stopCollect() {
+  //   intakeIO.stopCollect();
+  // }
 
   public void resetCollectEncoder() {
     intakeIO.resetCollectEncoder();

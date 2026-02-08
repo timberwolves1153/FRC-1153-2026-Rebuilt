@@ -14,7 +14,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -35,6 +38,8 @@ public class FieldConstants {
   // Field dimensions
   public static final double fieldLength = AprilTagLayoutType.OFFICIAL.getLayout().getFieldLength();
   public static final double fieldWidth = AprilTagLayoutType.OFFICIAL.getLayout().getFieldWidth();
+  public static final Translation2d fieldCenter =
+      new Translation2d(fieldLength / 2, fieldWidth / 2);
 
   /**
    * Officially defined and relevant vertical lines found on the field (defined by X-axis offset)
@@ -138,6 +143,9 @@ public class FieldConstants {
         new Pose2d(topCenterPoint.getX(), topCenterPoint.getY(), Rotation2d.kZero);
     public static final Pose2d redHubCenter =
         new Pose2d(oppTopCenterPoint.getX(), oppTopCenterPoint.getY(), Rotation2d.kZero);
+
+    public static final Translation2d hubCenter =
+        new Translation2d(Units.inchesToMeters(181.56), Units.inchesToMeters(158.32));
   }
 
   /** Left Bump related constants */
@@ -311,6 +319,43 @@ public class FieldConstants {
     public static final Translation2d centerPoint =
         new Translation2d(0, AprilTagLayoutType.OFFICIAL.getLayout().getTagPose(29).get().getY());
   }
+
+  public static double getDistanceToHubCenter(Pose2d currentPose) {
+    Pose2d hubCenter;
+    double distanceToHub;
+
+    boolean isFlipped =
+        DriverStation.getAlliance().isPresent()
+            && DriverStation.getAlliance().get() == Alliance.Red;
+
+    if (isFlipped) {
+      hubCenter =
+          new Pose2d(FieldConstants.Hub.hubCenter, new Rotation2d())
+              .rotateAround(fieldCenter, Rotation2d.k180deg);
+    } else {
+      hubCenter = new Pose2d(FieldConstants.Hub.hubCenter, new Rotation2d());
+    }
+
+    distanceToHub = currentPose.getTranslation().getDistance(hubCenter.getTranslation());
+    SmartDashboard.putNumber("Distance to Hub Center", distanceToHub);
+
+    return distanceToHub;
+  }
+
+  //   public static boolean isBlue() {
+  //         return DriverStation.getAlliance()
+  //                 .orElse(DriverStation.Alliance.Blue)
+  //                 .equals(DriverStation.Alliance.Blue);
+  //     }
+
+  //     /** Returns {@code true} if the robot is on the red alliance. */
+  //     public static boolean isRed() {
+  //         return !isBlue();
+  //     }
+
+  //     public static final Trigger red = new Trigger(Field::isRed);
+  //     public static final Trigger blue = new Trigger(Field::isBlue);
+  // }
 
   public enum FieldType {
     ANDYMARK("andymark"),

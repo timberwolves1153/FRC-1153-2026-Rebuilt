@@ -9,8 +9,6 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -183,14 +181,15 @@ public class RobotContainer {
   }
 
   public void updateDesiredHub() {
-    Pose2d hubPose =
-        DriverStation.getAlliance()
-            .map(
-                alliance ->
-                    alliance == Alliance.Red
-                        ? FieldConstants.Hub.redHubCenter
-                        : FieldConstants.Hub.blueHubCenter)
-            .orElse(FieldConstants.Hub.redHubCenter); // or "" or "Unknown"
+
+    Pose2d hubPose = FieldConstants.Hub.redHubCenter;
+    // DriverStation.getAlliance()
+    //     .map(
+    //         alliance ->
+    //             alliance == Alliance.Red
+    //                 ? FieldConstants.Hub.redHubCenter
+    //                 : FieldConstants.Hub.blueHubCenter)
+    //     .orElse(FieldConstants.Hub.redHubCenter); // or "" or "Unknown"
 
     drive.setDesiredHub(hubPose);
   }
@@ -238,7 +237,7 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller.y().onTrue(DriveCommands.driveToPose(drive.getTestPose(), drive));
+    //  controller.y().onTrue(DriveCommands.driveToPose(drive.getTestPose(), drive));
 
     // controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageLeader(5), launcher));
     // controller.y().onFalse(new InstantCommand(() -> launcher.setVoltageLeader(0), launcher));

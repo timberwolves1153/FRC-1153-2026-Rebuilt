@@ -21,13 +21,13 @@ public interface IntakeIO {
   public default void setDeployVoltage(double volts) {}
 
   /** Stop in open loop. */
-  public default void stopDeploy() {}
+  // public default void stopDeploy() {}
 
   public default void resetDeployEncoder() {}
 
   public default void setCollectVoltage(double volts) {}
   /** Stop in open loop. */
-  public default void stopCollect() {}
+  // public default void stopCollect() {}
 
   public default void resetCollectEncoder() {}
 }

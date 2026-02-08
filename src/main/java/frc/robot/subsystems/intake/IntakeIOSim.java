@@ -65,10 +65,10 @@ public class IntakeIOSim implements IntakeIO {
     collectMotorSim.update(0.02);
 
     intakeInputs.deployCurrentAmps = deployMotorSim.getCurrentDrawAmps();
-    intakeInputs.deployAppliedVolts = volts.baseUnitMagnitude();
+    intakeInputs.deployAppliedVolts = deployMotorSim.getInputVoltage();
 
     intakeInputs.collectCurrentAmps = collectMotorSim.getCurrentDrawAmps();
-    intakeInputs.collectAppliedVolts = volts.baseUnitMagnitude();
+    intakeInputs.collectAppliedVolts = collectMotorSim.getInputVoltage();
   }
 
   @Override
@@ -76,18 +76,18 @@ public class IntakeIOSim implements IntakeIO {
     deployMotorSim.setInputVoltage(MathUtil.clamp(volts, -12, 12));
   }
 
-  @Override
-  public void stopDeploy() {
-    deployMotorSim.setInputVoltage(0);
-  }
+  // @Override
+  // public void stopDeploy() {
+  //   deployMotorSim.setInputVoltage(0);
+  // }
 
   @Override
   public void setCollectVoltage(double volts) {
     collectMotorSim.setInputVoltage(MathUtil.clamp(volts, -12, 12));
   }
 
-  @Override
-  public void stopCollect() {
-    collectMotorSim.setInputVoltage(0);
-  }
+  // @Override
+  // public void stopCollect() {
+  //   collectMotorSim.setInputVoltage(0);
+  // }
 }

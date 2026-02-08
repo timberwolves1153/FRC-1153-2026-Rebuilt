@@ -92,15 +92,15 @@ public class IntakeIOTalonFX implements IntakeIO {
     collectMotor.setVoltage(volts);
   }
 
-  @Override
-  public void stopDeploy() {
-    deployMotor.setControl(voltageRequest.withOutput(0));
-  }
+  // @Override
+  // public void stopDeploy() {
+  //   deployMotor.setControl(voltageRequest.withOutput(0));
+  // }
 
-  @Override
-  public void stopCollect() {
-    collectMotor.setControl(voltageRequest.withOutput(0));
-  }
+  // @Override
+  // public void stopCollect() {
+  //   collectMotor.setControl(voltageRequest.withOutput(0));
+  // }
 
   @Override
   public void resetDeployEncoder() {

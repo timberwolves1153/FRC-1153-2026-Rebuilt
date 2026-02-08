@@ -1,4 +1,4 @@
-package frc.robot.subsystems.climber;
+package frc.robot.subsystems.Climber;
 
 import static edu.wpi.first.units.Units.Volts;
 
@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
-import frc.robot.subsystems.Climber.ClimberInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.mechanism.LoggedMechanism2d;
 import org.littletonrobotics.junction.mechanism.LoggedMechanismLigament2d;
@@ -40,11 +39,11 @@ public class Climber extends SubsystemBase {
   private final double pitchDiameter = 0; /* ^^^^^^^^^^^^^^^^^^^^^ */
 
   public enum ClimberGoal {
-  // STOW(),
-  // L1(),
-  // L2(),
-  // L3();
-  ;
+    STOW(0),
+    L1(15),
+    L2(20),
+    L3(25);
+    ;
     /*check back for more */
 
     private double heightinInches;
@@ -100,13 +99,13 @@ public class Climber extends SubsystemBase {
         break; /*NEED TO CHECK THESE VALUES*/
 
       case SIM:
-        ks = 0; /* static gain in volts */
-        kg = 0; /* gravity gain in volts */
-        kv = 0; /* velocity gain in V/(m/s)*/
+        ks = 5; /* static gain in volts */
+        kg = 5; /* gravity gain in volts */
+        kv = 5; /* velocity gain in V/(m/s)*/
 
-        kp = 0; /* proportional coefficent */
-        ki = 0; /* integral coefficent */
-        kd = 0; /* derivitve coefficent */
+        kp = 5; /* proportional coefficent */
+        ki = 5; /* integral coefficent */
+        kd = 5; /* derivitve coefficent */
 
         constraints = new TrapezoidProfile.Constraints(5.0, 10.0);
 
@@ -123,15 +122,15 @@ public class Climber extends SubsystemBase {
     }
 
     climberMech2d =
-        new LoggedMechanism2d(0, 0); /* change these values based on real time updates */
+        new LoggedMechanism2d(10, 10); /* change these values based on real time updates */
 
     double rootX = (3.0 / 2.0) + Units.inchesToMeters(9.053); /* Delete when you have the values */
     double rootY = Units.inchesToMeters(12.689); /* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
 
     climberRoot2d = climberMech2d.getRoot("Climber", rootX, rootY);
 
-    double length = 10;
-    double angle = 0;
+    double length = 100;
+    double angle = 90;
     climberLig2d = new LoggedMechanismLigament2d("Climber Lig", length, angle);
     climberRoot2d.append(climberLig2d);
   }
@@ -185,7 +184,7 @@ public class Climber extends SubsystemBase {
     climberIO.updateInputs(climberInputs);
     Logger.processInputs("Climber", climberInputs);
     Logger.recordOutput("Elevator/Mechanism2D", climberMech2d);
-    Logger.recordOutput("Elevator Height", climberInputs.leaderRotations);
+    Logger.recordOutput("Elevator Height", climberInputs.heightInches);
     climberLig2d.setLength(Units.inchesToMeters(climberInputs.heightInches));
     SmartDashboard.putNumber("elevator height", climberInputs.heightInches);
     SmartDashboard.putNumber("elevator rotations", climberInputs.leaderRotations);
