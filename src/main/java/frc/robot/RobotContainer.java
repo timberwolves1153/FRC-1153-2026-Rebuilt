@@ -224,12 +224,14 @@ public class RobotContainer {
     // controller.leftBumper().onTrue(new InstantCommand(() -> intake.setDeployVoltage(2)));
     // controller.leftBumper().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
 
-    controller.rightBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-6)));
+    controller.rightBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-7)));
     controller.rightBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
+    // controller.rightBumper().onTrue(new InstantCommand(() -> indexer.runSpin(-4)));
+    // controller.rightBumper().onFalse(new InstantCommand(() -> indexer.runSpin(0)));
 
     // ====
 
-    controller.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(12)));
+    controller.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(-12)));
     controller.rightTrigger().onFalse(new InstantCommand(() -> indexer.runSpin(0)));
 
     // controller.leftTrigger().onTrue(new InstantCommand(() -> indexer.runFeeder(5)));
