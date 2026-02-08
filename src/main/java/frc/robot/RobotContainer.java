@@ -224,7 +224,7 @@ public class RobotContainer {
     // controller.leftBumper().onTrue(new InstantCommand(() -> intake.setDeployVoltage(2)));
     // controller.leftBumper().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
 
-    controller.rightBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-5)));
+    controller.rightBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-6)));
     controller.rightBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
 
     // ====

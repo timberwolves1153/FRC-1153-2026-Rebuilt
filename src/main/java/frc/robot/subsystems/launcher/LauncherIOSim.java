@@ -44,7 +44,7 @@ public class LauncherIOSim implements LauncherIO {
   @Override
   public void runVoltsLeader(double volts) {
     appliedVoltsLeader = MathUtil.clamp(volts, -12.0, 12.0);
-    SmartDashboard.putNumber("Flyhweel volts", volts);
+    SmartDashboard.putNumber("Flywheel volts", volts);
     simLeader.setInputVoltage(appliedVoltsLeader);
   }
 
