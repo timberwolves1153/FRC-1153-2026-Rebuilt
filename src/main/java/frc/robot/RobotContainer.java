@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -24,6 +25,14 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.indexer.Indexer;
+import frc.robot.subsystems.indexer.IndexerIO;
+import frc.robot.subsystems.indexer.IndexerIOSim;
+import frc.robot.subsystems.indexer.IndexerIOTalonFX;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.IntakeIO;
+import frc.robot.subsystems.intake.IntakeIOSim;
+import frc.robot.subsystems.intake.IntakeIOTalonFX;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionConstants;
 import frc.robot.subsystems.vision.VisionIO;
@@ -39,6 +48,8 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final Intake intake;
+  private final Indexer indexer;
   // private final Launcher launcher;
   // private final Climber climber;
   private final Vision vision;
@@ -76,6 +87,8 @@ public class RobotContainer {
         // launcher = new Launcher(new LauncherIOTalonFX());
 
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+        intake = new Intake(new IntakeIOTalonFX());
+        indexer = new Indexer(new IndexerIOTalonFX());
 
         // alignment =
         //     new Alignment(
@@ -114,6 +127,9 @@ public class RobotContainer {
         // launcher = new Launcher(new LauncherIOSim());
         // climber = new Climber(new ClimberIOSim());
 
+        intake = new Intake(new IntakeIOSim());
+        indexer = new Indexer(new IndexerIOSim());
+
         vision =
             new Vision(
                 drive::addVisionMeasurement,
@@ -149,6 +165,10 @@ public class RobotContainer {
 
         // launcher = new Launcher(new LauncherIO() {});
         // climber = new Climber(new ClimberIO() {});
+
+        intake = new Intake(new IntakeIO() {});
+        indexer = new Indexer(new IndexerIO() {});
+
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
 
         //      alignment = new Alignment(new AlignmentIO() {});
@@ -222,7 +242,7 @@ public class RobotContainer {
     // Switch to X pattern when X button is pressed
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
-    controller.y().onTrue(Commands.runOnce(() -> drive.resetGyro(0), drive));
+ //   controller.y().onTrue(Commands.runOnce(() -> drive.resetGyro(0), drive));
 
     // Drive Forward Button for testing
     controller.povUp().whileTrue(drive.sysIdDynamic(Direction.kForward));
@@ -251,6 +271,11 @@ public class RobotContainer {
     // controller.povUp().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
     // controller.povDown().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
 
+    controller.rightBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-7)));
+    controller.rightBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
+
+    controller.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(-12)));
+    controller.rightTrigger().onFalse(new InstantCommand(() -> indexer.runSpin(0)));
   }
 
   /**

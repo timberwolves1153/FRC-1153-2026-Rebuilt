@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -342,21 +344,6 @@ public class FieldConstants {
     return distanceToHub;
   }
 
-  //   public static boolean isBlue() {
-  //         return DriverStation.getAlliance()
-  //                 .orElse(DriverStation.Alliance.Blue)
-  //                 .equals(DriverStation.Alliance.Blue);
-  //     }
-
-  //     /** Returns {@code true} if the robot is on the red alliance. */
-  //     public static boolean isRed() {
-  //         return !isBlue();
-  //     }
-
-  //     public static final Trigger red = new Trigger(Field::isRed);
-  //     public static final Trigger blue = new Trigger(Field::isBlue);
-  // }
-
   public enum FieldType {
     ANDYMARK("andymark"),
     WELDED("welded");
@@ -421,4 +408,18 @@ public class FieldConstants {
       return layoutString;
     }
   }
+
+    public static boolean isBlue() {
+          return DriverStation.getAlliance()
+                  .orElse(DriverStation.Alliance.Blue)
+                  .equals(DriverStation.Alliance.Blue);
+      }
+
+      /** Returns {@code true} if the robot is on the red alliance. */
+      public static boolean isRed() {
+          return !isBlue();
+      }
+
+      public static final Trigger red = new Trigger(FieldConstants::isRed);
+      public static final Trigger blue = new Trigger(FieldConstants::isBlue);
 }
