@@ -7,8 +7,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.util.ShiftHelpers;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -85,6 +88,12 @@ public class Robot extends LoggedRobot {
     // the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
+    SmartDashboard.putNumber("Match Info: Match Time Left?", DriverStation.getMatchTime());
+    SmartDashboard.putBoolean("Match Info: Can Score?", ShiftHelpers.currentShiftIsYours());
+    SmartDashboard.putNumber(
+        "Match Info: Shift Time Left?",
+        ShiftHelpers.timeLeftInShiftSeconds(DriverStation.getMatchTime()));
+   
     // Return to non-RT thread priority (do not modify the first argument)
     // Threads.setCurrentThreadPriority(false, 10);
   }

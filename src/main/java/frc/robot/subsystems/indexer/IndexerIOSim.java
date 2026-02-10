@@ -14,12 +14,12 @@ public class IndexerIOSim implements IndexerIO {
   public IndexerIOSim() {
     spinSim =
         new DCMotorSim(
-            LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0, 0),
+            LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 1, 1),
             DCMotor.getKrakenX60(1));
 
     feederSim =
         new DCMotorSim(
-            LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 0, 0),
+            LinearSystemId.createDCMotorSystem(DCMotor.getKrakenX60(1), 1, 1),
             DCMotor.getKrakenX60(1));
   }
 

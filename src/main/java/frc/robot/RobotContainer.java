@@ -242,7 +242,7 @@ public class RobotContainer {
     // Switch to X pattern when X button is pressed
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
- //   controller.y().onTrue(Commands.runOnce(() -> drive.resetGyro(0), drive));
+    //   controller.y().onTrue(Commands.runOnce(() -> drive.resetGyro(0), drive));
 
     // Drive Forward Button for testing
     controller.povUp().whileTrue(drive.sysIdDynamic(Direction.kForward));
