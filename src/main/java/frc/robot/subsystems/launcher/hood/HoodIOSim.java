@@ -1,3 +1,3 @@
 package frc.robot.subsystems.launcher.hood;
 
-public class HoodIOSim {}
+public class HoodIOSim implements HoodIO {}

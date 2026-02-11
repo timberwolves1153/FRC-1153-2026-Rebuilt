@@ -25,6 +25,14 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.launcher.flywheel.Flywheel;
+import frc.robot.subsystems.launcher.flywheel.FlywheelIO;
+import frc.robot.subsystems.launcher.flywheel.FlywheelIOSim;
+import frc.robot.subsystems.launcher.flywheel.FlywheelIOTalonFX;
+import frc.robot.subsystems.launcher.hood.Hood;
+import frc.robot.subsystems.launcher.hood.HoodIO;
+import frc.robot.subsystems.launcher.hood.HoodIOSim;
+import frc.robot.subsystems.launcher.hood.HoodIOTalonFX;
 import frc.robot.subsystems.launcher.turret.Turret;
 import frc.robot.subsystems.launcher.turret.TurretIO;
 import frc.robot.subsystems.launcher.turret.TurretIOSim;
@@ -40,6 +48,8 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final Flywheel flywheel;
+  private final Hood hood;
   private final Turret turret;
 
   // Controller
@@ -63,6 +73,8 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight));
 
+        flywheel = new Flywheel(new FlywheelIOTalonFX());
+        hood = new Hood(new HoodIOTalonFX());
         turret = new Turret(new TurretIOTalonFX());
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
@@ -94,6 +106,8 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.BackLeft),
                 new ModuleIOSim(TunerConstants.BackRight));
 
+        flywheel = new Flywheel(new FlywheelIOSim());
+        hood = new Hood(new HoodIOSim());
         turret = new Turret(new TurretIOSim());
 
         break;
@@ -108,6 +122,8 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
 
+        flywheel = new Flywheel(new FlywheelIO() {});
+        hood = new Hood(new HoodIO() {});
         turret = new Turret(new TurretIO() {});
 
         break;
@@ -195,6 +211,20 @@ public class RobotContainer {
     controller
         .rightBumper()
         .onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.5), turret));
+
+    controller.leftTrigger().onTrue(new InstantCommand(() -> hood.setVoltageHood(2), hood));
+    controller.leftTrigger().onFalse(new InstantCommand(() -> hood.stopHood(), hood));
+
+    controller.povDown().onTrue(new InstantCommand(() -> hood.setPositionHood(0), hood));
+    controller.povUp().onTrue(new InstantCommand(() -> hood.setPositionHood(2), hood));
+
+    controller
+        .rightTrigger()
+        .onTrue(new InstantCommand(() -> flywheel.setVoltageLeader(6), flywheel));
+    controller
+        .rightTrigger()
+        .onTrue(new InstantCommand(() -> flywheel.setVoltageFollower(6), flywheel));
+    controller.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
   }
 
   /**

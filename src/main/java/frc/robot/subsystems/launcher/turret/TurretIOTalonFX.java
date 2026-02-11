@@ -18,8 +18,8 @@ import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurretIOTalonFX implements TurretIO {
-  private TalonFX turretMotor = new TalonFX(60, "rio");
-  private CANcoder encoder = new CANcoder(61, "rio");
+  private TalonFX turretMotor = new TalonFX(55, "rio");
+  private CANcoder encoder = new CANcoder(56, "rio");
 
   private VoltageOut voltageRequest = new VoltageOut(0);
   private MotionMagicVoltage positionRequest = new MotionMagicVoltage(0).withSlot(0);

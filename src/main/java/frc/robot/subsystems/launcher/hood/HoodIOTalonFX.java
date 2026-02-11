@@ -12,12 +12,13 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class HoodIOTalonFX implements HoodIO {
-  private TalonFX hoodMotor = new TalonFX(61, "rio");
+  private TalonFX hoodMotor = new TalonFX(57, "rio");
 
   private VoltageOut voltageRequest = new VoltageOut(0);
-  private MotionMagicVoltage positionRequest = new MotionMagicVoltage(0);
+  private MotionMagicVoltage positionRequest = new MotionMagicVoltage(0).withSlot(0);
 
   private TalonFXConfiguration hoodConfig;
 
@@ -37,10 +38,18 @@ public class HoodIOTalonFX implements HoodIO {
     hoodConfig.CurrentLimits.StatorCurrentLimitEnable = true;
 
     hoodConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    hoodConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    hoodConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
-    hoodConfig.MotionMagic.MotionMagicCruiseVelocity = 25;
-    hoodConfig.MotionMagic.MotionMagicAcceleration = 10;
+    var slot0Configs = hoodConfig.Slot0;
+    slot0Configs.kS = 0;
+    slot0Configs.kV = 0;
+    slot0Configs.kA = 0;
+    slot0Configs.kP = 50;
+    slot0Configs.kI = 0;
+    slot0Configs.kD = 0;
+
+    hoodConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
+    hoodConfig.MotionMagic.MotionMagicAcceleration = 5;
 
     hoodMotor.getConfigurator().apply(hoodConfig);
 
@@ -56,6 +65,8 @@ public class HoodIOTalonFX implements HoodIO {
     hoodInputs.hoodCurrent = hoodCurrent.getValueAsDouble();
     hoodInputs.hoodPosition = hoodPosition.getValueAsDouble();
     hoodInputs.hoodTemp = hoodTemp.getValueAsDouble();
+
+    SmartDashboard.putNumber("Hood encoder position", hoodMotor.getPosition().getValueAsDouble());
   }
 
   public void setVoltageHood(double volts) {
