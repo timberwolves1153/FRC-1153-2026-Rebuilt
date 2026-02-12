@@ -14,6 +14,7 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
@@ -32,6 +33,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -39,6 +41,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
@@ -46,6 +49,7 @@ import frc.robot.Constants.Mode;
 import frc.robot.FieldConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.LocalADStarAK;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -53,6 +57,7 @@ import org.littletonrobotics.junction.Logger;
 
 public class Drive extends SubsystemBase {
   // TunerConstants doesn't include these constants, so they are declared locally
+
   static final double ODOMETRY_FREQUENCY = TunerConstants.kCANBus.isNetworkFD() ? 250.0 : 100.0;
   public static final double DRIVE_BASE_RADIUS =
       Math.max(
@@ -100,6 +105,8 @@ public class Drive extends SubsystemBase {
       };
   private SwerveDrivePoseEstimator poseEstimator =
       new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, Pose2d.kZero);
+  public PathConstraints constraints =
+      new PathConstraints(3.0, 4.0, Units.degreesToRadians(720), Units.degreesToRadians(720));
 
   private Field2d poseEstimatorField = new Field2d();
 
@@ -325,16 +332,6 @@ public class Drive extends SubsystemBase {
     return output;
   }
 
-  public Pose2d getTestPose() {
-    Pose2d testPose =
-        new Pose2d(
-            FieldConstants.fieldWidth / 2,
-            FieldConstants.Tower.frontFaceX,
-            Rotation2d.fromDegrees(90));
-
-    return testPose;
-  }
-
   /** Returns the current odometry pose. */
   @AutoLogOutput(key = "Odometry/Robot")
   public Pose2d getPose() {
@@ -408,5 +405,32 @@ public class Drive extends SubsystemBase {
         robotPose.getX(), robotPose.getY(), calculateTurretAngle(robotPose, desiredHub));
 
     // return Rotation2d.fromRadians(angleRad);
+  }
+
+  public Command driveToTower() {
+    return new DeferredCommand(
+        () -> {
+          Pose2d targetPose =
+              new Pose2d(
+                  FieldConstants.Tower.leftUpright.getX(),
+                  getPose().getY() - Units.inchesToMeters(10),
+                  new Rotation2d());
+
+          boolean isFlipped =
+              DriverStation.getAlliance().isPresent()
+                  && DriverStation.getAlliance().get() == Alliance.Red;
+
+          if (isFlipped) {
+            return AutoBuilder.pathfindToPose(
+                targetPose
+                    .transformBy(Constants.CLIMB_TRANSFORM)
+                    .rotateAround(FieldConstants.fieldCenter, Rotation2d.k180deg),
+                constraints);
+          } else {
+            return AutoBuilder.pathfindToPose(
+                targetPose.transformBy(Constants.CLIMB_TRANSFORM), constraints);
+          }
+        },
+        Set.of(this));
   }
 }

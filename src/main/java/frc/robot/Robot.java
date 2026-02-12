@@ -93,7 +93,7 @@ public class Robot extends LoggedRobot {
     SmartDashboard.putNumber(
         "Match Info: Shift Time Left?",
         ShiftHelpers.timeLeftInShiftSeconds(DriverStation.getMatchTime()));
-   
+
     // Return to non-RT thread priority (do not modify the first argument)
     // Threads.setCurrentThreadPriority(false, 10);
   }

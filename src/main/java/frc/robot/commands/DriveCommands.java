@@ -29,7 +29,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
-import org.littletonrobotics.junction.Logger;
 
 public class DriveCommands {
   private static final double DEADBAND = 0.1;
@@ -158,72 +157,6 @@ public class DriveCommands {
 
         // Reset PID controller when command starts
         .beforeStarting(() -> angleController.reset(drive.getRotation().getRadians()));
-  }
-
-  public static Command driveToPose(Supplier<Pose2d> pose, Drive drive) {
-
-    // Create PID Controller's for possible outputs
-    ProfiledPIDController angleController =
-        new ProfiledPIDController(
-            ANGLE_KP,
-            0.0,
-            ANGLE_KD,
-            new TrapezoidProfile.Constraints(
-                drive.getMaxAngularSpeedRadPerSec(), ANGLE_MAX_ACCELERATION));
-    angleController.setTolerance(ANGLE_TOLERANCE);
-
-    ProfiledPIDController driveXDirectionController =
-        new ProfiledPIDController(
-            DRIVE_KP,
-            0,
-            DRIVE_KD,
-            new TrapezoidProfile.Constraints(drive.getMaxLinearSpeedMetersPerSec(), 15));
-    driveXDirectionController.setTolerance(DRIVE_TOLERANCE);
-
-    ProfiledPIDController driveYDirectionController =
-        new ProfiledPIDController(
-            DRIVE_KP,
-            0,
-            DRIVE_KD,
-            new TrapezoidProfile.Constraints(drive.getMaxLinearSpeedMetersPerSec(), 15));
-    driveYDirectionController.setTolerance(DRIVE_TOLERANCE);
-
-    return Commands.run(
-            () -> {
-              Logger.recordOutput("Setpoint", pose.get());
-
-              double omega =
-                  angleController.calculate(
-                      drive.getRotation().getRadians(), pose.get().getRotation().getRadians());
-
-              double driveXDirection =
-                  driveXDirectionController.calculate(drive.getPose().getX(), pose.get().getX());
-
-              double driveYDirection =
-                  driveYDirectionController.calculate(drive.getPose().getY(), pose.get().getY());
-
-              ChassisSpeeds robotSpeeds =
-                  new ChassisSpeeds(driveXDirection, driveYDirection, omega);
-              drive.runVelocity(
-                  ChassisSpeeds.fromFieldRelativeSpeeds(robotSpeeds, drive.getRotation()));
-
-              correctDriveSetpoint =
-                  pose.get().relativeTo(drive.getPose()).getTranslation().getNorm()
-                      < DRIVE_TOLERANCE;
-            },
-            drive)
-        // Reset PIDS
-        .beforeStarting(
-            () -> {
-              angleController.reset(drive.getRotation().getRadians());
-              driveXDirectionController.reset(drive.getPose().getX());
-              driveYDirectionController.reset(drive.getPose().getY());
-
-              correctDriveSetpoint = false;
-            })
-        .until(
-            () -> drive.getPose().getTranslation().getDistance(pose.get().getTranslation()) < 0.2)
-        .finallyDo(drive::stop);
   }
 
   public static boolean correctDriveToPoseSetpoint() {

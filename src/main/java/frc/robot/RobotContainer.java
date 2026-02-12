@@ -257,6 +257,8 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
+    controller.rightBumper().onTrue(Commands.runOnce(() -> drive.driveToTower(), drive));
+
     //  controller.y().onTrue(DriveCommands.driveToPose(drive.getTestPose(), drive));
 
     // controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageLeader(5), launcher));

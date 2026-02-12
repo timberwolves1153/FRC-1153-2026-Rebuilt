@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
 
 /**
@@ -28,6 +31,10 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
+
+  public static final Transform2d CLIMB_TRANSFORM =
+      new Transform2d(
+          Units.inchesToMeters(12.5), Units.inchesToMeters(0), Rotation2d.fromDegrees(90));
 
   public static boolean disableHAL = false;
 
