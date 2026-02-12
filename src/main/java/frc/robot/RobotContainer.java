@@ -136,9 +136,9 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(
                     "camera0", VisionConstants.robotToCamera0, drive::getPose),
                 new VisionIOPhotonVisionSim(
-                    "camera1", VisionConstants.robotToCamera1, drive::getPose),
-                new VisionIOPhotonVisionSim(
-                    "camera2", VisionConstants.robotToCamera2, drive::getPose)
+                    "camera1", VisionConstants.robotToCamera1, drive::getPose)
+                // new VisionIOPhotonVisionSim(
+                //     "camera2", VisionConstants.robotToCamera2, drive::getPose)
                 // ,
                 // new VisionIOPhotonVisionSim(
                 //     "camera3", VisionConstants.robotToCamera3, drive::getPose)
@@ -257,7 +257,7 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller.rightBumper().onTrue(Commands.runOnce(() -> drive.driveToTower(), drive));
+    controller.rightBumper().onTrue(drive.driveToTower());
 
     //  controller.y().onTrue(DriveCommands.driveToPose(drive.getTestPose(), drive));
 

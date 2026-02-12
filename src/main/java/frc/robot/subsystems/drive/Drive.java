@@ -413,7 +413,7 @@ public class Drive extends SubsystemBase {
           Pose2d targetPose =
               new Pose2d(
                   FieldConstants.Tower.leftUpright.getX(),
-                  getPose().getY() - Units.inchesToMeters(10),
+                  FieldConstants.Tower.leftUpright.getY() - Units.inchesToMeters(10),
                   new Rotation2d());
 
           boolean isFlipped =
