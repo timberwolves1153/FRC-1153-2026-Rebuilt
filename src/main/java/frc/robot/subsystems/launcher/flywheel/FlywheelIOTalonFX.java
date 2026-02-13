@@ -14,13 +14,14 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FlywheelIOTalonFX implements FlywheelIO {
   private final TalonFX leadMotor = new TalonFX(58, "rio");
   private final TalonFX followerMotor = new TalonFX(59, "rio");
 
   private VoltageOut voltageRequest = new VoltageOut(0);
-  private VelocityVoltage velocityVoltage = new VelocityVoltage(0);
+  private VelocityVoltage velocityVoltage = new VelocityVoltage(0).withSlot(0);
 
   private TalonFXConfiguration flywheelConfig;
 
@@ -49,13 +50,20 @@ public class FlywheelIOTalonFX implements FlywheelIO {
     flywheelConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     flywheelConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
+    var slot0Configs = flywheelConfig.Slot0;
+    slot0Configs.kS = 0.25;
+    slot0Configs.kV = 0.12;
+    slot0Configs.kA = 0;
+    slot0Configs.kP = 0.58;
+    slot0Configs.kI = 0;
+    slot0Configs.kD = 0; // never change
     flywheelConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
     flywheelConfig.MotionMagic.MotionMagicAcceleration = 5;
 
     leadMotor.getConfigurator().apply(flywheelConfig);
     followerMotor.getConfigurator().apply(flywheelConfig);
 
-    followerMotor.setControl(new Follower(63, MotorAlignmentValue.Opposed));
+    followerMotor.setControl(new Follower(58, MotorAlignmentValue.Opposed));
 
     leadMotor.optimizeBusUtilization();
     followerMotor.optimizeBusUtilization();
@@ -93,6 +101,9 @@ public class FlywheelIOTalonFX implements FlywheelIO {
     flywheelInputs.followerVelocity = FollowerVelocity.getValueAsDouble();
     flywheelInputs.leadTemp = leadTemp.getValueAsDouble();
     flywheelInputs.followerTemp = followerTemp.getValueAsDouble();
+
+    SmartDashboard.putNumber("Flywheel Velocity rps", leadMotor.getVelocity().getValueAsDouble());
+    SmartDashboard.putNumber("Flywheel Voltage", leadMotor.getMotorVoltage().getValueAsDouble());
   }
 
   @Override
@@ -118,6 +129,6 @@ public class FlywheelIOTalonFX implements FlywheelIO {
   @Override
   public void stopFlywheel() {
     leadMotor.setControl(voltageRequest.withOutput(0));
-    followerMotor.setControl(voltageRequest.withOutput(0));
+    // followerMotor.setControl(voltageRequest.withOutput(0));
   }
 }

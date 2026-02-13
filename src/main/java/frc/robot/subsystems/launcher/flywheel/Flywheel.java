@@ -1,7 +1,5 @@
 package frc.robot.subsystems.launcher.flywheel;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import org.littletonrobotics.junction.Logger;
@@ -10,8 +8,8 @@ public class Flywheel extends SubsystemBase {
   private final FlywheelIO io;
   private final FlywheelIOInputsAutoLogged inputs = new FlywheelIOInputsAutoLogged();
 
-  private PIDController flywheelPID;
-  private SimpleMotorFeedforward flywheelFF;
+  // private PIDController flywheelPID;
+  // private SimpleMotorFeedforward flywheelFF;
 
   public Flywheel(FlywheelIO flywheelIO) {
     io = flywheelIO;
@@ -25,8 +23,8 @@ public class Flywheel extends SubsystemBase {
         break;
     }
 
-    flywheelPID = new PIDController(0, 0, 0);
-    flywheelFF = new SimpleMotorFeedforward(0, 0); // TODO: Set
+    // flywheelPID = new PIDController(0, 0, 0);
+    // flywheelFF = new SimpleMotorFeedforward(0, 0); // TODO: Set
   }
 
   @Override
@@ -44,11 +42,11 @@ public class Flywheel extends SubsystemBase {
   }
 
   public void setVelocityLeader(double velocity) {
-    io.setVoltageLeader(velocity);
+    io.setVelocityLeader(velocity);
   }
 
   public void setVelocityFollower(double velocity) {
-    io.setVoltageFollower(velocity);
+    io.setVelocityFollower(velocity);
   }
 
   public void stopFlywheel() {

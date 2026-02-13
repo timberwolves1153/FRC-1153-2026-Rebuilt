@@ -205,26 +205,29 @@ public class RobotContainer {
     // controller.y().onTrue(new InstantCommand(() -> turret.setVoltageTurret(2.5), turret));
     // controller.y().onFalse(new InstantCommand(() -> turret.stopTurret(), turret));
 
-    controller
-        .leftBumper()
-        .onTrue(new InstantCommand(() -> turret.setPositionTurret(0.25), turret));
-    controller
-        .rightBumper()
-        .onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.5), turret));
+    // controller
+    //     .leftBumper()
+    //     .onTrue(new InstantCommand(() -> turret.setPositionTurret(0.25), turret));
+    // controller
+    //     .rightBumper()
+    //     .onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.5), turret));
 
-    controller.leftTrigger().onTrue(new InstantCommand(() -> hood.setVoltageHood(2), hood));
-    controller.leftTrigger().onFalse(new InstantCommand(() -> hood.stopHood(), hood));
+    // controller.leftTrigger().onTrue(new InstantCommand(() -> hood.setVoltageHood(1), hood));
+    // controller.leftTrigger().onFalse(new InstantCommand(() -> hood.stopHood(), hood));
 
+    // controller.rightTrigger().onTrue(new InstantCommand(() -> hood.setVoltageHood(-1), hood));
+    // controller.rightTrigger().onFalse(new InstantCommand(() -> hood.stopHood(), hood));
+
+    controller.povUp().onTrue(new InstantCommand(() -> hood.setPositionHood(-1.5), hood));
     controller.povDown().onTrue(new InstantCommand(() -> hood.setPositionHood(0), hood));
-    controller.povUp().onTrue(new InstantCommand(() -> hood.setPositionHood(2), hood));
+
+    controller.povLeft().onTrue(new InstantCommand(() -> flywheel.setVoltageLeader(-10), flywheel));
+    controller.povLeft().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
 
     controller
-        .rightTrigger()
-        .onTrue(new InstantCommand(() -> flywheel.setVoltageLeader(6), flywheel));
-    controller
-        .rightTrigger()
-        .onTrue(new InstantCommand(() -> flywheel.setVoltageFollower(6), flywheel));
-    controller.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
+        .povRight()
+        .onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-24), flywheel));
+    controller.povRight().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
   }
 
   /**

@@ -22,9 +22,9 @@ public interface FlywheelIO {
 
   public default void setVoltageFollower(double volts) {}
 
-  public default void setVelocityLeader(double volts) {}
+  public default void setVelocityLeader(double velocity) {}
 
-  public default void setVelocityFollower(double volts) {}
+  public default void setVelocityFollower(double velocity) {}
 
   public default void stopFlywheel() {}
 }
