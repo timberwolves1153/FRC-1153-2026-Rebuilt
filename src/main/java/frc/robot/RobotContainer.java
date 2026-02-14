@@ -226,10 +226,8 @@ public class RobotContainer {
 
     controller
         .povRight()
-            .onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-46), flywheel));
+        .onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-46), flywheel));
     controller.povRight().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
-
-    
   }
 
   /**
