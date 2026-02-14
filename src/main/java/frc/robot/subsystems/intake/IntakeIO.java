@@ -15,19 +15,13 @@ public interface IntakeIO {
     public double collectCurrentAmps = 0.0;
   }
 
+  public default void setPositionIntake(double rotations) {}
+
   public default void updateInputs(IntakeInputs inputs) {}
 
-  /** Run open loop at the specified voltage. */
   public default void setDeployVoltage(double volts) {}
-
-  /** Stop in open loop. */
-  // public default void stopDeploy() {}
 
   public default void resetDeployEncoder() {}
 
   public default void setCollectVoltage(double volts) {}
-  /** Stop in open loop. */
-  // public default void stopCollect() {}
-
-  public default void resetCollectEncoder() {}
 }

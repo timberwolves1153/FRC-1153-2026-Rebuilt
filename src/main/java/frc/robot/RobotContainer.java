@@ -229,6 +229,10 @@ public class RobotContainer {
     // controller.rightBumper().onTrue(new InstantCommand(() -> indexer.runSpin(-4)));
     // controller.rightBumper().onFalse(new InstantCommand(() -> indexer.runSpin(0)));
 
+    // controller.rightTrigger().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
+    // controller.leftTrigger().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.15)));
+
+
     // ====
 
     controller.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(-12)));
