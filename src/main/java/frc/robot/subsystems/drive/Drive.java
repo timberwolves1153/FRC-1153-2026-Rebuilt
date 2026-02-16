@@ -41,6 +41,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
+import frc.robot.FieldConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.LocalADStarAK;
 import java.util.concurrent.locks.Lock;
@@ -98,6 +99,8 @@ public class Drive extends SubsystemBase {
   private SwerveDrivePoseEstimator poseEstimator =
       new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, Pose2d.kZero);
 
+  // poseEstimatorField = new Field2d();
+
   public Drive(
       GyroIO gyroIO,
       ModuleIO flModuleIO,
@@ -154,6 +157,7 @@ public class Drive extends SubsystemBase {
     odometryLock.lock(); // Prevents odometry updates while reading data
     gyroIO.updateInputs(gyroInputs);
     Logger.processInputs("Drive/Gyro", gyroInputs);
+    FieldConstants.getDistanceToHubCenter(getPose());
     for (var module : modules) {
       module.periodic();
     }
@@ -248,14 +252,14 @@ public class Drive extends SubsystemBase {
    * Stops the drive and turns the modules to an X arrangement to resist movement. The modules will
    * return to their normal orientations the next time a nonzero velocity is requested.
    */
-  public void stopWithX() {
-    Rotation2d[] headings = new Rotation2d[4];
-    for (int i = 0; i < 4; i++) {
-      headings[i] = getModuleTranslations()[i].getAngle();
-    }
-    kinematics.resetHeadings(headings);
-    stop();
-  }
+  // public void stopWithX() {
+  //   Rotation2d[] headings = new Rotation2d[4];
+  //   for (int i = 0; i < 4; i++) {
+  //     headings[i] = getModuleTranslations()[i].getAngle();
+  //   }
+  //   kinematics.resetHeadings(headings);
+  //   stop();
+  // }
 
   /** Returns a command to run a quasistatic test in the specified direction. */
   public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {

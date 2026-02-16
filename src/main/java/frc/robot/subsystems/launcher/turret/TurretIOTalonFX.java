@@ -44,20 +44,20 @@ public class TurretIOTalonFX implements TurretIO {
     turretConfig.CurrentLimits.StatorCurrentLimitEnable = true;
 
     turretConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    turretConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    turretConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     var slot0Configs = turretConfig.Slot0;
     slot0Configs.kS = 0;
     slot0Configs.kV = 0;
     slot0Configs.kA = 0;
-    slot0Configs.kP = 115;
+    slot0Configs.kP = 15; // 115
     slot0Configs.kI = 0;
     slot0Configs.kD = 0;
 
-    encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.375; // TODO: Set
+    encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = -1.05; // TODO: Set
 
-    turretConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
-    turretConfig.MotionMagic.MotionMagicAcceleration = 5;
+    turretConfig.MotionMagic.MotionMagicCruiseVelocity = 3;
+    turretConfig.MotionMagic.MotionMagicAcceleration = 3;
 
     turretConfig.Feedback.FeedbackRemoteSensorID = encoder.getDeviceID();
     turretConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
@@ -80,7 +80,7 @@ public class TurretIOTalonFX implements TurretIO {
     turretInputs.turretPosition = turretPosition.getValueAsDouble();
     turretInputs.turretTemp = turretTemp.getValueAsDouble();
 
-    SmartDashboard.putNumber("Encoder Position", encoder.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("Turret Encoder Position", encoder.getPosition().getValueAsDouble());
   }
 
   @Override

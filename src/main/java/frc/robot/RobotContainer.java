@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -178,7 +179,7 @@ public class RobotContainer {
                 () -> Rotation2d.kZero));
 
     // Switch to X pattern when X button is pressed
-    controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
+    // controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
     // Reset gyro to 0° when B button is pressed
     controller
@@ -205,12 +206,11 @@ public class RobotContainer {
     // controller.y().onTrue(new InstantCommand(() -> turret.setVoltageTurret(2.5), turret));
     // controller.y().onFalse(new InstantCommand(() -> turret.stopTurret(), turret));
 
-    // controller
-    //     .leftBumper()
-    //     .onTrue(new InstantCommand(() -> turret.setPositionTurret(0.25), turret));
-    // controller
-    //     .rightBumper()
-    //     .onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.5), turret));
+    controller
+        .leftBumper()
+        .onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.62), turret));
+    controller.rightBumper().onTrue(new InstantCommand(() -> turret.setPositionTurret(0), turret));
+    controller.povUp().onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.13), turret));
 
     // controller.leftTrigger().onTrue(new InstantCommand(() -> hood.setVoltageHood(1), hood));
     // controller.leftTrigger().onFalse(new InstantCommand(() -> hood.stopHood(), hood));
@@ -218,15 +218,24 @@ public class RobotContainer {
     // controller.rightTrigger().onTrue(new InstantCommand(() -> hood.setVoltageHood(-1), hood));
     // controller.rightTrigger().onFalse(new InstantCommand(() -> hood.stopHood(), hood));
 
-    controller.povUp().onTrue(new InstantCommand(() -> hood.setPositionHood(-1.5), hood));
-    controller.povDown().onTrue(new InstantCommand(() -> hood.setPositionHood(0), hood));
+    // controller.povUp().onTrue(new InstantCommand(() -> hood.setPositionHood(-1.5), hood));
+    // controller.povDown().onTrue(new InstantCommand(() -> hood.setPositionHood(0), hood));
 
-    controller.povLeft().onTrue(new InstantCommand(() -> flywheel.setVoltageLeader(-10), flywheel));
-    controller.povLeft().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
+    // controller.povLeft().onTrue(new InstantCommand(() -> flywheel.setVoltageLeader(-10),
+    // flywheel));
+    // controller.povLeft().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
+
+    // controller
+    //     .povRight()
+    //     .onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-35), flywheel));
 
     controller
         .povRight()
-        .onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-46), flywheel));
+        .onTrue(
+            new InstantCommand(
+                () -> flywheel.setVelocityLeader(SmartDashboard.getNumber("Flywheel RPS input", 0)),
+                flywheel));
+
     controller.povRight().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
   }
 

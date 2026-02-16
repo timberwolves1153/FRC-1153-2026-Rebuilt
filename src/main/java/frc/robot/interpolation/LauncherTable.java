@@ -13,9 +13,12 @@ public class LauncherTable {
       new InterpolatingTreeMap<>();
 
   static {
+    hoodMap.put(new InterpolatingDouble(null), new InterpolatingDouble(null));
     /* Hood
     Key = distance from hub in meters
     Value = hood angle setpoint */
+
+    flywheelMap.put(new InterpolatingDouble(null), new InterpolatingDouble(null));
 
     /* Flywheel
     Key = distance from hub in meters
