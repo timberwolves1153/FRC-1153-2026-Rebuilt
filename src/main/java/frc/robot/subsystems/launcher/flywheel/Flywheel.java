@@ -1,49 +1,62 @@
-// package frc.robot.subsystems.launcher.flywheel;
+package frc.robot.subsystems.launcher.flywheel;
 
-// import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// import frc.robot.Constants;
-// import org.littletonrobotics.junction.Logger;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import org.littletonrobotics.junction.Logger;
 
-// public class Flywheel extends SubsystemBase {
-//   private final FlywheelIO io;
-//   private final FlywheelIOInputsAutoLogged inputs = new FlywheelIOInputsAutoLogged();
+public class Flywheel extends SubsystemBase {
+  private final FlywheelIO io;
+  private final FlywheelIOInputsAutoLogged inputs = new FlywheelIOInputsAutoLogged();
 
-//   public Flywheel(FlywheelIO flywheelIO) {
-//     io = flywheelIO;
+  // private PIDController flywheelPID;
+  // private SimpleMotorFeedforward flywheelFF;
 
-//     switch (Constants.currentMode) {
-//       case REAL:
-//       case REPLAY:
-//         break;
+  public Flywheel(FlywheelIO flywheelIO) {
+    io = flywheelIO;
 
-//       case SIM:
-//         break;
-//     }
-//   }
+    switch (Constants.currentMode) {
+      case REAL:
+      case REPLAY:
+        break;
 
-//   @Override
-//   public void periodic() {
-//     io.updateInputs(inputs);
-//     Logger.processInputs("Flywheel", inputs);
-//   }
+      case SIM:
+        break;
+    }
 
-//   public void setVoltageLeader(double volts) {
-//     io.setVoltageLeader(volts);
-//   }
+    // flywheelPID = new PIDController(0, 0, 0);
+    // flywheelFF = new SimpleMotorFeedforward(0, 0); // TODO: Set
+  }
 
-//   public void setVoltageFollower(double volts) {
-//     io.setVoltageFollower(volts);
-//   }
+  @Override
+  public void periodic() {
+    io.updateInputs(inputs);
+    Logger.processInputs("Flywheel", inputs);
+  }
 
-//   public void setVelocityLeader(double velocity) {
-//     io.setVoltageLeader(velocity);
-//   }
+  public void setVoltageLeader(double volts) {
+    io.setVoltageLeader(volts);
+  }
 
-//   public void setVelocityFollower(double velocity) {
-//     io.setVoltageFollower(velocity);
-//   }
+  public void setVoltageFollower(double volts) {
+    io.setVoltageFollower(volts);
+  }
 
-//   public void stopLauncher() {
-//     io.stopFlywheel();
-//   }
-// }
+  public void setVelocityLeader(double velocity) {
+    io.setVelocityLeader(velocity);
+  }
+
+  public void setVelocityFollower(double velocity) {
+    io.setVelocityFollower(velocity);
+  }
+
+  public void setVelocityManual() {
+    double manualVelocityInput = SmartDashboard.getNumber("Flywheel RPS Manual Input", 0);
+
+    io.setVelocityLeader(manualVelocityInput);
+  }
+
+  public void stopFlywheel() {
+    io.stopFlywheel();
+  }
+}
