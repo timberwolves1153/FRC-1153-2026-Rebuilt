@@ -1,41 +1,50 @@
-// package frc.robot.subsystems.launcher.turret;
+package frc.robot.subsystems.launcher.turret;
 
-// import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// import frc.robot.Constants;
-// import org.littletonrobotics.junction.Logger;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import org.littletonrobotics.junction.Logger;
 
-// public class Turret extends SubsystemBase {
-//   private final TurretIO io;
-//   private final TurretIOInputsAutoLogged inputs = new TurretIOInputsAutoLogged();
+public class Turret extends SubsystemBase {
+  private final TurretIO io;
+  private final TurretIOInputsAutoLogged inputs = new TurretIOInputsAutoLogged();
 
-//   public Turret(TurretIO turretIO) {
-//     io = turretIO;
+  public final Transform2d turretOffset;
 
-//     switch (Constants.currentMode) {
-//       case REAL:
-//       case REPLAY:
-//         break;
+  public Turret(TurretIO turretIO) {
+    io = turretIO;
 
-//       case SIM:
-//         break;
-//     }
-//   }
+    turretOffset =
+        new Transform2d(
+            Units.inchesToMeters(-4.75), Units.inchesToMeters(-4.125), new Rotation2d());
 
-//   @Override
-//   public void periodic() {
-//     io.updateInputs(inputs);
-//     Logger.processInputs("Turret", inputs);
-//   }
+    switch (Constants.currentMode) {
+      case REAL:
+      case REPLAY:
+        break;
 
-//   public void setPositionTurret(double rotations) {
-//     io.setPositionTurret(rotations);
-//   }
+      case SIM:
+        break;
+    }
+  }
 
-//   public void setVoltageTurret(double volts) {
-//     io.setVoltageTurret(volts);
-//   }
+  @Override
+  public void periodic() {
+    io.updateInputs(inputs);
+    Logger.processInputs("Turret", inputs);
+  }
 
-//   public void stopTurret() {
-//     io.stopTurret();
-//   }
-// }
+  public void setPositionTurret(double rotations) {
+    io.setPositionTurret(rotations);
+  }
+
+  public void setVoltageTurret(double volts) {
+    io.setVoltageTurret(volts);
+  }
+
+  public void stopTurret() {
+    io.stopTurret();
+  }
+}

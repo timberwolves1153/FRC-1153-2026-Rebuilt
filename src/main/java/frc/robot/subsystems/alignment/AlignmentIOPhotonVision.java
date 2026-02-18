@@ -36,8 +36,14 @@ public class AlignmentIOPhotonVision implements AlignmentIO {
   }
 
   @Override
+  public void updateRobotToCamera(Transform3d newRobotToCamera) {
+    this.alignmentPoseEstimator.setRobotToCameraTransform(newRobotToCamera);
+  }
+
+  @Override
   public void updateInputs(AlignmentIOInputs inputs) {
     inputs.connected = camera.isConnected();
+    inputs.cameraToRobot = this.alignmentPoseEstimator.getRobotToCameraTransform();
 
     // Read new camera observations
     Set<Short> tagIDs = new HashSet<>();
@@ -45,17 +51,24 @@ public class AlignmentIOPhotonVision implements AlignmentIO {
       Optional<EstimatedRobotPose> overallPhotonResult = Optional.empty();
       if (!result.targets.isEmpty()) { // single tag result
         inputs.hasTarget = true;
-        overallPhotonResult = alignmentPoseEstimator.update(result);
-        var target = result.getBestTarget();
-        // Add tag ID
-        if (AlignmentConstants.TOWER_TAGS.contains((Integer) target.fiducialId)) {
-          tagIDs.add((short) target.fiducialId);
-          inputs.bestTargetTagId = target.getFiducialId();
-          inputs.cameraToTarget = target.getBestCameraToTarget();
-          if (overallPhotonResult.isPresent()) {
-            inputs.photonpose = overallPhotonResult.get().estimatedPose;
-          }
+        overallPhotonResult = alignmentPoseEstimator.estimateLowestAmbiguityPose(result);
+        inputs.bestTargetTagId = result.getBestTarget().getFiducialId();
+        //   result.getBestTarget().get
+
+        if (overallPhotonResult.isPresent()) {
+          inputs.photonpose = overallPhotonResult.get().estimatedPose;
         }
+
+        // var target = result.getBestTarget();
+        // // Add tag ID
+        // if (AlignmentConstants.TOWER_TAGS.contains((Integer) target.fiducialId)) {
+        //   tagIDs.add((short) target.fiducialId);
+        //   inputs.bestTargetTagId = target.getFiducialId();
+        //   inputs.cameraToTarget = target.getBestCameraToTarget();
+        //   if (overallPhotonResult.isPresent()) {
+        //     inputs.photonpose = overallPhotonResult.get().estimatedPose;
+        //   }
+        // }
       } else { // no targets
         inputs.hasTarget = false;
       }

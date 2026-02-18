@@ -26,12 +26,12 @@ public class AlignmentConstants {
 
   // Robot to camera transforms
   // (Not used by Limelight, configure in web UI instead)
-  public static Transform3d robotToCamera =
+  public static Transform3d robotToOrangeCamera =
       new Transform3d(
-          Units.inchesToMeters(0),
-          Units.inchesToMeters(0),
-          Units.inchesToMeters(0),
-          new Rotation3d(0, 0, 0));
+          Units.inchesToMeters(-10.625),
+          Units.inchesToMeters(-3.75), // 21.75
+          Units.inchesToMeters(17.75),
+          new Rotation3d(0.0, Units.degreesToRadians(-20), Units.degreesToRadians(180 + 30)));
 
   // Standard deviation multipliers for each camera
   // (Adjust to trust some cameras more than others)

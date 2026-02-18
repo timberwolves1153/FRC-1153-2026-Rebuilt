@@ -1,128 +1,134 @@
-// package frc.robot.subsystems.launcher.flywheel;
+package frc.robot.subsystems.launcher.flywheel;
 
-// import com.ctre.phoenix6.BaseStatusSignal;
-// import com.ctre.phoenix6.StatusSignal;
-// import com.ctre.phoenix6.configs.TalonFXConfiguration;
-// import com.ctre.phoenix6.controls.Follower;
-// import com.ctre.phoenix6.controls.VelocityVoltage;
-// import com.ctre.phoenix6.controls.VoltageOut;
-// import com.ctre.phoenix6.hardware.TalonFX;
-// import com.ctre.phoenix6.signals.InvertedValue;
-// import com.ctre.phoenix6.signals.MotorAlignmentValue;
-// import com.ctre.phoenix6.signals.NeutralModeValue;
-// import edu.wpi.first.units.measure.AngularVelocity;
-// import edu.wpi.first.units.measure.Current;
-// import edu.wpi.first.units.measure.Temperature;
-// import edu.wpi.first.units.measure.Voltage;
+import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Current;
+import edu.wpi.first.units.measure.Temperature;
+import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-// public class FlywheelIOTalonFX implements FlywheelIO {
-//   private final TalonFX leadMotor = new TalonFX(64, "rio");
-//   private final TalonFX followerMotor = new TalonFX(65, "rio");
+public class FlywheelIOTalonFX implements FlywheelIO {
+  private final TalonFX leadMotor = new TalonFX(58, "rio");
+  private final TalonFX followerMotor = new TalonFX(59, "rio");
 
-//   private VoltageOut voltageRequest = new VoltageOut(0);
-//   private VelocityVoltage velocityVoltage = new VelocityVoltage(0);
+  private VoltageOut voltageRequest = new VoltageOut(0);
+  private VelocityVoltage velocityVoltage = new VelocityVoltage(0).withSlot(0);
 
-//   private TalonFXConfiguration launcherConfig;
+  private TalonFXConfiguration flywheelConfig;
 
-//   private final StatusSignal<Voltage> leadAppliedVoltage = leadMotor.getMotorVoltage();
-//   private final StatusSignal<Voltage> followerAppliedVoltage = followerMotor.getMotorVoltage();
+  private final StatusSignal<Voltage> leadAppliedVoltage = leadMotor.getMotorVoltage();
+  private final StatusSignal<Voltage> followerAppliedVoltage = followerMotor.getMotorVoltage();
 
-//   private final StatusSignal<AngularVelocity> leadVelocity = leadMotor.getVelocity();
-//   private final StatusSignal<AngularVelocity> FollowerVelocity = followerMotor.getVelocity();
+  private final StatusSignal<AngularVelocity> leadVelocity = leadMotor.getVelocity();
+  private final StatusSignal<AngularVelocity> FollowerVelocity = followerMotor.getVelocity();
 
-//   private final StatusSignal<Current> leadCurrent = leadMotor.getSupplyCurrent();
-//   private final StatusSignal<Current> followerCurrent = followerMotor.getSupplyCurrent();
+  private final StatusSignal<Current> leadCurrent = leadMotor.getSupplyCurrent();
+  private final StatusSignal<Current> followerCurrent = followerMotor.getSupplyCurrent();
 
-//   private final StatusSignal<Temperature> leadTemp = leadMotor.getDeviceTemp();
-//   private final StatusSignal<Temperature> followerTemp = followerMotor.getDeviceTemp();
+  private final StatusSignal<Temperature> leadTemp = leadMotor.getDeviceTemp();
+  private final StatusSignal<Temperature> followerTemp = followerMotor.getDeviceTemp();
 
-//   public FlywheelIOTalonFX() {
-//     launcherConfig = new TalonFXConfiguration();
+  public FlywheelIOTalonFX() {
+    flywheelConfig = new TalonFXConfiguration();
 
-//     configMotors();
-//   }
+    configMotors();
+  }
 
-//   public void configMotors() {
-//     launcherConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
-//     launcherConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+  public void configMotors() {
+    flywheelConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
+    flywheelConfig.CurrentLimits.StatorCurrentLimitEnable = true;
 
-//     launcherConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-//     launcherConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    flywheelConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    flywheelConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
-//     var slot0Configs = launcherConfig.Slot0;
-//     slot0Configs.kS = 0;
-//     slot0Configs.kV = 0;
-//     slot0Configs.kA = 0;
-//     slot0Configs.kP = 0;
-//     slot0Configs.kI = 0;
-//     slot0Configs.kD = 0;
+    var slot0Configs = flywheelConfig.Slot0;
+    slot0Configs.kS = 0.25;
+    slot0Configs.kV = 0.12;
+    slot0Configs.kA = 0;
+    slot0Configs.kP = 0.58;
+    slot0Configs.kI = 0;
+    slot0Configs.kD = 0; // never change
+    flywheelConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
+    flywheelConfig.MotionMagic.MotionMagicAcceleration = 5;
 
-//     leadMotor.getConfigurator().apply(launcherConfig);
-//     followerMotor.getConfigurator().apply(launcherConfig);
+    leadMotor.getConfigurator().apply(flywheelConfig);
+    followerMotor.getConfigurator().apply(flywheelConfig);
 
-//     followerMotor.setControl(new Follower(63, MotorAlignmentValue.Opposed));
+    followerMotor.setControl(new Follower(58, MotorAlignmentValue.Opposed));
 
-//     leadMotor.optimizeBusUtilization();
-//     followerMotor.optimizeBusUtilization();
+    leadMotor.optimizeBusUtilization();
+    followerMotor.optimizeBusUtilization();
 
-//     BaseStatusSignal.setUpdateFrequencyForAll(
-//         50,
-//         leadAppliedVoltage,
-//         leadVelocity,
-//         leadCurrent,
-//         leadTemp,
-//         followerAppliedVoltage,
-//         FollowerVelocity,
-//         followerCurrent,
-//         followerTemp);
-//   }
+    BaseStatusSignal.setUpdateFrequencyForAll(
+        50,
+        leadAppliedVoltage,
+        leadVelocity,
+        leadCurrent,
+        leadTemp,
+        followerAppliedVoltage,
+        FollowerVelocity,
+        followerCurrent,
+        followerTemp);
+  }
 
-//   @Override
-//   public void updateInputs(FlywheelIOInputs flywheelInputs) {
-//     BaseStatusSignal.refreshAll(
-//         leadAppliedVoltage,
-//         leadVelocity,
-//         leadCurrent,
-//         leadTemp,
-//         followerAppliedVoltage,
-//         FollowerVelocity,
-//         followerCurrent,
-//         followerTemp);
+  @Override
+  public void updateInputs(FlywheelIOInputs flywheelInputs) {
+    BaseStatusSignal.refreshAll(
+        leadAppliedVoltage,
+        leadVelocity,
+        leadCurrent,
+        leadTemp,
+        followerAppliedVoltage,
+        FollowerVelocity,
+        followerCurrent,
+        followerTemp);
 
-//     flywheelInputs.leadAppliedVoltage = leadAppliedVoltage.getValueAsDouble();
-//     flywheelInputs.leadCurrent = leadCurrent.getValueAsDouble();
-//     flywheelInputs.leadVelocity = leadVelocity.getValueAsDouble();
-//     flywheelInputs.followerCurrent = followerCurrent.getValueAsDouble();
+    flywheelInputs.leadAppliedVoltage = leadAppliedVoltage.getValueAsDouble();
+    flywheelInputs.leadCurrent = leadCurrent.getValueAsDouble();
+    flywheelInputs.leadVelocity = leadVelocity.getValueAsDouble();
+    flywheelInputs.followerCurrent = followerCurrent.getValueAsDouble();
 
-//     flywheelInputs.followerAppliedVoltage = followerAppliedVoltage.getValueAsDouble();
-//     flywheelInputs.followerVelocity = FollowerVelocity.getValueAsDouble();
-//     flywheelInputs.leadTemp = leadTemp.getValueAsDouble();
-//     flywheelInputs.followerTemp = followerTemp.getValueAsDouble();
-//   }
+    flywheelInputs.followerAppliedVoltage = followerAppliedVoltage.getValueAsDouble();
+    flywheelInputs.followerVelocity = FollowerVelocity.getValueAsDouble();
+    flywheelInputs.leadTemp = leadTemp.getValueAsDouble();
+    flywheelInputs.followerTemp = followerTemp.getValueAsDouble();
 
-//   @Override
-//   public void setVoltageLeader(double volts) {
-//     leadMotor.setControl(voltageRequest.withOutput(volts));
-//   }
+    SmartDashboard.putNumber("Flywheel Velocity rps", leadMotor.getVelocity().getValueAsDouble());
+    SmartDashboard.putNumber("Flywheel Voltage", leadMotor.getMotorVoltage().getValueAsDouble());
+  }
 
-//   @Override
-//   public void setVoltageFollower(double volts) {
-//     followerMotor.setControl(voltageRequest.withOutput(volts));
-//   }
+  @Override
+  public void setVoltageLeader(double volts) {
+    leadMotor.setControl(voltageRequest.withOutput(volts));
+  }
 
-//   @Override
-//   public void setVelocityLeader(double velocity) {
-//     leadMotor.setControl(velocityVoltage.withVelocity(velocity));
-//   }
+  @Override
+  public void setVoltageFollower(double volts) {
+    followerMotor.setControl(voltageRequest.withOutput(volts));
+  }
 
-//   @Override
-//   public void setVelocityFollower(double velocity) {
-//     followerMotor.setControl(velocityVoltage.withVelocity(velocity));
-//   }
+  @Override
+  public void setVelocityLeader(double velocity) {
+    leadMotor.setControl(velocityVoltage.withVelocity(velocity));
+  }
 
-//   @Override
-//   public void stopFlywheel() {
-//     leadMotor.setControl(voltageRequest.withOutput(0));
-//     followerMotor.setControl(voltageRequest.withOutput(0));
-//   }
-// }
+  @Override
+  public void setVelocityFollower(double velocity) {
+    followerMotor.setControl(velocityVoltage.withVelocity(velocity));
+  }
+
+  @Override
+  public void stopFlywheel() {
+    leadMotor.setControl(voltageRequest.withOutput(0));
+    // followerMotor.setControl(voltageRequest.withOutput(0));
+  }
+}

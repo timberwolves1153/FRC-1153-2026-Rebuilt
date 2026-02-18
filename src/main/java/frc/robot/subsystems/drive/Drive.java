@@ -171,6 +171,11 @@ public class Drive extends SubsystemBase {
     odometryLock.lock(); // Prevents odometry updates while reading data
     gyroIO.updateInputs(gyroInputs);
     Logger.processInputs("Drive/Gyro", gyroInputs);
+    FieldConstants.getDistanceToHubCenter(getPose());
+
+    SmartDashboard.putNumber("Robot Pose X", getPose().getX());
+    SmartDashboard.putNumber("Robot Pose Y", getPose().getY());
+
     for (var module : modules) {
       module.periodic();
     }
@@ -413,7 +418,7 @@ public class Drive extends SubsystemBase {
           Pose2d targetPose =
               new Pose2d(
                   FieldConstants.Tower.leftUpright.getX(),
-                  getPose().getY() - Units.inchesToMeters(10),
+                  FieldConstants.Tower.leftUpright.getY() - Units.inchesToMeters(10),
                   new Rotation2d());
 
           boolean isFlipped =

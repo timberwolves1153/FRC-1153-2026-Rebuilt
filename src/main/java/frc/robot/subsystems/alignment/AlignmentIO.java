@@ -25,6 +25,7 @@ public interface AlignmentIO {
     public boolean hasTarget = false;
     public int bestTargetTagId;
     public Transform3d cameraToTarget;
+    public Transform3d cameraToRobot;
     public Pose3d photonpose;
   }
 
@@ -32,4 +33,6 @@ public interface AlignmentIO {
   public static record TargetObservation(Rotation2d tx, Rotation2d ty) {}
 
   public default void updateInputs(AlignmentIOInputs inputs) {}
+
+  public default void updateRobotToCamera(Transform3d newRobotToCamera) {}
 }

@@ -323,7 +323,6 @@ public class FieldConstants {
 
   public static double getDistanceToHubCenter(Pose2d currentPose) {
     Pose2d hubCenter;
-    double distanceToHub;
 
     boolean isFlipped =
         DriverStation.getAlliance().isPresent()
@@ -336,6 +335,8 @@ public class FieldConstants {
     } else {
       hubCenter = new Pose2d(FieldConstants.Hub.hubCenter, new Rotation2d());
     }
+
+    double distanceToHub;
 
     distanceToHub = currentPose.getTranslation().getDistance(hubCenter.getTranslation());
     SmartDashboard.putNumber("Distance to Hub Center", distanceToHub);
