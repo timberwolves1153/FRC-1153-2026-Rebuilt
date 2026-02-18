@@ -11,6 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
@@ -47,21 +48,21 @@ public class TurretIOTalonFX implements TurretIO {
     turretConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     var slot0Configs = turretConfig.Slot0;
-    slot0Configs.kS = 0;
+    slot0Configs.kS = 0.3;
     slot0Configs.kV = 0;
     slot0Configs.kA = 0;
-    slot0Configs.kP = 15; // 115
+    slot0Configs.kP = 200;
     slot0Configs.kI = 0;
-    slot0Configs.kD = 0;
+    slot0Configs.kD = 1;
 
-    encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = -1.05; // TODO: Set
+    encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = -0.9445;
 
-    turretConfig.MotionMagic.MotionMagicCruiseVelocity = 3;
-    turretConfig.MotionMagic.MotionMagicAcceleration = 3;
+    turretConfig.MotionMagic.MotionMagicCruiseVelocity = 1;
+    turretConfig.MotionMagic.MotionMagicAcceleration = 1;
 
     turretConfig.Feedback.FeedbackRemoteSensorID = encoder.getDeviceID();
     turretConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-    turretConfig.Feedback.SensorToMechanismRatio = 1;
+    turretConfig.Feedback.SensorToMechanismRatio = 1.25;
     turretConfig.Feedback.RotorToSensorRatio = 30;
 
     turretMotor.getConfigurator().apply(turretConfig);
@@ -85,6 +86,7 @@ public class TurretIOTalonFX implements TurretIO {
 
   @Override
   public void setPositionTurret(double rotations) {
+    rotations = MathUtil.clamp(rotations, -0.7553, 0.104);
     turretMotor.setControl(positionRequest.withPosition(rotations));
   }
 

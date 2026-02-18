@@ -8,6 +8,7 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
@@ -53,6 +54,8 @@ public class HoodIOTalonFX implements HoodIO {
 
     hoodMotor.getConfigurator().apply(hoodConfig);
 
+    hoodMotor.setPosition(0.0);
+
     BaseStatusSignal.setUpdateFrequencyForAll(
         50, hoodAppliedVoltage, hoodCurrent, hoodPosition, hoodTemp);
   }
@@ -74,6 +77,7 @@ public class HoodIOTalonFX implements HoodIO {
   }
 
   public void setPositionHood(double position) {
+    position = MathUtil.clamp(position, -1.9, -0.05);
     hoodMotor.setControl(positionRequest.withPosition(position));
   }
 

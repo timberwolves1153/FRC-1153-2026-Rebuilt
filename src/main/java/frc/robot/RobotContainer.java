@@ -14,13 +14,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.interpolation.LauncherTable;
+import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.alignment.Alignment;
 import frc.robot.subsystems.alignment.AlignmentConstants;
 import frc.robot.subsystems.alignment.AlignmentIO;
@@ -42,12 +42,19 @@ import frc.robot.subsystems.launcher.flywheel.Flywheel;
 import frc.robot.subsystems.launcher.flywheel.FlywheelIO;
 import frc.robot.subsystems.launcher.flywheel.FlywheelIOSim;
 import frc.robot.subsystems.launcher.flywheel.FlywheelIOTalonFX;
+import frc.robot.subsystems.launcher.hood.Hood;
+import frc.robot.subsystems.launcher.hood.HoodIO;
+import frc.robot.subsystems.launcher.hood.HoodIOSim;
+import frc.robot.subsystems.launcher.hood.HoodIOTalonFX;
+import frc.robot.subsystems.launcher.turret.Turret;
+import frc.robot.subsystems.launcher.turret.TurretIO;
+import frc.robot.subsystems.launcher.turret.TurretIOSim;
+import frc.robot.subsystems.launcher.turret.TurretIOTalonFX;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionConstants;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
-import java.util.Set;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -65,7 +72,10 @@ public class RobotContainer {
   // private final Climber climber;
   private final Vision vision;
   private final Alignment alignment;
-  // private final Hood hood;
+  private final Hood hood;
+  private final Turret turret;
+  private final LauncherTable launcherTable;
+  private final Superstructure superstructure;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -121,6 +131,11 @@ public class RobotContainer {
                 new AlignmentIOPhotonVision(
                     VisionConstants.camera1Name, AlignmentConstants.robotToOrangeCamera));
         flywheel = new Flywheel(new FlywheelIOTalonFX());
+        hood = new Hood(new HoodIOTalonFX());
+        turret = new Turret(new TurretIOTalonFX());
+        launcherTable = new LauncherTable();
+
+        superstructure = new Superstructure(drive, flywheel, hood, turret, launcherTable);
 
         // alignment =
         //     new Alignment(
@@ -162,6 +177,7 @@ public class RobotContainer {
         intake = new Intake(new IntakeIOSim());
         indexer = new Indexer(new IndexerIOSim());
         flywheel = new Flywheel(new FlywheelIOSim());
+        hood = new Hood(new HoodIOSim());
 
         vision =
             new Vision(
@@ -177,6 +193,9 @@ public class RobotContainer {
                 //     "camera3", VisionConstants.robotToCamera3, drive::getPose)
                 );
         alignment = new Alignment(new AlignmentIO() {});
+        turret = new Turret(new TurretIOSim());
+        launcherTable = new LauncherTable();
+        superstructure = new Superstructure(drive, flywheel, hood, turret, launcherTable);
 
         // alignment =
         //     new Alignment(
@@ -206,6 +225,10 @@ public class RobotContainer {
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
         alignment = new Alignment(new AlignmentIO() {});
         flywheel = new Flywheel(new FlywheelIO() {});
+        hood = new Hood(new HoodIO() {});
+        turret = new Turret(new TurretIO() {});
+        launcherTable = new LauncherTable();
+        superstructure = new Superstructure(drive, flywheel, hood, turret, launcherTable);
 
         //      alignment = new Alignment(new AlignmentIO() {});
 
@@ -266,14 +289,14 @@ public class RobotContainer {
             () -> -controller.getRightX()));
 
     // Lock to 0° when A button is held
-    controller
-        .a()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngle(
-                drive,
-                () -> controller.getLeftY(),
-                () -> controller.getLeftX(),
-                () -> Rotation2d.kZero));
+    // controller
+    //     .a()
+    //     .whileTrue(
+    //         DriveCommands.joystickDriveAtAngle(
+    //             drive,
+    //             () -> controller.getLeftY(),
+    //             () -> controller.getLeftX(),
+    //             () -> Rotation2d.kZero));
 
     // Switch to X pattern when X button is pressed
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
@@ -281,7 +304,7 @@ public class RobotContainer {
     //   controller.y().onTrue(Commands.runOnce(() -> drive.resetGyro(0), drive));
 
     // Drive Forward Button for testing
-    controller.povUp().whileTrue(drive.sysIdDynamic(Direction.kForward));
+    //  controller.povUp().whileTrue(drive.sysIdDynamic(Direction.kForward));
     // Reset gyro to 0° when B button is pressed
     controller
         .b()
@@ -294,17 +317,52 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     SmartDashboard.putNumber("Flywheel Manual RPS Input", -10);
+    SmartDashboard.putNumber("Hood Manual Position Input", 0);
 
-    controller
-        .rightBumper()
-        .onTrue(
-            new DeferredCommand(
-                () -> {
-                  return new InstantCommand(() -> flywheel.setVelocityManual());
-                },
-                Set.of(flywheel)));
+    // controller
+    //     .rightBumper()
+    //     .onTrue(
+    //         new DeferredCommand(
+    //             () -> {
+    //               return new InstantCommand(
+    //                   () ->
+    //                       flywheel.setVelocityLeader(
+    //                           SmartDashboard.getNumber("Flywheel Manual RPS Input", -10)));
+    //             },
+    //             Set.of(flywheel)));
 
-    controller.rightBumper().onFalse(new InstantCommand(() -> flywheel.stopFlywheel()));
+    // controller.rightBumper().onFalse(new InstantCommand(() -> flywheel.stopFlywheel()));
+
+    // controller
+    //     .leftBumper()
+    //     .onTrue(
+    //         new DeferredCommand(
+    //             () -> {
+    //               return new InstantCommand(
+    //                   () ->
+    //                       hood.setPositionHood(
+    //                           SmartDashboard.getNumber("Hood Manual Position Input", -0.2)));
+    //             },
+    //             Set.of(hood)));
+    // controller.leftBumper().onFalse(new InstantCommand(() -> hood.stopHood()));
+
+    controller.rightBumper().whileTrue(new InstantCommand(() -> superstructure.interpolateShot()));
+    controller.rightBumper().whileFalse(new InstantCommand(() -> flywheel.stopFlywheel()));
+    controller.rightBumper().whileFalse(new InstantCommand(() -> hood.stopHood()));
+
+    // controller.leftBumper().onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.9445)));
+    // controller.leftBumper().onFalse(new InstantCommand(() -> turret.stopTurret()));
+
+    // controller.y().onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.47)));
+    // controller.a().onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.165)));
+
+    controller.leftBumper().whileTrue(new InstantCommand(() -> superstructure.autoAimTurret()));
+
+    // controller.y().onTrue(new InstantCommand(() -> hood.setVoltageHood(-2)));
+    // controller.a().onTrue(new InstantCommand(() -> hood.setVoltageHood(2)));
+
+    // controller.y().onFalse(new InstantCommand(() -> hood.setVoltageHood(0)));
+    // controller.a().onFalse(new InstantCommand(() -> hood.setVoltageHood(0)));
 
     //  controller.rightBumper().onTrue(drive.driveToTower());
 

@@ -172,6 +172,10 @@ public class Drive extends SubsystemBase {
     gyroIO.updateInputs(gyroInputs);
     Logger.processInputs("Drive/Gyro", gyroInputs);
     FieldConstants.getDistanceToHubCenter(getPose());
+
+    SmartDashboard.putNumber("Robot Pose X", getPose().getX());
+    SmartDashboard.putNumber("Robot Pose Y", getPose().getY());
+
     for (var module : modules) {
       module.periodic();
     }
