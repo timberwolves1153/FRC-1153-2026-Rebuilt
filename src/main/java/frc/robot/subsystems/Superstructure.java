@@ -90,6 +90,17 @@ public class Superstructure extends SubsystemBase {
     SmartDashboard.putNumber("Robot Pose Angle", drive.getRotation().getRotations());
   }
 
+  /** Returns the desired Turret pose. */
+  @AutoLogOutput(key = "Odometry/GaffeyTurret")
+  public Pose2d turretPose() {
+    Pose2d robotPose = drive.getPose();
+    double turretPoseX = robotPose.getX() + turret.turretOffset.getX();
+    double turretPoseY = robotPose.getY() + turret.turretOffset.getY();
+    return new Pose2d(turretPoseX, turretPoseY, gaffeyCalculateTurretAngle(desiredHub));
+
+    // return Rotation2d.fromRadians(angleRad);
+  }
+
   /** Returns the desired Turret Angle. */
   @AutoLogOutput(key = "Odometry/GaffeyTurretRotation")
   public Rotation2d gaffeyCalculateTurretAngle(Pose2d goalPose) {
@@ -106,20 +117,22 @@ public class Superstructure extends SubsystemBase {
     return Rotation2d.fromRadians(angleRad);
   }
 
-  /** Returns the desired Turret pose. */
-  @AutoLogOutput(key = "Odometry/GaffeyTurret")
-  public Pose2d turretPose() {
-    Pose2d robotPose = drive.getPose();
-    double turretPoseX = robotPose.getX() + turret.turretOffset.getX();
-    double turretPoseY = robotPose.getY() + turret.turretOffset.getY();
-    return new Pose2d(turretPoseX, turretPoseY, gaffeyCalculateTurretAngle(desiredHub));
+  /** Returns the adjusted Turret Angle. */
+  @AutoLogOutput(key = "Odometry/GaffeyAdjustedTurretRotation")
+  public Rotation2d gaffeyAdjustTurretAngle(Rotation2d calculatedTurretAngle) {
 
-    // return Rotation2d.fromRadians(angleRad);
+    // Turret Map
+    //      90
+    // 180       0
+    //      270
+
+    return calculatedTurretAngle.plus(Rotation2d.kCW_90deg);
   }
 
   @Override
   public void periodic() {
-    gaffeyCalculateTurretAngle(desiredHub);
+    Rotation2d rot = gaffeyCalculateTurretAngle(desiredHub);
+    Logger.recordOutput("GaffeyAdjustedDegrees", gaffeyAdjustTurretAngle(rot).getDegrees());
     // SmartDashboard.putNumber(
     //     "Turret Auto Aim Target", calculateTurretAngle(drive.getPose(), desiredHub) - 0.238);
   }
