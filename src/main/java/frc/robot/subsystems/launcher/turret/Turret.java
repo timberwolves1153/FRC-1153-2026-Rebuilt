@@ -18,7 +18,9 @@ public class Turret extends SubsystemBase {
 
     turretOffset =
         new Transform2d(
-            Units.inchesToMeters(-4.75), Units.inchesToMeters(-4.125), new Rotation2d());
+            Units.inchesToMeters(-4.75),
+            Units.inchesToMeters(-4.125),
+            new Rotation2d(Units.rotationsToRadians(-0.047)));
 
     switch (Constants.currentMode) {
       case REAL:
@@ -36,8 +38,8 @@ public class Turret extends SubsystemBase {
     Logger.processInputs("Turret", inputs);
   }
 
-  public void setPositionTurret(double rotations) {
-    io.setPositionTurret(rotations);
+  public void setPositionTurret(double degrees) {
+    io.setPositionTurret(Units.degreesToRotations(degrees));
   }
 
   public void setVoltageTurret(double volts) {

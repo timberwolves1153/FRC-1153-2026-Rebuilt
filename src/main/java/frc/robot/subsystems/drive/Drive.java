@@ -391,26 +391,26 @@ public class Drive extends SubsystemBase {
   }
 
   /** Returns the desired Turret Angle. */
-  @AutoLogOutput(key = "Odometry/TurretAngle")
-  public Rotation2d calculateTurretAngle(Pose2d robotPose, Pose2d goalPose) {
-    // Calculate differences
-    double deltaY = goalPose.getY() - robotPose.getY();
-    double deltaX = goalPose.getX() - robotPose.getX();
+  // @AutoLogOutput(key = "Odometry/TurretAngle")
+  // public Rotation2d calculateTurretAngle(Pose2d robotPose, Pose2d goalPose) {
+  //   // Calculate differences
+  //   double deltaY = goalPose.getY() - robotPose.getY();
+  //   double deltaX = goalPose.getX() - robotPose.getX();
 
-    // Calculate angle in radians (using Math.Atan2 or similar)
-    double angleRad = Math.atan2(deltaY, deltaX);
-    return Rotation2d.fromRadians(angleRad);
-  }
+  //   // Calculate angle in radians (using Math.Atan2 or similar)
+  //   double angleRad = Math.atan2(deltaY, deltaX);
+  //   return Rotation2d.fromRadians(angleRad);
+  // }
 
-  /** Returns the desired Turret pose. */
-  @AutoLogOutput(key = "Odometry/Turret")
-  public Pose2d turretPose() {
-    Pose2d robotPose = getPose();
-    return new Pose2d(
-        robotPose.getX(), robotPose.getY(), calculateTurretAngle(robotPose, desiredHub));
+  // /** Returns the desired Turret pose. */
+  // @AutoLogOutput(key = "Odometry/Turret")
+  // public Pose2d turretPose() {
+  //   Pose2d robotPose = getPose();
+  //   return new Pose2d(
+  //       robotPose.getX(), robotPose.getY(), calculateTurretAngle(robotPose, desiredHub));
 
-    // return Rotation2d.fromRadians(angleRad);
-  }
+  //   // return Rotation2d.fromRadians(angleRad);
+  // }
 
   public Command driveToTower() {
     return new DeferredCommand(

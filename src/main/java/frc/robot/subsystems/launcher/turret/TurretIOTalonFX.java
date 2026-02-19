@@ -11,7 +11,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
@@ -51,7 +50,7 @@ public class TurretIOTalonFX implements TurretIO {
     slot0Configs.kS = 0.3;
     slot0Configs.kV = 0;
     slot0Configs.kA = 0;
-    slot0Configs.kP = 200;
+    slot0Configs.kP = 115;
     slot0Configs.kI = 0;
     slot0Configs.kD = 1;
 
@@ -86,7 +85,7 @@ public class TurretIOTalonFX implements TurretIO {
 
   @Override
   public void setPositionTurret(double rotations) {
-    rotations = MathUtil.clamp(rotations, -0.7553, 0.104);
+    // rotations = MathUtil.clamp(rotations, -0.7553, 0.104);
     turretMotor.setControl(positionRequest.withPosition(rotations));
   }
 

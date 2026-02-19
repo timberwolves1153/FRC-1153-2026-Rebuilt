@@ -50,10 +50,9 @@ public class Superstructure extends SubsystemBase {
             .value);
   }
 
-  @AutoLogOutput(key = "Odometry/TurretAngle")
-  public double calculateTurretAngle(Pose2d robotPose, Pose2d goalPose) {
+  @AutoLogOutput(key = "Odometry/TurretRotation")
+  public Rotation2d calculateTurretRotation(Pose2d goalPose) {
     // Calculate difference
-
     double turretPoseX = drive.getPose().getX() + turret.turretOffset.getX();
     double turretPoseY = drive.getPose().getY() + turret.turretOffset.getY();
 
@@ -61,6 +60,8 @@ public class Superstructure extends SubsystemBase {
     SmartDashboard.putNumber("Turret Pose Y", turretPoseY);
     Logger.recordOutput(
         "CalculatedTurretPose", new Pose2d(turretPoseX, turretPoseY, Rotation2d.kZero));
+    Logger.recordOutput(
+        "RotatedTurretPose", new Pose2d(turretPoseX, turretPoseY, Rotation2d.k180deg));
 
     double deltaY = goalPose.getY() - turretPoseY;
     double deltaX = goalPose.getX() - turretPoseX;
@@ -69,72 +70,66 @@ public class Superstructure extends SubsystemBase {
     SmartDashboard.putNumber("Turret Hub Y Diff", deltaY);
 
     // Calculate angle in radians (using Math.Atan2 or similar)
-    double angleRad = Math.atan(deltaY / deltaX);
-    Rotation2d fieldRelativeAngle = Rotation2d.fromRadians(angleRad);
-    Rotation2d robotRelativeAngle = fieldRelativeAngle.minus(drive.getPose().getRotation());
-
-    SmartDashboard.putNumber("Field Relative Angle", fieldRelativeAngle.getDegrees());
-    SmartDashboard.putNumber("Robot Relative Angle", robotRelativeAngle.getDegrees());
+    double angleRad = Math.atan2(deltaY, deltaX);
     SmartDashboard.putNumber("Angle Rad", angleRad);
 
-    Logger.recordOutput(
-        "ATanTurret",
-        new Pose2d(turretPoseX, turretPoseY, robotRelativeAngle.rotateBy(Rotation2d.k180deg)));
-
-    return -robotRelativeAngle.getRotations();
-  }
-
-  /** Returns the desired Turret pose. */
-  public void autoAimTurret() {
-    turret.setPositionTurret(calculateTurretAngle(drive.getPose(), desiredHub) - 0.238); // .218
-    SmartDashboard.putNumber("Robot Pose Angle", drive.getRotation().getRotations());
-  }
-
-  /** Returns the desired Turret pose. */
-  @AutoLogOutput(key = "Odometry/GaffeyTurret")
-  public Pose2d turretPose() {
-    Pose2d robotPose = drive.getPose();
-    double turretPoseX = robotPose.getX() + turret.turretOffset.getX();
-    double turretPoseY = robotPose.getY() + turret.turretOffset.getY();
-    return new Pose2d(turretPoseX, turretPoseY, gaffeyCalculateTurretAngle(desiredHub));
-
-    // return Rotation2d.fromRadians(angleRad);
-  }
-
-  /** Returns the desired Turret Angle. */
-  @AutoLogOutput(key = "Odometry/GaffeyTurretRotation")
-  public Rotation2d gaffeyCalculateTurretAngle(Pose2d goalPose) {
-
-    double turretPoseX = drive.getPose().getX() + turret.turretOffset.getX();
-    double turretPoseY = drive.getPose().getY() + turret.turretOffset.getY();
-
-    // Calculate differences
-    double deltaY = goalPose.getY() - turretPoseY;
-    double deltaX = goalPose.getX() - turretPoseX;
-
-    // Calculate angle in radians (using Math.Atan2 or similar)
-    double angleRad = Math.atan2(deltaY, deltaX);
     return Rotation2d.fromRadians(angleRad);
   }
 
   /** Returns the adjusted Turret Angle. */
-  @AutoLogOutput(key = "Odometry/GaffeyAdjustedTurretRotation")
-  public Rotation2d gaffeyAdjustTurretAngle(Rotation2d calculatedTurretAngle) {
+  @AutoLogOutput(key = "Odometry/adjustedTurretRotation")
+  public Rotation2d adjustTurretAngle(Rotation2d calculatedTurretAngle) {
 
     // Turret Map
+    //     -90
+    // -180     0
     //      90
-    // 180       0
-    //      270
-
+    //
     // ROBOT INTAKE IS HERE
-    return calculatedTurretAngle.plus(Rotation2d.kCW_90deg);
+
+        //Formula: −calc + 90
+    //Calculated		Encoder (actual)
+    //90	      0	    0
+    //135	     −45	−45 
+    //179	     −89	−91
+    //−179	   −91	−89 
+    //−135	   −135	−135 
+    //−90	     −180	−180
+
+    Rotation2d adjustedTurretAngle =
+        calculatedTurretAngle.plus(Rotation2d.kCW_90deg); // flip it to get 0 on the horizontal
+    double adjustedTurretAngleDegrees = adjustedTurretAngle.getDegrees(); // get a degree value
+    double encoderAngle = adjustedTurretAngleDegrees * -1; // We are getting values from -180 to 180 so we need to flip
+
+
+    encoderAngle = encoderAngle % 360; // Stay on the unit circle (but degrees)
+    if (encoderAngle >= 20) {
+      return Rotation2d.fromDegrees(encoderAngle - 360);
+    } else {
+      return Rotation2d.fromDegrees(encoderAngle);
+    }
+  }
+
+  /** Returns the desired Turret pose. */
+  @AutoLogOutput(key = "Odometry/turretPose")
+  public Pose2d turretPose() {
+    Pose2d robotPose = drive.getPose();
+    double turretPoseX = robotPose.getX() + turret.turretOffset.getX();
+    double turretPoseY = robotPose.getY() + turret.turretOffset.getY();
+    return new Pose2d(turretPoseX, turretPoseY, calculateTurretRotation(desiredHub));
+  }
+
+  /** Returns the desired Turret pose. */
+  public void autoAimTurret() {
+    // turret.setPositionTurret(calculateTurretAngle(desiredHub) - 0.238);
+    // SmartDashboard.putNumber("Robot Pose Angle", drive.getRotation().getRotations());
   }
 
   @Override
   public void periodic() {
-    Rotation2d rot = gaffeyCalculateTurretAngle(desiredHub);
-    Logger.recordOutput("GaffeyAdjustedDegrees", gaffeyAdjustTurretAngle(rot).getDegrees());
-    // SmartDashboard.putNumber(
-    //     "Turret Auto Aim Target", calculateTurretAngle(drive.getPose(), desiredHub) - 0.238);
+    Rotation2d rot = calculateTurretRotation(desiredHub);
+    Rotation2d adjustedRot = adjustTurretAngle(rot);
+    Logger.recordOutput("adjustedTurretAngleDegrees", adjustedRot.getDegrees());
+    SmartDashboard.putNumber("adjustedTurretAngleDegrees", adjustedRot.getDegrees());
   }
 }
