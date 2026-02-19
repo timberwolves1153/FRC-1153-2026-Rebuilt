@@ -10,7 +10,9 @@ package frc.robot;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
@@ -147,6 +149,10 @@ public class FieldConstants {
 
     public static final Translation2d hubCenter =
         new Translation2d(Units.inchesToMeters(181.56), Units.inchesToMeters(158.32));
+
+    public static final Pose3d redHubTarget =
+        new Pose3d(
+            Units.inchesToMeters(181.56), Units.inchesToMeters(158.32), 3.057144, new Rotation3d());
   }
 
   /** Left Bump related constants */

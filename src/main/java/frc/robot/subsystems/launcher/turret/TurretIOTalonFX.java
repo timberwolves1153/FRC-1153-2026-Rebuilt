@@ -51,7 +51,7 @@ public class TurretIOTalonFX implements TurretIO {
     slot0Configs.kS = 0.3;
     slot0Configs.kV = 0;
     slot0Configs.kA = 0;
-    slot0Configs.kP = 200;
+    slot0Configs.kP = 115;
     slot0Configs.kI = 0;
     slot0Configs.kD = 1;
 
