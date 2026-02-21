@@ -87,20 +87,21 @@ public class Superstructure extends SubsystemBase {
     //
     // ROBOT INTAKE IS HERE
 
-        //Formula: −calc + 90
-    //Calculated		Encoder (actual)
-    //90	      0	    0
-    //135	     −45	−45 
-    //179	     −89	−91
-    //−179	   −91	−89 
-    //−135	   −135	−135 
-    //−90	     −180	−180
+    // Formula: −calc + 90
+    // Calculated		Encoder (actual)
+    // 90	      0	    0
+    // 135	     −45	−45
+    // 179	     −89	−91
+    // −179	   −91	−89
+    // −135	   −135	−135
+    // −90	     −180	−180
 
     Rotation2d adjustedTurretAngle =
         calculatedTurretAngle.plus(Rotation2d.kCW_90deg); // flip it to get 0 on the horizontal
     double adjustedTurretAngleDegrees = adjustedTurretAngle.getDegrees(); // get a degree value
-    double encoderAngle = adjustedTurretAngleDegrees * -1; // We are getting values from -180 to 180 so we need to flip
-
+    double encoderAngle =
+        adjustedTurretAngleDegrees
+            * -1; // We are getting values from -180 to 180 so we need to flip
 
     encoderAngle = encoderAngle % 360; // Stay on the unit circle (but degrees)
     if (encoderAngle >= 20) {
@@ -119,7 +120,6 @@ public class Superstructure extends SubsystemBase {
     return new Pose2d(turretPoseX, turretPoseY, calculateTurretRotation(desiredHub));
   }
 
-  /** Returns the desired Turret pose. */
   public void autoAimTurret() {
     // turret.setPositionTurret(calculateTurretAngle(desiredHub) - 0.238);
     // SmartDashboard.putNumber("Robot Pose Angle", drive.getRotation().getRotations());

@@ -11,6 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
@@ -46,6 +47,8 @@ public class TurretIOTalonFX implements TurretIO {
     turretConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     turretConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
+    encoderConfig.MagnetSensor.MagnetOffset = -0.461; // subject to change
+
     var slot0Configs = turretConfig.Slot0;
     slot0Configs.kS = 0.3;
     slot0Configs.kV = 0;
@@ -80,12 +83,13 @@ public class TurretIOTalonFX implements TurretIO {
     turretInputs.turretPosition = turretPosition.getValueAsDouble();
     turretInputs.turretTemp = turretTemp.getValueAsDouble();
 
-    SmartDashboard.putNumber("Turret Encoder Position", encoder.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber(
+        "Turret Encoder Position",
+        Units.rotationsToDegrees(encoder.getPosition().getValueAsDouble()));
   }
 
   @Override
   public void setPositionTurret(double rotations) {
-    // rotations = MathUtil.clamp(rotations, -0.7553, 0.104);
     turretMotor.setControl(positionRequest.withPosition(rotations));
   }
 

@@ -34,6 +34,7 @@ import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.indexer.IndexerIO;
 import frc.robot.subsystems.indexer.IndexerIOSim;
+import frc.robot.subsystems.indexer.IndexerIOTalonFX;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOSim;
@@ -45,7 +46,6 @@ import frc.robot.subsystems.launcher.flywheel.FlywheelIOTalonFX;
 import frc.robot.subsystems.launcher.hood.Hood;
 import frc.robot.subsystems.launcher.hood.HoodIO;
 import frc.robot.subsystems.launcher.hood.HoodIOSim;
-import frc.robot.subsystems.launcher.hood.HoodIOTalonFX;
 import frc.robot.subsystems.launcher.turret.Turret;
 import frc.robot.subsystems.launcher.turret.TurretIO;
 import frc.robot.subsystems.launcher.turret.TurretIOSim;
@@ -125,13 +125,14 @@ public class RobotContainer {
                     VisionConstants.camera1Name, VisionConstants.robotToOrangeCamera));
 
         intake = new Intake(new IntakeIOTalonFX());
-        indexer = new Indexer(new IndexerIO() {});
+        indexer = new Indexer(new IndexerIOTalonFX());
         alignment =
             new Alignment(
                 new AlignmentIOPhotonVision(
                     VisionConstants.camera1Name, AlignmentConstants.robotToOrangeCamera));
         flywheel = new Flywheel(new FlywheelIOTalonFX());
-        hood = new Hood(new HoodIOTalonFX());
+        // hood = new Hood(new HoodIOTalonFX());
+        hood = new Hood(new HoodIO() {});
         turret = new Turret(new TurretIOTalonFX());
         launcherTable = new LauncherTable();
 
@@ -346,9 +347,27 @@ public class RobotContainer {
     //             Set.of(hood)));
     // controller.leftBumper().onFalse(new InstantCommand(() -> hood.stopHood()));
 
-    controller.rightBumper().whileTrue(new InstantCommand(() -> superstructure.interpolateShot()));
-    controller.rightBumper().whileFalse(new InstantCommand(() -> flywheel.stopFlywheel()));
-    controller.rightBumper().whileFalse(new InstantCommand(() -> hood.stopHood()));
+    // controller.rightBumper().whileTrue(new InstantCommand(() ->
+    // superstructure.interpolateShot()));
+    // controller.rightBumper().whileFalse(new InstantCommand(() -> flywheel.stopFlywheel()));
+    // controller.rightBumper().whileFalse(new InstantCommand((\) -> hood.stopHood()));
+
+    // controller
+    //     .rightTrigger()
+    //     .onTrue(new InstantCommand(() -> flywheel.setVoltageLeader(-4), flywheel));
+    // controller.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(),
+    // flywheel));
+
+    // controller.leftBumper().onTrue(new InstantCommand(() -> indexer.runFeed(-3), indexer));
+    // controller.leftBumper().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
+
+    // controller.leftBumper().onTrue(new InstantCommand(() -> indexer.runSpin(8), indexer));
+    // controller.leftBumper().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
+
+    // controller.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-12),
+    // intake));
+    // controller.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0),
+    // intake));
 
     // controller.leftBumper().onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.9445)));
     // controller.leftBumper().onFalse(new InstantCommand(() -> turret.stopTurret()));
@@ -356,7 +375,7 @@ public class RobotContainer {
     // controller.y().onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.47)));
     // controller.a().onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.165)));
 
-    controller.leftBumper().whileTrue(new InstantCommand(() -> superstructure.autoAimTurret()));
+    // controller.leftBumper().whileTrue(new InstantCommand(() -> superstructure.autoAimTurret()));
 
     // controller.y().onTrue(new InstantCommand(() -> hood.setVoltageHood(-2)));
     // controller.a().onTrue(new InstantCommand(() -> hood.setVoltageHood(2)));
@@ -401,6 +420,25 @@ public class RobotContainer {
     //               return new InstantCommand(() -> alignment.updateCameraPosition());
     //             },
     //             Set.of()));
+
+    controller.povLeft().onTrue(new InstantCommand(() -> turret.setPositionTurret(-90), turret));
+    controller.povRight().onTrue(new InstantCommand(() -> turret.setPositionTurret(0), turret));
+
+    /* Week 0 Bindings */
+
+    controller.leftBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-11), intake));
+    controller.leftBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
+
+    controller.leftTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-3), indexer));
+    controller.leftTrigger().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
+
+    controller.leftTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(8), indexer));
+    controller.leftTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
+
+    controller.rightTrigger().onTrue(new InstantCommand(() -> superstructure.interpolateShot()));
+    controller.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
+
+    // controller.rightTrigger().onTrue(new InstantCommand(() -> superstructure.autoAimTurret()));
 
   }
 
