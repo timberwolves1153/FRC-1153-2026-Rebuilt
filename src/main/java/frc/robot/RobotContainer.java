@@ -10,7 +10,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -77,10 +76,11 @@ public class RobotContainer {
   private final LauncherTable launcherTable;
   private final Superstructure superstructure;
 
-  // Controller
-  private final CommandXboxController controller = new CommandXboxController(0);
+  // operator
+  private final CommandXboxController driver = new CommandXboxController(0);
+  private final CommandXboxController operator = new CommandXboxController(1);
 
-  //   private final CommandXboxController opController = new CommandXboxController(1);
+  //   private final CommandXboxoperator opoperator = new CommandXboxoperator(1);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -89,7 +89,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // instantiates a new drive joystick with the XboxController class
+    // instantiates a new drive joystick with the Xboxoperator class
 
     switch (Constants.currentMode) {
       case REAL:
@@ -144,7 +144,7 @@ public class RobotContainer {
         //             AlignmentConstants.cameraName, AlignmentConstants.robotToCamera));
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
-        // TalonFXS controller connected to a CANdi with a PWM encoder. The
+        // TalonFXS operator connected to a CANdi with a PWM encoder. The
         // implementations
         // of ModuleIOTalonFX, ModuleIOTalonFXS, and ModuleIOSpark (from the Spark
         // swerve
@@ -277,7 +277,7 @@ public class RobotContainer {
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link Xboxoperator}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
@@ -285,29 +285,29 @@ public class RobotContainer {
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,
-            () -> -controller.getLeftY(),
-            () -> -controller.getLeftX(),
-            () -> -controller.getRightX()));
+            () -> -driver.getLeftY(),
+            () -> -driver.getLeftX(),
+            () -> -driver.getRightX()));
 
     // Lock to 0° when A button is held
-    // controller
+    // operator
     //     .a()
     //     .whileTrue(
     //         DriveCommands.joystickDriveAtAngle(
     //             drive,
-    //             () -> controller.getLeftY(),
-    //             () -> controller.getLeftX(),
+    //             () -> operator.getLeftY(),
+    //             () -> operator.getLeftX(),
     //             () -> Rotation2d.kZero));
 
     // Switch to X pattern when X button is pressed
-    controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
+    operator.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
-    //   controller.y().onTrue(Commands.runOnce(() -> drive.resetGyro(0), drive));
+    //   operator.y().onTrue(Commands.runOnce(() -> drive.resetGyro(0), drive));
 
     // Drive Forward Button for testing
-    //  controller.povUp().whileTrue(drive.sysIdDynamic(Direction.kForward));
+    //  operator.povUp().whileTrue(drive.sysIdDynamic(Direction.kForward));
     // Reset gyro to 0° when B button is pressed
-    controller
+    driver
         .b()
         .onTrue(
             Commands.runOnce(
@@ -320,7 +320,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("Flywheel Manual RPS Input", -10);
     SmartDashboard.putNumber("Hood Manual Position Input", 0);
 
-    // controller
+    // operator
     //     .rightBumper()
     //     .onTrue(
     //         new DeferredCommand(
@@ -332,9 +332,9 @@ public class RobotContainer {
     //             },
     //             Set.of(flywheel)));
 
-    // controller.rightBumper().onFalse(new InstantCommand(() -> flywheel.stopFlywheel()));
+    // operator.rightBumper().onFalse(new InstantCommand(() -> flywheel.stopFlywheel()));
 
-    // controller
+    // operator
     //     .leftBumper()
     //     .onTrue(
     //         new DeferredCommand(
@@ -345,65 +345,65 @@ public class RobotContainer {
     //                           SmartDashboard.getNumber("Hood Manual Position Input", -0.2)));
     //             },
     //             Set.of(hood)));
-    // controller.leftBumper().onFalse(new InstantCommand(() -> hood.stopHood()));
+    // operator.leftBumper().onFalse(new InstantCommand(() -> hood.stopHood()));
 
-    // controller.rightBumper().whileTrue(new InstantCommand(() ->
+    // operator.rightBumper().whileTrue(new InstantCommand(() ->
     // superstructure.interpolateShot()));
-    // controller.rightBumper().whileFalse(new InstantCommand(() -> flywheel.stopFlywheel()));
-    // controller.rightBumper().whileFalse(new InstantCommand((\) -> hood.stopHood()));
+    // operator.rightBumper().whileFalse(new InstantCommand(() -> flywheel.stopFlywheel()));
+    // operator.rightBumper().whileFalse(new InstantCommand((\) -> hood.stopHood()));
 
-    // controller
+    // operator
     //     .rightTrigger()
     //     .onTrue(new InstantCommand(() -> flywheel.setVoltageLeader(-4), flywheel));
-    // controller.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(),
+    // operator.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(),
     // flywheel));
 
-    // controller.leftBumper().onTrue(new InstantCommand(() -> indexer.runFeed(-3), indexer));
-    // controller.leftBumper().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
+    // operator.leftBumper().onTrue(new InstantCommand(() -> indexer.runFeed(-3), indexer));
+    // operator.leftBumper().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
 
-    // controller.leftBumper().onTrue(new InstantCommand(() -> indexer.runSpin(8), indexer));
-    // controller.leftBumper().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
+    // operator.leftBumper().onTrue(new InstantCommand(() -> indexer.runSpin(8), indexer));
+    // operator.leftBumper().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
-    // controller.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-12),
+    // operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-12),
     // intake));
-    // controller.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0),
+    // operator.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0),
     // intake));
 
-    // controller.leftBumper().onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.9445)));
-    // controller.leftBumper().onFalse(new InstantCommand(() -> turret.stopTurret()));
+    // operator.leftBumper().onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.9445)));
+    // operator.leftBumper().onFalse(new InstantCommand(() -> turret.stopTurret()));
 
-    // controller.y().onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.47)));
-    // controller.a().onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.165)));
+    // operator.y().onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.47)));
+    // operator.a().onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.165)));
 
-    // controller.leftBumper().whileTrue(new InstantCommand(() -> superstructure.autoAimTurret()));
+    // operator.leftBumper().whileTrue(new InstantCommand(() -> superstructure.autoAimTurret()));
 
-    // controller.y().onTrue(new InstantCommand(() -> hood.setVoltageHood(-2)));
-    // controller.a().onTrue(new InstantCommand(() -> hood.setVoltageHood(2)));
+    // operator.y().onTrue(new InstantCommand(() -> hood.setVoltageHood(-2)));
+    // operator.a().onTrue(new InstantCommand(() -> hood.setVoltageHood(2)));
 
-    // controller.y().onFalse(new InstantCommand(() -> hood.setVoltageHood(0)));
-    // controller.a().onFalse(new InstantCommand(() -> hood.setVoltageHood(0)));
+    // operator.y().onFalse(new InstantCommand(() -> hood.setVoltageHood(0)));
+    // operator.a().onFalse(new InstantCommand(() -> hood.setVoltageHood(0)));
 
-    //  controller.rightBumper().onTrue(drive.driveToTower());
+    //  operator.rightBumper().onTrue(drive.driveToTower());
 
-    //  controller.y().onTrue(DriveCommands.driveToPose(drive.getTestPose(), drive));
+    //  operator.y().onTrue(DriveCommands.driveToPose(drive.getTestPose(), drive));
 
-    // controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageLeader(5), launcher));
-    // controller.y().onFalse(new InstantCommand(() -> launcher.setVoltageLeader(0), launcher));
+    // operator.y().onTrue(new InstantCommand(() -> launcher.setVoltageLeader(5), launcher));
+    // operator.y().onFalse(new InstantCommand(() -> launcher.setVoltageLeader(0), launcher));
 
-    // controller.y().onTrue(new InstantCommand(() -> launcher.setVoltageFollower(-5), launcher));
-    // controller.y().onFalse(new InstantCommand(() -> launcher.setVoltageFollower(0), launcher));
+    // operator.y().onTrue(new InstantCommand(() -> launcher.setVoltageFollower(-5), launcher));
+    // operator.y().onFalse(new InstantCommand(() -> launcher.setVoltageFollower(0), launcher));
 
-    // // controller.y().onTrue(new InstantCommand(() -> launcher.runVoltsFollower(5), launcher));
-    // controller.povDown().onTrue(new InstantCommand(() -> climber.setVoltage(-5)));
-    // controller.povUp().onTrue(new InstantCommand(() -> climber.setVoltage(5)));
-    // controller.povUp().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
-    // controller.povDown().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
+    // // operator.y().onTrue(new InstantCommand(() -> launcher.runVoltsFollower(5), launcher));
+    // operator.povDown().onTrue(new InstantCommand(() -> climber.setVoltage(-5)));
+    // operator.povUp().onTrue(new InstantCommand(() -> climber.setVoltage(5)));
+    // operator.povUp().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
+    // operator.povDown().onFalse(new InstantCommand(() -> climber.setVoltage(0)));
 
-    // controller.rightBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-10)));
-    // controller.rightBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
+    // operator.rightBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-10)));
+    // operator.rightBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
 
-    // controller.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(-12)));
-    // controller.rightTrigger().onFalse(new InstantCommand(() -> indexer.runSpin(0)));
+    // operator.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(-12)));
+    // operator.rightTrigger().onFalse(new InstantCommand(() -> indexer.runSpin(0)));
 
     // SmartDashboard.putNumber("cameraX", -10.625);
     // SmartDashboard.putNumber("cameraY", -3.75);
@@ -412,7 +412,7 @@ public class RobotContainer {
     // SmartDashboard.putNumber("cameraPitch", -20);
     // SmartDashboard.putNumber("cameraYaw", 210);
 
-    // controller
+    // operator
     //     .leftBumper()
     //     .onTrue(
     //         new DeferredCommand(
@@ -421,24 +421,26 @@ public class RobotContainer {
     //             },
     //             Set.of()));
 
-    controller.povLeft().onTrue(new InstantCommand(() -> turret.setPositionTurret(-90), turret));
-    controller.povRight().onTrue(new InstantCommand(() -> turret.setPositionTurret(0), turret));
+    operator.povLeft().onTrue(new InstantCommand(() -> turret.setPositionTurret(-90), turret));
+    operator.povRight().onTrue(new InstantCommand(() -> turret.setPositionTurret(0), turret));
 
     /* Week 0 Bindings */
 
-    controller.leftBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-11), intake));
-    controller.leftBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
+    driver.x().onTrue(drive.driveToTower());
 
-    controller.leftTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-3), indexer));
-    controller.leftTrigger().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
+    operator.leftBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-11), intake));
+    operator.leftBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
-    controller.leftTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(8), indexer));
-    controller.leftTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
+    operator.leftTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-3), indexer));
+    operator.leftTrigger().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
 
-    controller.rightTrigger().onTrue(new InstantCommand(() -> superstructure.interpolateShot()));
-    controller.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
+    operator.leftTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(8), indexer));
+    operator.leftTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
-    // controller.rightTrigger().onTrue(new InstantCommand(() -> superstructure.autoAimTurret()));
+    operator.rightTrigger().onTrue(new InstantCommand(() -> superstructure.interpolateShot()));
+    operator.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
+
+    // operator.rightTrigger().onTrue(new InstantCommand(() -> superstructure.autoAimTurret()));
 
   }
 
