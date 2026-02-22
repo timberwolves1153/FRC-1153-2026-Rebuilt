@@ -338,8 +338,8 @@ public class FieldConstants {
     }
 
     distanceToHub = currentPose.getTranslation().getDistance(hubCenter.getTranslation());
-    SmartDashboard.putNumber("Distance to Hub Center", distanceToHub);
 
+    SmartDashboard.putNumber("Distance to Hub", distanceToHub);
     return distanceToHub;
   }
 
