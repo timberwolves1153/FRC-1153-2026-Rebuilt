@@ -122,7 +122,15 @@ public class Superstructure extends SubsystemBase {
 
   public void autoAimTurret() {
     double calcDegrees = calculateTurretRotation(desiredHub).getDegrees();
-    turret.setPositionTurret(calcDegrees);
+    
+    if (calcDegrees < 0) {
+      turret.setPositionTurret(calcDegrees + 360);
+    } else {
+      turret.setPositionTurret(calcDegrees);
+    }
+    
+    
+ //   turret.setPositionTurret(calcDegrees);
 
     SmartDashboard.putNumber("autoAimTurret", calcDegrees);
     // SmartDashboard.putNumber("Robot Pose Angle", drive.getRotation().getRotations());
