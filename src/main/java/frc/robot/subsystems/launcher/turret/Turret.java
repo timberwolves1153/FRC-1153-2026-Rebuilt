@@ -1,5 +1,6 @@
 package frc.robot.subsystems.launcher.turret;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.util.Units;
@@ -39,6 +40,7 @@ public class Turret extends SubsystemBase {
   }
 
   public void setPositionTurret(double degrees) {
+    degrees = MathUtil.clamp(degrees, 45, 315);
     io.setPositionTurret(Units.degreesToRotations(degrees));
   }
 

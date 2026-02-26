@@ -7,6 +7,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -45,6 +46,7 @@ import frc.robot.subsystems.launcher.flywheel.FlywheelIOTalonFX;
 import frc.robot.subsystems.launcher.hood.Hood;
 import frc.robot.subsystems.launcher.hood.HoodIO;
 import frc.robot.subsystems.launcher.hood.HoodIOSim;
+import frc.robot.subsystems.launcher.hood.HoodIOTalonFX;
 import frc.robot.subsystems.launcher.turret.Turret;
 import frc.robot.subsystems.launcher.turret.TurretIO;
 import frc.robot.subsystems.launcher.turret.TurretIOSim;
@@ -131,8 +133,8 @@ public class RobotContainer {
                 new AlignmentIOPhotonVision(
                     VisionConstants.camera1Name, AlignmentConstants.robotToOrangeCamera));
         flywheel = new Flywheel(new FlywheelIOTalonFX());
-        // hood = new Hood(new HoodIOTalonFX());
-        hood = new Hood(new HoodIO() {});
+        hood = new Hood(new HoodIOTalonFX());
+        // hood = new Hood(new HoodIO() {});
         turret = new Turret(new TurretIOTalonFX());
         launcherTable = new LauncherTable();
 
@@ -255,6 +257,25 @@ public class RobotContainer {
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
+    NamedCommands.registerCommand(
+        "Run Feeder Wheel", new InstantCommand(() -> indexer.runFeed(-3), indexer));
+    NamedCommands.registerCommand(
+        "Stop Feeder Wheel", new InstantCommand(() -> indexer.runFeed(0), indexer));
+
+    NamedCommands.registerCommand(
+        "Run Indexer Wheel", new InstantCommand(() -> indexer.runSpin(8), indexer));
+    NamedCommands.registerCommand(
+        "Stop Indexer Wheel", new InstantCommand(() -> indexer.runSpin(0), indexer));
+
+    NamedCommands.registerCommand(
+        "Shoot Fuel", new InstantCommand(() -> superstructure.interpolateShot()));
+    NamedCommands.registerCommand(
+        "Stop Flywheel", new InstantCommand(() -> flywheel.stopFlywheel()));
+    NamedCommands.registerCommand(
+        "Reset Hood", new InstantCommand(() -> hood.setPositionHood(-0.05)));
+    NamedCommands.registerCommand(
+        "Reset Turret", new InstantCommand(() -> turret.setPositionTurret(-90)));
+
     updateDesiredHub();
     // Configure the button bindings
     configureButtonBindings();
@@ -284,10 +305,7 @@ public class RobotContainer {
     // Default command, normal field-relative drive
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
-            drive,
-            () -> -driver.getLeftY(),
-            () -> -driver.getLeftX(),
-            () -> -driver.getRightX()));
+            drive, () -> -driver.getLeftY(), () -> -driver.getLeftX(), () -> -driver.getRightX()));
 
     // Lock to 0° when A button is held
     // operator
@@ -300,7 +318,7 @@ public class RobotContainer {
     //             () -> Rotation2d.kZero));
 
     // Switch to X pattern when X button is pressed
-    operator.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
+    //  operator.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
     //   operator.y().onTrue(Commands.runOnce(() -> drive.resetGyro(0), drive));
 
@@ -372,13 +390,23 @@ public class RobotContainer {
     // operator.leftBumper().onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.9445)));
     // operator.leftBumper().onFalse(new InstantCommand(() -> turret.stopTurret()));
 
-    // operator.y().onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.47)));
+    // driver.y().onTrue(new InstantCommand(() -> turret.setPositionTurret(30)));
+    // driver.a().onTrue(new InstantCommand(() -> turret.setPositionTurret(330)));
+
+    // driver.y().onFalse(new InstantCommand(() -> turret.stopTurret()));
+    // driver.a().onFalse(new InstantCommand(() -> turret.stopTurret()));
+
+    // driver.x().onTrue(new InstantCommand(() -> turret.setPositionTurret(100)));
+    // driver.b().onTrue(new InstantCommand(() -> turret.setPositionTurret(300)));
+
+    // driver.x().onFalse(new InstantCommand(() -> turret.stopTurret()));
+    // driver.b().onFalse(new InstantCommand(() -> turret.stopTurret()));
     // operator.a().onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.165)));
 
-    // operator.leftBumper().whileTrue(new InstantCommand(() -> superstructure.autoAimTurret()));
+    driver.leftBumper().whileTrue(new InstantCommand(() -> superstructure.autoAimTurret()));
 
-    // operator.y().onTrue(new InstantCommand(() -> hood.setVoltageHood(-2)));
-    // operator.a().onTrue(new InstantCommand(() -> hood.setVoltageHood(2)));
+    // operator.y().onTrue(new InstantCommand(() -> hood.setPositionHood(-1.5)));
+    // operator.y().onFalse(new InstantCommand(() -> hood.setPositionHood(-0.05)));
 
     // operator.y().onFalse(new InstantCommand(() -> hood.setVoltageHood(0)));
     // operator.a().onFalse(new InstantCommand(() -> hood.setVoltageHood(0)));
@@ -426,7 +454,7 @@ public class RobotContainer {
 
     /* Week 0 Bindings */
 
-    driver.x().onTrue(drive.driveToTower());
+    //   driver.x().onTrue(drive.driveToTower());
 
     operator.leftBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-11), intake));
     operator.leftBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
@@ -439,6 +467,7 @@ public class RobotContainer {
 
     operator.rightTrigger().onTrue(new InstantCommand(() -> superstructure.interpolateShot()));
     operator.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
+    operator.rightTrigger().onFalse(new InstantCommand(() -> hood.setPositionHood(-0.05), hood));
 
     // operator.rightTrigger().onTrue(new InstantCommand(() -> superstructure.autoAimTurret()));
 

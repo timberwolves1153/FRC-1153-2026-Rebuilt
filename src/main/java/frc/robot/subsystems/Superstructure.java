@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -72,18 +73,19 @@ public class Superstructure extends SubsystemBase {
     // Calculate angle in radians (using Math.Atan2 or similar)
     double angleRad = Math.atan2(deltaY, deltaX);
     SmartDashboard.putNumber("Angle Rad", angleRad);
+    SmartDashboard.putNumber("Turret Angle Degrees calc", Units.radiansToDegrees(angleRad));
 
     return Rotation2d.fromRadians(angleRad);
   }
 
   /** Returns the adjusted Turret Angle. */
   @AutoLogOutput(key = "Odometry/adjustedTurretRotation")
-  public Rotation2d adjustTurretAngle(Rotation2d calculatedTurretAngle) {
+  public double adjustTurretAngle(Rotation2d calculatedTurretAngle) {
 
     // Turret Map
-    //     -90
-    // -180     0
-    //      90
+    //     180
+    //  90     270
+    //      0
     //
     // ROBOT INTAKE IS HERE
 
@@ -96,19 +98,17 @@ public class Superstructure extends SubsystemBase {
     // −135	   −135	−135
     // −90	     −180	−180
 
-    Rotation2d adjustedTurretAngle =
-        calculatedTurretAngle.plus(Rotation2d.kCW_90deg); // flip it to get 0 on the horizontal
+    Rotation2d adjustedTurretAngle = calculatedTurretAngle;
     double adjustedTurretAngleDegrees = adjustedTurretAngle.getDegrees(); // get a degree value
     double encoderAngle =
         adjustedTurretAngleDegrees
             * -1; // We are getting values from -180 to 180 so we need to flip
+    encoderAngle = encoderAngle + 360;
 
     encoderAngle = encoderAngle % 360; // Stay on the unit circle (but degrees)
-    if (encoderAngle >= 20) {
-      return Rotation2d.fromDegrees(encoderAngle - 360);
-    } else {
-      return Rotation2d.fromDegrees(encoderAngle);
-    }
+
+    // return Rotation2d.fromDegrees(encoderAngle);
+    return encoderAngle;
   }
 
   /** Returns the desired Turret pose. */
@@ -121,14 +121,17 @@ public class Superstructure extends SubsystemBase {
   }
 
   public void autoAimTurret() {
-    // turret.setPositionTurret(calculateTurretAngle(desiredHub) - 0.238);
+    double calcDegrees = calculateTurretRotation(desiredHub).getDegrees();
+    turret.setPositionTurret(calcDegrees);
+
+    SmartDashboard.putNumber("autoAimTurret", calcDegrees);
     // SmartDashboard.putNumber("Robot Pose Angle", drive.getRotation().getRotations());
   }
 
   @Override
   public void periodic() {
     Rotation2d rot = calculateTurretRotation(desiredHub);
-    Rotation2d adjustedRot = adjustTurretAngle(rot);
+    Rotation2d adjustedRot = new Rotation2d(Units.degreesToRadians(adjustTurretAngle(rot)));
     Logger.recordOutput("adjustedTurretAngleDegrees", adjustedRot.getDegrees());
     SmartDashboard.putNumber("adjustedTurretAngleDegrees", adjustedRot.getDegrees());
   }

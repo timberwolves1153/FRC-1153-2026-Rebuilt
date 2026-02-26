@@ -4,12 +4,10 @@ package frc.robot.subsystems.intake;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.units.measure.Current;
@@ -18,88 +16,79 @@ import edu.wpi.first.units.measure.Voltage;
 
 public class IntakeIOTalonFX implements IntakeIO {
 
-  // private TalonFX deployMotor = new TalonFX(41, "rio");
+  private TalonFX deployMotor = new TalonFX(41, "rio");
   private TalonFX collectMotor = new TalonFX(42, "rio");
-  // private CANcoder deployEncoder = new CANcoder(43, "rio");
 
   private VoltageOut voltageRequest;
   private MotionMagicVoltage positionRequest;
 
-  private TalonFXConfiguration motorConfig;
-  private CANcoderConfiguration encoderConfig;
+  private TalonFXConfiguration deployMotorConfig;
+  private TalonFXConfiguration collectorMotorConfig;
 
-  // ========
+  private final StatusSignal<Current> collectorMotorCurrent = collectMotor.getSupplyCurrent();
+  private final StatusSignal<Voltage> collectorMotorAppliedVolts = collectMotor.getMotorVoltage();
+  private final StatusSignal<Temperature> collectorMotorTemp = collectMotor.getDeviceTemp();
 
-  // all of these private final vars are in order to get real-time data from the motors(safety)
-
-  // private final StatusSignal<Current> leaderCurrentValue = deployMotor.getSupplyCurrent();
-  // private final StatusSignal<Voltage> leaderAppliedVolts = deployMotor.getMotorVoltage();
-  // private final StatusSignal<Angle> leaderPosition = deployEncoder.getPosition();
-  // private final StatusSignal<Temperature> leaderTemp = deployMotor.getDeviceTemp();
-
-  private final StatusSignal<Current> followerCurrentValue = collectMotor.getSupplyCurrent();
-  private final StatusSignal<Voltage> followerAppliedVolts = collectMotor.getMotorVoltage();
-  private final StatusSignal<Temperature> followerTemp = collectMotor.getDeviceTemp();
+  private final StatusSignal<Current> deployMotorCurrent = deployMotor.getSupplyCurrent();
+  private final StatusSignal<Voltage> deployMotorAppliedVolts = deployMotor.getMotorVoltage();
+  private final StatusSignal<Temperature> deployMotorTemp = deployMotor.getDeviceTemp();
 
   public IntakeIOTalonFX() {
     voltageRequest = new VoltageOut(0);
-    // positionRequest = new MotionMagicVoltage(0).withSlot(0);
+    positionRequest = new MotionMagicVoltage(0).withSlot(0);
     // deployMotor.setPosition(0);
 
-    motorConfig = new TalonFXConfiguration();
-    encoderConfig = new CANcoderConfiguration();
+    deployMotorConfig = new TalonFXConfiguration();
+    collectorMotorConfig = new TalonFXConfiguration();
 
     config();
   }
 
   public void config() {
 
-    motorConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
-    motorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    deployMotorConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
+    deployMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
 
-    motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    deployMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    deployMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    // deployMotor.getConfigurator().apply(motorConfig);
-    collectMotor.getConfigurator().apply(motorConfig);
-    //  deployEncoder.getConfigurator().apply(encoderConfig);
+    collectorMotorConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
+    collectorMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
 
-    var slot0Configs = motorConfig.Slot0;
+    collectorMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    collectorMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+
+    deployMotor.getConfigurator().apply(deployMotorConfig);
+    collectMotor.getConfigurator().apply(collectorMotorConfig);
+
+    var slot0Configs = deployMotorConfig.Slot0;
     slot0Configs.kS = 0;
     slot0Configs.kV = 0;
     slot0Configs.kA = 0;
-    slot0Configs.kP = 115;
+    slot0Configs.kP = 0;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0;
 
-    // encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.375; // TODO: Set
-
-    motorConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
-    motorConfig.MotionMagic.MotionMagicAcceleration = 5;
-
-    //  motorConfig.Feedback.FeedbackRemoteSensorID = deployEncoder.getDeviceID();
-    motorConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-    motorConfig.Feedback.SensorToMechanismRatio = 1;
-    motorConfig.Feedback.RotorToSensorRatio = 30;
+    deployMotorConfig.MotionMagic.MotionMagicCruiseVelocity = 1;
+    deployMotorConfig.MotionMagic.MotionMagicAcceleration = 1;
 
     BaseStatusSignal.setUpdateFrequencyForAll(
         50,
-        // leaderCurrentValue,
-        // leaderAppliedVolts,
-        // leaderPosition,
-        // leaderTemp,
-        followerAppliedVolts,
-        followerCurrentValue,
-        followerTemp);
+        collectorMotorCurrent,
+        collectorMotorAppliedVolts,
+        collectorMotorTemp,
+        deployMotorCurrent,
+        deployMotorAppliedVolts,
+        deployMotorTemp);
 
-    //   deployMotor.optimizeBusUtilization();
+    deployMotor.optimizeBusUtilization();
     collectMotor.optimizeBusUtilization();
   }
 
-  // @Override
-  // public void setDeployVoltage(double volts) {
-  //   deployMotor.setControl(voltageRequest.withOutput(volts));
-  // }
+  @Override
+  public void setDeployVoltage(double volts) {
+    deployMotor.setControl(voltageRequest.withOutput(volts));
+  }
 
   @Override
   public void setCollectVoltage(double volts) {
@@ -111,8 +100,8 @@ public class IntakeIOTalonFX implements IntakeIO {
   //   deployMotor.setPosition(0);
   // }
 
-  // @Override
-  // public void setPositionIntake(double rotations) {
-  //   deployMotor.setControl(positionRequest.withPosition(rotations));
-  // }
+  @Override
+  public void setPositionIntake(double rotations) {
+    deployMotor.setControl(positionRequest.withPosition(rotations));
+  }
 }

@@ -11,10 +11,6 @@ public class Intake extends SubsystemBase {
   public IntakeIO intakeIO;
   public IntakeInputsAutoLogged intakeInputs;
 
-  // public TrapezoidProfile.Constraints constraints;
-  // public ProfiledPIDController profiledPIDController;
-  // public SimpleMotorFeedforward intakeFF;
-
   public final double gearRatio = 7.1429;
   public final double pitchDiameter = 1.751;
 
@@ -24,27 +20,13 @@ public class Intake extends SubsystemBase {
 
     switch (Constants.currentMode) {
       case REAL:
+        break;
       case REPLAY:
-        // constraints = new TrapezoidProfile.Constraints(5, 10);
-        // profiledPIDController = new ProfiledPIDController(0, 0, 0, constraints);
-        // intakeFF = new SimpleMotorFeedforward(0, 0, 0);
         break;
-
       case SIM:
-        // constraints = new TrapezoidProfile.Constraints(5.0, 10.0);
-
-        // profiledPIDController = new ProfiledPIDController(40, 0, 0.1, constraints);
-
-        // intakeFF =
-        //     new SimpleMotorFeedforward(
-        //         0, 0.06, (DCMotor.getFalcon500(1).KvRadPerSecPerVolt * 1.7567) / 12);
-
         break;
-
-        // default:
-        //   profiledPIDController = new ProfiledPIDController(0, 0, 0, new Constraints(5, 10));
-        //   intakeFF = new SimpleMotorFeedforward(0, 0, 0);
-        //   break;
+      default:
+        break;
     }
   }
 

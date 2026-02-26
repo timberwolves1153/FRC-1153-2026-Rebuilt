@@ -47,7 +47,7 @@ public class TurretIOTalonFX implements TurretIO {
     turretConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     turretConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    encoderConfig.MagnetSensor.MagnetOffset = -0.461; // subject to change
+    encoderConfig.MagnetSensor.MagnetOffset = -0.461315; // subject to change
 
     var slot0Configs = turretConfig.Slot0;
     slot0Configs.kS = 0.3;
@@ -57,7 +57,7 @@ public class TurretIOTalonFX implements TurretIO {
     slot0Configs.kI = 0;
     slot0Configs.kD = 1;
 
-    encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = -0.9445;
+    encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.99;
 
     turretConfig.MotionMagic.MotionMagicCruiseVelocity = 1;
     turretConfig.MotionMagic.MotionMagicAcceleration = 1;
@@ -85,7 +85,7 @@ public class TurretIOTalonFX implements TurretIO {
 
     SmartDashboard.putNumber(
         "Turret Encoder Position",
-        Units.rotationsToDegrees(encoder.getPosition().getValueAsDouble()));
+        Units.rotationsToDegrees(encoder.getPosition().getValueAsDouble()) / 1.25);
   }
 
   @Override
