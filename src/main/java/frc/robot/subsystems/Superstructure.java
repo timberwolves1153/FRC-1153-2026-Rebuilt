@@ -132,7 +132,23 @@ public class Superstructure extends SubsystemBase {
 
     turret.setPositionTurret(turretRot.getDegrees());
 
-    // if (calcDegrees < 0) {
+    // double desiredDegrees = turretRot.getDegrees();
+    // double desiredRotations = desiredDegrees / 360.0;
+
+    // double MIN_ROT = -0.7553;
+    // double MAX_ROT = 0.104;
+
+    // while (desiredRotations > MAX_ROT) {
+    //   desiredRotations -= .1;
+    // }
+    // while (desiredRotations < MIN_ROT) {
+    //   desiredRotations += .1;
+    // }
+
+    // // desiredRotations = MathUtil.clamp(desiredRotations, MIN_ROT, MAX_ROT);
+
+    // turret.setPositionTurret(Units.rotationsToDegrees(desiredRotations));
+    // // if (calcDegrees < 0) {
     //   turret.setPositionTurret(calcDegrees + 360);
     // } else {
     //   turret.setPositionTurret(calcDegrees);
