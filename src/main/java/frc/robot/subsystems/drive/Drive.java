@@ -175,6 +175,7 @@ public class Drive extends SubsystemBase {
 
     SmartDashboard.putNumber("Robot Pose X", getPose().getX());
     SmartDashboard.putNumber("Robot Pose Y", getPose().getY());
+    SmartDashboard.putNumber("Robot Rotation", getPose().getRotation().getDegrees());
 
     for (var module : modules) {
       module.periodic();

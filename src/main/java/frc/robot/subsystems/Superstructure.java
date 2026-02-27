@@ -99,7 +99,9 @@ public class Superstructure extends SubsystemBase {
     // −90	     −180	−180
 
     Rotation2d adjustedTurretAngle = calculatedTurretAngle;
-    double adjustedTurretAngleDegrees = adjustedTurretAngle.getDegrees(); // get a degree value
+    double adjustedTurretAngleDegrees =
+        adjustedTurretAngle
+            .getDegrees(); // + drive.getRotation().getDegrees(); // get a degree value
     double encoderAngle =
         adjustedTurretAngleDegrees
             * -1; // We are getting values from -180 to 180 so we need to flip
@@ -121,18 +123,24 @@ public class Superstructure extends SubsystemBase {
   }
 
   public void autoAimTurret() {
-    double calcDegrees = calculateTurretRotation(desiredHub).getDegrees();
-    
-    if (calcDegrees < 0) {
-      turret.setPositionTurret(calcDegrees + 360);
-    } else {
-      turret.setPositionTurret(calcDegrees);
-    }
-    
-    
- //   turret.setPositionTurret(calcDegrees);
+    // double calcDegrees = calculateTurretRotation(desiredHub).getDegrees();
 
-    SmartDashboard.putNumber("autoAimTurret", calcDegrees);
+    Rotation2d rot = calculateTurretRotation(desiredHub);
+    Rotation2d adjustedRot = new Rotation2d(Units.degreesToRadians(adjustTurretAngle(rot)));
+    Rotation2d robotRot = drive.getRotation();
+    Rotation2d turretRot = adjustedRot.plus(robotRot);
+
+    turret.setPositionTurret(turretRot.getDegrees());
+
+    // if (calcDegrees < 0) {
+    //   turret.setPositionTurret(calcDegrees + 360);
+    // } else {
+    //   turret.setPositionTurret(calcDegrees);
+    // }
+
+    //   turret.setPositionTurret(calcDegrees);
+
+    SmartDashboard.putNumber("autoAimTurret", turretRot.getDegrees());
     // SmartDashboard.putNumber("Robot Pose Angle", drive.getRotation().getRotations());
   }
 

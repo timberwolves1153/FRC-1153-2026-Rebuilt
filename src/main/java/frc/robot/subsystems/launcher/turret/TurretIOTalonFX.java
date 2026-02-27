@@ -47,7 +47,7 @@ public class TurretIOTalonFX implements TurretIO {
     turretConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     turretConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    encoderConfig.MagnetSensor.MagnetOffset = -0.461315; // subject to change
+    encoderConfig.MagnetSensor.MagnetOffset = Units.degreesToRotations(26); // subject to change
 
     var slot0Configs = turretConfig.Slot0;
     slot0Configs.kS = 0.3;

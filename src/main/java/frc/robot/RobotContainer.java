@@ -390,11 +390,11 @@ public class RobotContainer {
     // operator.leftBumper().onTrue(new InstantCommand(() -> turret.setPositionTurret(-0.9445)));
     // operator.leftBumper().onFalse(new InstantCommand(() -> turret.stopTurret()));
 
-    // driver.y().onTrue(new InstantCommand(() -> turret.setPositionTurret(30)));
-    // driver.a().onTrue(new InstantCommand(() -> turret.setPositionTurret(330)));
+    driver.y().onTrue(new InstantCommand(() -> turret.setPositionTurret(30)));
+    driver.a().onTrue(new InstantCommand(() -> turret.setPositionTurret(330)));
 
-    // driver.y().onFalse(new InstantCommand(() -> turret.stopTurret()));
-    // driver.a().onFalse(new InstantCommand(() -> turret.stopTurret()));
+    driver.y().onFalse(new InstantCommand(() -> turret.stopTurret()));
+    driver.a().onFalse(new InstantCommand(() -> turret.stopTurret()));
 
     // driver.x().onTrue(new InstantCommand(() -> turret.setPositionTurret(100)));
     // driver.b().onTrue(new InstantCommand(() -> turret.setPositionTurret(300)));
@@ -459,15 +459,15 @@ public class RobotContainer {
     operator.leftBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-11), intake));
     operator.leftBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
-    operator.leftTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-3), indexer));
-    operator.leftTrigger().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
+    driver.leftTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-3), indexer));
+    driver.leftTrigger().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
 
-    operator.leftTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(8), indexer));
-    operator.leftTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
+    driver.leftTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(8), indexer));
+    driver.leftTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
-    operator.rightTrigger().onTrue(new InstantCommand(() -> superstructure.interpolateShot()));
-    operator.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
-    operator.rightTrigger().onFalse(new InstantCommand(() -> hood.setPositionHood(-0.05), hood));
+    driver.rightTrigger().onTrue(new InstantCommand(() -> superstructure.interpolateShot()));
+    driver.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
+    driver.rightTrigger().onFalse(new InstantCommand(() -> hood.setPositionHood(-0.05), hood));
 
     // operator.rightTrigger().onTrue(new InstantCommand(() -> superstructure.autoAimTurret()));
 
