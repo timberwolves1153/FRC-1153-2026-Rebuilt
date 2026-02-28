@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -123,14 +125,28 @@ public class Superstructure extends SubsystemBase {
   }
 
   public void autoAimTurret() {
-    // double calcDegrees = calculateTurretRotation(desiredHub).getDegrees();
+    boolean isFlipped =
+        DriverStation.getAlliance().isPresent()
+            && DriverStation.getAlliance().get() == Alliance.Red;
+
+    if (isFlipped) {
+      desiredHub = FieldConstants.Hub.redHubCenter;
+    } else {
+      desiredHub = FieldConstants.Hub.blueHubCenter;
+    }
 
     Rotation2d rot = calculateTurretRotation(desiredHub);
     Rotation2d adjustedRot = new Rotation2d(Units.degreesToRadians(adjustTurretAngle(rot)));
     Rotation2d robotRot = drive.getRotation();
     Rotation2d turretRot = adjustedRot.plus(robotRot);
 
-    turret.setPositionTurret(turretRot.getDegrees());
+    if (turretRot.getDegrees() < 0) {
+      turret.setPositionTurret(turretRot.getDegrees() + 360);
+      SmartDashboard.putNumber("autoAimTurret", turretRot.getDegrees() + 360);
+    } else {
+      turret.setPositionTurret(turretRot.getDegrees());
+      SmartDashboard.putNumber("autoAimTurret", turretRot.getDegrees());
+    }
 
     // double desiredDegrees = turretRot.getDegrees();
     // double desiredRotations = desiredDegrees / 360.0;
@@ -156,7 +172,6 @@ public class Superstructure extends SubsystemBase {
 
     //   turret.setPositionTurret(calcDegrees);
 
-    SmartDashboard.putNumber("autoAimTurret", turretRot.getDegrees());
     // SmartDashboard.putNumber("Robot Pose Angle", drive.getRotation().getRotations());
   }
 

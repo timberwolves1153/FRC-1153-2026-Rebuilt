@@ -97,6 +97,8 @@ public class Robot extends LoggedRobot {
         "Match Info: Shift Time Left?",
         ShiftHelpers.timeLeftInShiftSeconds(DriverStation.getMatchTime()));
 
+    if (ShiftHelpers.currentShiftIsYours() == true) {}
+
     // Return to non-RT thread priority (do not modify the first argument)
     // Threads.setCurrentThreadPriority(false, 10);
   }
