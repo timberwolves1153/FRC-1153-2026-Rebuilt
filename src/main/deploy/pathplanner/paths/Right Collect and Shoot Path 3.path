@@ -45,7 +45,7 @@
     "rotation": 90.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Right Collect and Shoot",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -10.437
