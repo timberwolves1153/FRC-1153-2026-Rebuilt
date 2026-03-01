@@ -43,7 +43,6 @@ public class Climber extends SubsystemBase {
     L1(15),
     L2(20),
     L3(25);
-    ;
     /*check back for more */
 
     private double heightinInches;
