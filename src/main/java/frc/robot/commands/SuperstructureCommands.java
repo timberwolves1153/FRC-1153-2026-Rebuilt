@@ -22,8 +22,15 @@ public class SuperstructureCommands {
 
   public Command autoAimTurretHub() {
     return Commands.parallel(
-        turret.setTurretPositionCommand(drive::getPose),
-        hood.setPositionHoodCommand(drive::getPose),
-        flywheel.setVelocityCommand(drive::getPose));
+        turret.setTurretPositionHub(drive::getPose),
+        hood.setPositionHoodHub(drive::getPose),
+        flywheel.setVelocityHub(drive::getPose));
+  }
+
+  public Command autoAimTurretPassing() {
+    return Commands.parallel(
+        turret.setTurretPositionPassing(drive::getPose),
+        hood.setPositionHoodPassing(drive::getPose),
+        flywheel.setVelocityPassing(drive::getPose));
   }
 }

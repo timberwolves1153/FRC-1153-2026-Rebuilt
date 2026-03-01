@@ -85,6 +85,32 @@ public class Turret extends SubsystemBase {
     }
   }
 
+  private void autoAimTurretPassing(Supplier<Pose2d> robotPoseSupplier) {
+    boolean isRed =
+        DriverStation.getAlliance().isPresent()
+            && DriverStation.getAlliance().get() == Alliance.Red;
+
+    Pose2d desiredPassingLocation = FieldConstants.Outpost.redOutpostCenter;
+    if (isRed) {
+      desiredPassingLocation = FieldConstants.Outpost.redOutpostCenter;
+    } else {
+      desiredPassingLocation = FieldConstants.Outpost.blueOutpostCenter;
+    }
+
+    Rotation2d rot = calculateTurretRotation(robotPoseSupplier.get(), desiredPassingLocation);
+    Rotation2d adjustedRot = new Rotation2d(Units.degreesToRadians(adjustTurretAngle(rot)));
+    Rotation2d robotRot = robotPoseSupplier.get().getRotation();
+    Rotation2d turretRot = adjustedRot.plus(robotRot);
+
+    if (turretRot.getDegrees() < 0) {
+      setPositionTurret(turretRot.getDegrees() + 360);
+      SmartDashboard.putNumber("autoAimTurretPassing", turretRot.getDegrees() + 360);
+    } else {
+      setPositionTurret(turretRot.getDegrees());
+      SmartDashboard.putNumber("autoAimTurretPassing", turretRot.getDegrees());
+    }
+  }
+
   @AutoLogOutput(key = "Odometry/TurretRotation")
   public Rotation2d calculateTurretRotation(Pose2d robotPose, Pose2d goalPose) {
     // Calculate difference
@@ -147,7 +173,11 @@ public class Turret extends SubsystemBase {
     return encoderAngle;
   }
 
-  public Command setTurretPositionCommand(Supplier<Pose2d> robotPoseSupplier) {
+  public Command setTurretPositionHub(Supplier<Pose2d> robotPoseSupplier) {
     return Commands.run(() -> autoAimTurretHub(robotPoseSupplier), this);
+  }
+
+  public Command setTurretPositionPassing(Supplier<Pose2d> robotPoseSupplier) {
+    return Commands.run(() -> autoAimTurretPassing(robotPoseSupplier), this);
   }
 }

@@ -61,7 +61,7 @@ public class Hood extends SubsystemBase {
     return inputs.isHomed;
   }
 
-  public Command setPositionHoodCommand(Supplier<Pose2d> robotPose) {
+  public Command setPositionHoodHub(Supplier<Pose2d> robotPose) {
     return Commands.run(
         () ->
             setPositionHood(
@@ -70,5 +70,9 @@ public class Hood extends SubsystemBase {
                             FieldConstants.getDistanceToHubCenter(robotPose.get())))
                     .value),
         this);
+  }
+
+  public Command setPositionHoodPassing(Supplier<Pose2d> robotPose) {
+    return Commands.run(() -> setPositionHood(-1.9), this);
   }
 }

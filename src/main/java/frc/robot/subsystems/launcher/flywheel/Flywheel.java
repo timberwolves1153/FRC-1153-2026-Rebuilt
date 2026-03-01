@@ -59,11 +59,22 @@ public class Flywheel extends SubsystemBase {
     io.stopFlywheel();
   }
 
-  public Command setVelocityCommand(Supplier<Pose2d> robotPose) {
+  public Command setVelocityHub(Supplier<Pose2d> robotPose) {
     return Commands.run(
         () ->
             setVelocityLeader(
                 LauncherTable.flywheelShootingMap.getInterpolated(
+                        new InterpolatingDouble(
+                            FieldConstants.getDistanceToHubCenter(robotPose.get())))
+                    .value),
+        this);
+  }
+
+  public Command setVelocityPassing(Supplier<Pose2d> robotPose) {
+    return Commands.run(
+        () ->
+            setVelocityLeader(
+                LauncherTable.flywheelPassingMap.getInterpolated(
                         new InterpolatingDouble(
                             FieldConstants.getDistanceToHubCenter(robotPose.get())))
                     .value),
