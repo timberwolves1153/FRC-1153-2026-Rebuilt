@@ -10,9 +10,7 @@ package frc.robot;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
@@ -149,10 +147,6 @@ public class FieldConstants {
 
     public static final Translation2d hubCenter =
         new Translation2d(Units.inchesToMeters(181.56), Units.inchesToMeters(158.32));
-
-    public static final Pose3d redHubTarget =
-        new Pose3d(
-            Units.inchesToMeters(181.56), Units.inchesToMeters(158.32), 3.057144, new Rotation3d());
   }
 
   /** Left Bump related constants */
@@ -323,8 +317,17 @@ public class FieldConstants {
     public static final double height = Units.inchesToMeters(7.0);
 
     // Relevant reference points on alliance side
-    public static final Translation2d centerPoint =
-        new Translation2d(0, AprilTagLayoutType.OFFICIAL.getLayout().getTagPose(29).get().getY());
+    public static final Pose2d blueOutpostCenter =
+        new Pose2d(
+            0,
+            AprilTagLayoutType.OFFICIAL.getLayout().getTagPose(29).get().getY(),
+            Rotation2d.kZero);
+
+    public static final Pose2d redOutpostCenter =
+        new Pose2d(
+            fieldLength,
+            AprilTagLayoutType.OFFICIAL.getLayout().getTagPose(13).get().getY(),
+            Rotation2d.kZero);
   }
 
   public static double getDistanceToHubCenter(Pose2d currentPose) {
@@ -348,6 +351,27 @@ public class FieldConstants {
     SmartDashboard.putNumber("Distance to Hub Center", distanceToHub);
 
     return distanceToHub;
+  }
+
+  public static double getDistanceToOutpost(Pose2d currentPose) {
+    Pose2d outpostCenter;
+
+    boolean isFlipped =
+        DriverStation.getAlliance().isPresent()
+            && DriverStation.getAlliance().get() == Alliance.Red;
+
+    if (isFlipped) {
+      outpostCenter = FieldConstants.Outpost.redOutpostCenter;
+    } else {
+      outpostCenter = FieldConstants.Outpost.blueOutpostCenter;
+    }
+
+    double distanceToOutpost;
+
+    distanceToOutpost = currentPose.getTranslation().getDistance(outpostCenter.getTranslation());
+    SmartDashboard.putNumber("Distance to Outpost", distanceToOutpost);
+
+    return distanceToOutpost;
   }
 
   public enum FieldType {

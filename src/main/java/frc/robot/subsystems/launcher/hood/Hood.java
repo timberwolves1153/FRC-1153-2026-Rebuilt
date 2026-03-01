@@ -1,41 +1,55 @@
 package frc.robot.subsystems.launcher.hood;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import org.littletonrobotics.junction.Logger;
 
 public class Hood extends SubsystemBase {
-  private final HoodIO io;
+  private final HoodIO hoodIO;
   private final HoodIOInputsAutoLogged inputs = new HoodIOInputsAutoLogged();
 
-  public Hood(HoodIO hoodIO) {
-    io = hoodIO;
+  public enum Position {
+    HOMED(0),
+    MIN(-.01),
+    MAX(-1.9);
 
-    switch (Constants.currentMode) {
-      case REAL:
-      case REPLAY:
-        break;
+    private double rotations;
 
-      case SIM:
-        break;
+    private Position(double rotations) {
+      this.rotations = rotations;
     }
+
+    public double rotations() {
+      return rotations;
+    }
+  }
+
+  public Hood(HoodIO hoodIO) {
+    this.hoodIO = hoodIO;
   }
 
   @Override
   public void periodic() {
-    io.updateInputs(inputs);
+    hoodIO.updateInputs(inputs);
     Logger.processInputs("Hood", inputs);
   }
 
+  public void homeHood() {
+    hoodIO.homeHood();
+  }
+
   public void setVoltageHood(double volts) {
-    io.setVoltageHood(volts);
+    hoodIO.setVoltageHood(volts);
   }
 
   public void setPositionHood(double position) {
-    io.setPositionHood(position);
+    hoodIO.setPositionHood(position);
   }
 
   public void stopHood() {
-    io.stopHood();
+    hoodIO.stopHood();
+  }
+
+  public boolean isHomed() {
+    return inputs.isHomed;
   }
 }

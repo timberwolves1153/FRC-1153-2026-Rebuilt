@@ -9,6 +9,8 @@ public interface HoodIO {
     public double hoodCurrent = 0.0;
     public double hoodPosition = 0.0;
     public double hoodTemp = 0.0;
+
+    public boolean isHomed = false;
   }
 
   public default void updateInputs(HoodIOInputs inputs) {}
@@ -18,4 +20,6 @@ public interface HoodIO {
   public default void setPositionHood(double position) {}
 
   public default void stopHood() {}
+
+  public default void homeHood() {}
 }

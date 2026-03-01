@@ -1,5 +1,8 @@
 package frc.robot.subsystems.launcher.hood;
 
+import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Volts;
+
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -27,6 +30,8 @@ public class HoodIOTalonFX implements HoodIO {
   private final StatusSignal<Current> hoodCurrent = hoodMotor.getSupplyCurrent();
   private final StatusSignal<Angle> hoodPosition = hoodMotor.getPosition();
   private final StatusSignal<Temperature> hoodTemp = hoodMotor.getDeviceTemp();
+
+  private boolean isHomed = false;
 
   public HoodIOTalonFX() {
     hoodConfig = new TalonFXConfiguration();
@@ -64,12 +69,13 @@ public class HoodIOTalonFX implements HoodIO {
   public void updateInputs(HoodIOInputs hoodInputs) {
     BaseStatusSignal.refreshAll(hoodAppliedVoltage, hoodCurrent, hoodPosition, hoodTemp);
 
-    hoodInputs.hoodAppliedVoltage = hoodAppliedVoltage.getValueAsDouble();
-    hoodInputs.hoodCurrent = hoodCurrent.getValueAsDouble();
+    hoodInputs.hoodAppliedVoltage = hoodMotor.getMotorVoltage().getValue().in(Volts);
+    hoodInputs.hoodCurrent = hoodMotor.getSupplyCurrent().getValue().in(Amps);
     hoodInputs.hoodPosition = hoodPosition.getValueAsDouble();
     hoodInputs.hoodTemp = hoodTemp.getValueAsDouble();
 
     SmartDashboard.putNumber("Hood encoder position", hoodMotor.getPosition().getValueAsDouble());
+    hoodInputs.isHomed = isHomed;
   }
 
   public void setVoltageHood(double volts) {
@@ -83,5 +89,19 @@ public class HoodIOTalonFX implements HoodIO {
 
   public void stopHood() {
     hoodMotor.setControl(voltageRequest.withOutput(0));
+  }
+
+  public void homeHood() {
+    if (!isHomed) {
+      if (hoodMotor.getSupplyCurrent().getValue().in(Amps) > 0.49) {
+        isHomed = true;
+        hoodMotor.setPosition(0);
+        setPositionHood(-0.05);
+      } else {
+        setVoltageHood(.5);
+      }
+    } else {
+      setPositionHood(-0.05);
+    }
   }
 }

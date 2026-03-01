@@ -28,6 +28,7 @@ public class Superstructure extends SubsystemBase {
   private Timer timer = new Timer();
 
   private Pose2d desiredHub = FieldConstants.Hub.redHubCenter;
+  private Pose2d desiredPassingLocation = FieldConstants.Outpost.redOutpostCenter;
   public Pose2d turretPose;
 
   public Superstructure(
@@ -48,8 +49,17 @@ public class Superstructure extends SubsystemBase {
             .value);
 
     flywheel.setVelocityLeader(
-        launcherTable.flywheelMap.getInterpolated(
+        launcherTable.flywheelShootingMap.getInterpolated(
                 new InterpolatingDouble(FieldConstants.getDistanceToHubCenter(drive.getPose())))
+            .value);
+  }
+
+  public void interpolatePassing() {
+    hood.setPositionHood(-1.90);
+
+    flywheel.setVelocityLeader(
+        launcherTable.flywheelPassingMap.getInterpolated(
+                new InterpolatingDouble(FieldConstants.getDistanceToOutpost(drive.getPose())))
             .value);
   }
 
@@ -124,7 +134,7 @@ public class Superstructure extends SubsystemBase {
     return new Pose2d(turretPoseX, turretPoseY, calculateTurretRotation(desiredHub));
   }
 
-  public void autoAimTurret() {
+  public void autoAimTurretShooting() {
     boolean isFlipped =
         DriverStation.getAlliance().isPresent()
             && DriverStation.getAlliance().get() == Alliance.Red;
@@ -142,37 +152,36 @@ public class Superstructure extends SubsystemBase {
 
     if (turretRot.getDegrees() < 0) {
       turret.setPositionTurret(turretRot.getDegrees() + 360);
-      SmartDashboard.putNumber("autoAimTurret", turretRot.getDegrees() + 360);
+      SmartDashboard.putNumber("autoAimTurretShooting", turretRot.getDegrees() + 360);
     } else {
       turret.setPositionTurret(turretRot.getDegrees());
-      SmartDashboard.putNumber("autoAimTurret", turretRot.getDegrees());
+      SmartDashboard.putNumber("autoAimTurretShooting", turretRot.getDegrees());
+    }
+  }
+
+  public void autoAimTurretPassing() {
+    boolean isFlipped =
+        DriverStation.getAlliance().isPresent()
+            && DriverStation.getAlliance().get() == Alliance.Red;
+
+    if (isFlipped) {
+      desiredPassingLocation = FieldConstants.Outpost.redOutpostCenter;
+    } else {
+      desiredPassingLocation = FieldConstants.Outpost.blueOutpostCenter;
     }
 
-    // double desiredDegrees = turretRot.getDegrees();
-    // double desiredRotations = desiredDegrees / 360.0;
+    Rotation2d rot = calculateTurretRotation(desiredPassingLocation);
+    Rotation2d adjustedRot = new Rotation2d(Units.degreesToRadians(adjustTurretAngle(rot)));
+    Rotation2d robotRot = drive.getRotation();
+    Rotation2d turretRot = adjustedRot.plus(robotRot);
 
-    // double MIN_ROT = -0.7553;
-    // double MAX_ROT = 0.104;
-
-    // while (desiredRotations > MAX_ROT) {
-    //   desiredRotations -= .1;
-    // }
-    // while (desiredRotations < MIN_ROT) {
-    //   desiredRotations += .1;
-    // }
-
-    // // desiredRotations = MathUtil.clamp(desiredRotations, MIN_ROT, MAX_ROT);
-
-    // turret.setPositionTurret(Units.rotationsToDegrees(desiredRotations));
-    // // if (calcDegrees < 0) {
-    //   turret.setPositionTurret(calcDegrees + 360);
-    // } else {
-    //   turret.setPositionTurret(calcDegrees);
-    // }
-
-    //   turret.setPositionTurret(calcDegrees);
-
-    // SmartDashboard.putNumber("Robot Pose Angle", drive.getRotation().getRotations());
+    if (turretRot.getDegrees() < 0) {
+      turret.setPositionTurret(turretRot.getDegrees() + 360);
+      SmartDashboard.putNumber("autoAimTurretPassing", turretRot.getDegrees() + 360);
+    } else {
+      turret.setPositionTurret(turretRot.getDegrees());
+      SmartDashboard.putNumber("autoAimTurretPassing", turretRot.getDegrees());
+    }
   }
 
   @Override

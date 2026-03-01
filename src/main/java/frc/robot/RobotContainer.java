@@ -12,8 +12,10 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
@@ -277,6 +279,10 @@ public class RobotContainer {
     updateDesiredHub();
     // Configure the button bindings
     configureButtonBindings();
+
+    RobotModeTriggers.autonomous()
+        .or(RobotModeTriggers.teleop())
+        .onTrue(Commands.run(() -> hood.homeHood()).until(hood::isHomed));
   }
 
   public void updateDesiredHub() {
@@ -323,15 +329,15 @@ public class RobotContainer {
     // Drive Forward Button for testing
     //  operator.povUp().whileTrue(drive.sysIdDynamic(Direction.kForward));
     // Reset gyro to 0° when B button is pressed
-    // operator
-    //     .b()
-    //     .onTrue(
-    //         Commands.runOnce(
-    //                 () ->
-    //                     drive.setPose(
-    //                         new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
-    //                 drive)
-    //             .ignoringDisable(true));
+    driver
+        .b()
+        .onTrue(
+            Commands.runOnce(
+                    () ->
+                        drive.setPose(
+                            new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
+                    drive)
+                .ignoringDisable(true));
 
     // SmartDashboard.putNumber("Flywheel Manual RPS Input", -10);
     // SmartDashboard.putNumber("Hood Manual Position Input", 0);
@@ -467,13 +473,19 @@ public class RobotContainer {
     // driver.leftTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(8), indexer));
     // driver.leftTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
-    driver.rightTrigger().onTrue(new InstantCommand(() -> superstructure.interpolateShot()));
-    driver.leftBumper().whileTrue(new InstantCommand(() -> superstructure.autoAimTurret()));
+    driver.rightTrigger().whileTrue(new InstantCommand(() -> superstructure.interpolateShot()));
+    driver
+        .rightTrigger()
+        .whileTrue(new InstantCommand(() -> superstructure.autoAimTurretShooting()));
     driver.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
-    driver.rightTrigger().onFalse(new InstantCommand(() -> hood.setPositionHood(-0.05), hood));
+    driver.rightTrigger().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
+
+    // driver.leftTrigger().onTrue(new InstantCommand(() -> superstructure.interpolatePassing()));
+    // driver.x().onTrue(new InstantCommand(() -> superstructure.autoAimTurretPassing()));
+    // driver.leftTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
+    // driver.leftTrigger().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
 
     // operator.rightTrigger().onTrue(new InstantCommand(() -> superstructure.autoAimTurret()));
-
   }
 
   /**

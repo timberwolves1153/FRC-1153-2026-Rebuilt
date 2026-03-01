@@ -172,7 +172,7 @@ public class Drive extends SubsystemBase {
     gyroIO.updateInputs(gyroInputs);
     Logger.processInputs("Drive/Gyro", gyroInputs);
     FieldConstants.getDistanceToHubCenter(getPose());
-
+    FieldConstants.getDistanceToOutpost(getPose());
     SmartDashboard.putNumber("Robot Pose X", getPose().getX());
     SmartDashboard.putNumber("Robot Pose Y", getPose().getY());
     SmartDashboard.putNumber("Robot Rotation", getPose().getRotation().getDegrees());
