@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.FieldConstants;
 import frc.robot.interpolation.InterpolatingDouble;
@@ -42,7 +43,7 @@ public class Superstructure extends SubsystemBase {
     turretPose = drive.getPose().plus(turret.turretOffset);
   }
 
-  public void interpolateShot() {
+  private void interpolateHub() {
     hood.setPositionHood(
         launcherTable.hoodMap.getInterpolated(
                 new InterpolatingDouble(FieldConstants.getDistanceToHubCenter(drive.getPose())))
@@ -134,7 +135,7 @@ public class Superstructure extends SubsystemBase {
     return new Pose2d(turretPoseX, turretPoseY, calculateTurretRotation(desiredHub));
   }
 
-  public void autoAimTurretShooting() {
+  private void autoAimTurretHub() {
     boolean isFlipped =
         DriverStation.getAlliance().isPresent()
             && DriverStation.getAlliance().get() == Alliance.Red;
@@ -159,7 +160,7 @@ public class Superstructure extends SubsystemBase {
     }
   }
 
-  public void autoAimTurretPassing() {
+  private void autoAimTurretPassing() {
     boolean isFlipped =
         DriverStation.getAlliance().isPresent()
             && DriverStation.getAlliance().get() == Alliance.Red;
@@ -182,6 +183,22 @@ public class Superstructure extends SubsystemBase {
       turret.setPositionTurret(turretRot.getDegrees());
       SmartDashboard.putNumber("autoAimTurretPassing", turretRot.getDegrees());
     }
+  }
+
+  public Command autoAimTurretHubCommand() {
+    return this.run(this::autoAimTurretHub);
+  }
+
+  public Command autoAimTurretPassingCommand() {
+    return this.run(this::autoAimTurretPassing);
+  }
+
+  public Command interpolateHubCommand() {
+    return this.run(this::interpolateHub);
+  }
+
+  public Command interpolatePassingCommand() {
+    return this.run(this::interpolatePassing);
   }
 
   @Override

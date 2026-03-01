@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.SuperstructureCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.interpolation.LauncherTable;
 import frc.robot.subsystems.Superstructure;
@@ -86,6 +87,8 @@ public class RobotContainer {
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
+
+  private final SuperstructureCommands superstructureCommands;
 
   // Match constants
 
@@ -238,6 +241,9 @@ public class RobotContainer {
         break;
     }
 
+    superstructureCommands =
+        new SuperstructureCommands(drive, flywheel, hood, turret, superstructure);
+
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
@@ -267,8 +273,8 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "Stop Indexer Wheel", new InstantCommand(() -> indexer.runSpin(0), indexer));
 
-    NamedCommands.registerCommand(
-        "Shoot Fuel", new InstantCommand(() -> superstructure.interpolateShot()));
+    // NamedCommands.registerCommand(
+    // "Shoot Fuel", new InstantCommand(() -> superstructure.interpolateShot()));
     NamedCommands.registerCommand(
         "Stop Flywheel", new InstantCommand(() -> flywheel.stopFlywheel()));
     NamedCommands.registerCommand(
@@ -473,10 +479,7 @@ public class RobotContainer {
     // driver.leftTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(8), indexer));
     // driver.leftTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
-    driver.rightTrigger().whileTrue(new InstantCommand(() -> superstructure.interpolateShot()));
-    driver
-        .rightTrigger()
-        .whileTrue(new InstantCommand(() -> superstructure.autoAimTurretShooting()));
+    driver.rightTrigger().onTrue(superstructureCommands.autoAimTurretHub());
     driver.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
     driver.rightTrigger().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
 
