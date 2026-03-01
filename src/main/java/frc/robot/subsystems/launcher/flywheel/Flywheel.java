@@ -1,8 +1,15 @@
 package frc.robot.subsystems.launcher.flywheel;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.FieldConstants;
+import frc.robot.interpolation.InterpolatingDouble;
+import frc.robot.interpolation.LauncherTable;
+import java.util.function.Supplier;
 import org.littletonrobotics.junction.Logger;
 
 public class Flywheel extends SubsystemBase {
@@ -38,16 +45,8 @@ public class Flywheel extends SubsystemBase {
     io.setVoltageLeader(volts);
   }
 
-  public void setVoltageFollower(double volts) {
-    io.setVoltageFollower(volts);
-  }
-
   public void setVelocityLeader(double velocity) {
     io.setVelocityLeader(velocity);
-  }
-
-  public void setVelocityFollower(double velocity) {
-    io.setVelocityFollower(velocity);
   }
 
   public void setVelocityManual() {
@@ -58,5 +57,16 @@ public class Flywheel extends SubsystemBase {
 
   public void stopFlywheel() {
     io.stopFlywheel();
+  }
+
+  public Command setVelocityCommand(Supplier<Pose2d> robotPose) {
+    return Commands.run(
+        () ->
+            setVelocityLeader(
+                LauncherTable.flywheelShootingMap.getInterpolated(
+                        new InterpolatingDouble(
+                            FieldConstants.getDistanceToHubCenter(robotPose.get())))
+                    .value),
+        this);
   }
 }

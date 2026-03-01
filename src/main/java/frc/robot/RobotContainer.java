@@ -21,7 +21,6 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.commands.SuperstructureCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.interpolation.LauncherTable;
-import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.alignment.Alignment;
 import frc.robot.subsystems.alignment.AlignmentConstants;
 import frc.robot.subsystems.alignment.AlignmentIO;
@@ -77,7 +76,6 @@ public class RobotContainer {
   private final Hood hood;
   private final Turret turret;
   private final LauncherTable launcherTable;
-  private final Superstructure superstructure;
 
   // operator
   private final CommandXboxController driver = new CommandXboxController(0);
@@ -141,8 +139,6 @@ public class RobotContainer {
         turret = new Turret(new TurretIOTalonFX());
         launcherTable = new LauncherTable();
 
-        superstructure = new Superstructure(drive, flywheel, hood, turret, launcherTable);
-
         // alignment =
         //     new Alignment(
         //         new AlignmentIOPhotonVision(
@@ -201,7 +197,6 @@ public class RobotContainer {
         alignment = new Alignment(new AlignmentIO() {});
         turret = new Turret(new TurretIOSim());
         launcherTable = new LauncherTable();
-        superstructure = new Superstructure(drive, flywheel, hood, turret, launcherTable);
 
         // alignment =
         //     new Alignment(
@@ -234,15 +229,13 @@ public class RobotContainer {
         hood = new Hood(new HoodIO() {});
         turret = new Turret(new TurretIO() {});
         launcherTable = new LauncherTable();
-        superstructure = new Superstructure(drive, flywheel, hood, turret, launcherTable);
 
         //      alignment = new Alignment(new AlignmentIO() {});
 
         break;
     }
 
-    superstructureCommands =
-        new SuperstructureCommands(drive, flywheel, hood, turret, superstructure);
+    superstructureCommands = new SuperstructureCommands(drive, flywheel, hood, turret);
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
