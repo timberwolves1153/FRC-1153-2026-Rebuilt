@@ -33,8 +33,7 @@ public final class Constants {
   }
 
   public static final Transform2d CLIMB_TRANSFORM =
-      new Transform2d(
-          Units.inchesToMeters(12.5), Units.inchesToMeters(0), Rotation2d.fromDegrees(90));
+      new Transform2d(Units.inchesToMeters(12.5), Units.inchesToMeters(0), new Rotation2d());
 
   public static boolean disableHAL = false;
 
