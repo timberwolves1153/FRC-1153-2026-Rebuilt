@@ -1,0 +1,111 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Fuel"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Run Indexer Wheel"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Run Feeder Wheel"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Stop Feeder Wheel"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Stop Indexer Wheel"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Stop Flywheel"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Reset Hood"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Orbit Auto Path 1"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Orbit Auto Path 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Orbit Auto Path 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Orbit Auto Path 4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Orbit Auto Path 5"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

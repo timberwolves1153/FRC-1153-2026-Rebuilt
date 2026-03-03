@@ -55,7 +55,6 @@ import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionConstants;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
-import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -121,11 +120,14 @@ public class RobotContainer {
         //             VisionConstants.camera1Name, VisionConstants.robotToOrangeCamera));
         vision =
             new Vision(
-                drive::addVisionMeasurement,
                 new VisionIOPhotonVision(
-                    VisionConstants.camera0Name, VisionConstants.robotToBlueCamera),
+                    VisionConstants.camera0Name,
+                    VisionConstants.robotToBlueCamera,
+                    drive::addVisionMeasurement),
                 new VisionIOPhotonVision(
-                    VisionConstants.camera1Name, VisionConstants.robotToOrangeCamera));
+                    VisionConstants.camera1Name,
+                    VisionConstants.robotToOrangeCamera,
+                    drive::addVisionMeasurement));
 
         intake = new Intake(new IntakeIOTalonFX());
         indexer = new Indexer(new IndexerIOTalonFX());
@@ -181,19 +183,7 @@ public class RobotContainer {
         flywheel = new Flywheel(new FlywheelIOSim());
         hood = new Hood(new HoodIOSim());
 
-        vision =
-            new Vision(
-                drive::addVisionMeasurement,
-                new VisionIOPhotonVisionSim(
-                    "camera0", VisionConstants.robotToBlueCamera, drive::getPose),
-                new VisionIOPhotonVisionSim(
-                    "camera1", VisionConstants.robotToOrangeCamera, drive::getPose)
-                // new VisionIOPhotonVisionSim(
-                //     "camera2", VisionConstants.robotToCamera2, drive::getPose)
-                // ,
-                // new VisionIOPhotonVisionSim(
-                //     "camera3", VisionConstants.robotToCamera3, drive::getPose)
-                );
+        vision = new Vision(new VisionIO() {});
         alignment = new Alignment(new AlignmentIO() {});
         turret = new Turret(new TurretIOSim());
         launcherTable = new LauncherTable();
@@ -223,7 +213,7 @@ public class RobotContainer {
         intake = new Intake(new IntakeIO() {});
         indexer = new Indexer(new IndexerIO() {});
 
-        vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+        vision = new Vision(new VisionIO() {}, new VisionIO() {});
         alignment = new Alignment(new AlignmentIO() {});
         flywheel = new Flywheel(new FlywheelIO() {});
         hood = new Hood(new HoodIO() {});
@@ -257,23 +247,23 @@ public class RobotContainer {
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     NamedCommands.registerCommand(
-        "Run Feeder Wheel", new InstantCommand(() -> indexer.runFeed(-3), indexer));
+        "Run Feeder Wheel", new InstantCommand(() -> indexer.runFeed(-9), indexer));
     NamedCommands.registerCommand(
         "Stop Feeder Wheel", new InstantCommand(() -> indexer.runFeed(0), indexer));
 
     NamedCommands.registerCommand(
-        "Run Indexer Wheel", new InstantCommand(() -> indexer.runSpin(8), indexer));
+        "Run Indexer Wheel", new InstantCommand(() -> indexer.runSpin(10), indexer));
     NamedCommands.registerCommand(
         "Stop Indexer Wheel", new InstantCommand(() -> indexer.runSpin(0), indexer));
 
-    // NamedCommands.registerCommand(
-    // "Shoot Fuel", new InstantCommand(() -> superstructure.interpolateShot()));
+    NamedCommands.registerCommand("Shoot Fuel", superstructureCommands.autoAimTurretHub());
+
     NamedCommands.registerCommand(
         "Stop Flywheel", new InstantCommand(() -> flywheel.stopFlywheel()));
     NamedCommands.registerCommand(
         "Reset Hood", new InstantCommand(() -> hood.setPositionHood(-0.05)));
-    NamedCommands.registerCommand(
-        "Reset Turret", new InstantCommand(() -> turret.setPositionTurret(-90)));
+    // NamedCommands.registerCommand(
+    //     "Reset Turret", new InstantCommand(() -> turret.setPositionTurret(-90)));
 
     updateDesiredHub();
     // Configure the button bindings
@@ -310,7 +300,7 @@ public class RobotContainer {
         DriveCommands.joystickDrive(
             drive, () -> -driver.getLeftY(), () -> -driver.getLeftX(), () -> -driver.getRightX()));
 
-    driver.x().onTrue(drive.driveToTower());
+    //   driver.x().onTrue(drive.driveToTower());
 
     // Lock to 0° when A button is held
     // operator
@@ -358,11 +348,16 @@ public class RobotContainer {
     driver.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
     driver.rightTrigger().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
 
-    driver.rightBumper().onTrue(superstructureCommands.autoAimTurretPassing());
-    driver.rightBumper().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
-    driver.rightBumper().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
-  }
+    // driver.rightTrigger().onTrue(new InstantCommand(() -> turret.setVoltageTurret(2), turret));
+    // driver.rightTrigger().onFalse(new InstantCommand(() -> turret.stopTurret(), turret));
 
+    // driver.leftTrigger().onTrue(new InstantCommand(() -> turret.setVoltageTurret(-2), turret));
+    // driver.leftTrigger().onFalse(new InstantCommand(() -> turret.stopTurret(), turret));
+
+    // driver.rightBumper().onTrue(superstructureCommands.autoAimTurretPassing());
+    // driver.rightBumper().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
+    // driver.rightBumper().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
+  }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
