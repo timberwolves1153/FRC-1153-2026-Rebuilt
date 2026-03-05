@@ -27,6 +27,11 @@ public class SuperstructureCommands {
         flywheel.setVelocityHub(drive::getPose));
   }
 
+  public Command interpolateShot() {
+    return Commands.parallel(
+        hood.setPositionHoodHub(drive::getPose), flywheel.setVelocityHub(drive::getPose));
+  }
+
   public Command autoAimTurretPassing() {
     return Commands.parallel(
         turret.setTurretPositionPassing(drive::getPose),

@@ -72,6 +72,10 @@ public class LauncherTable {
     Key = distance from hub in meters
     Value = flight time seconds */
 
+    flightTimeMap.put(new InterpolatingDouble(2.0), new InterpolatingDouble(1.0));
+    flightTimeMap.put(new InterpolatingDouble(3.0), new InterpolatingDouble(1.02));
+    flightTimeMap.put(new InterpolatingDouble(4.0), new InterpolatingDouble(1.15));
+    flightTimeMap.put(new InterpolatingDouble(5.0), new InterpolatingDouble(1.2));
   }
 
   public DoubleSupplier getHoodValueSupplier(double distance) {
