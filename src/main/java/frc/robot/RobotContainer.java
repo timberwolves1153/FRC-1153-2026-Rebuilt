@@ -335,33 +335,33 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    driver.leftBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-11), intake));
-    driver.leftBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
+    operator.leftBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-11), intake));
+    operator.leftBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
-    driver.rightBumper().onTrue(new InstantCommand(() -> indexer.runFeed(-9), indexer));
-    driver.rightBumper().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
+    operator.rightBumper().onTrue(new InstantCommand(() -> indexer.runFeed(-9), indexer));
+    operator.rightBumper().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
 
-    driver.rightBumper().onTrue(new InstantCommand(() -> indexer.runSpin(10), indexer));
-    driver.rightBumper().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
+    operator.rightBumper().onTrue(new InstantCommand(() -> indexer.runSpin(10), indexer));
+    operator.rightBumper().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
-    driver.rightTrigger().onTrue(superstructureCommands.autoAimTurretHub());
-    driver.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
-    driver.rightTrigger().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
+    operator.rightTrigger().onTrue(superstructureCommands.autoAimTurretHub());
+    operator.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
+    operator.rightTrigger().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
 
-    driver.povUp().onTrue(new InstantCommand(() -> turret.setPositionTurret(180)));
-    driver.povUp().onTrue(superstructureCommands.interpolateShot());
-    driver.povUp().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
-    driver.povUp().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
+    operator.povUp().onTrue(new InstantCommand(() -> turret.setPositionTurret(180)));
+    operator.povUp().onTrue(superstructureCommands.interpolateShot());
+    operator.povUp().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
+    operator.povUp().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
 
-    driver.povLeft().onTrue(new InstantCommand(() -> turret.setPositionTurret(90)));
-    driver.povLeft().onTrue(superstructureCommands.interpolateShot());
-    driver.povLeft().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
-    driver.povLeft().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
+    operator.povLeft().onTrue(new InstantCommand(() -> turret.setPositionTurret(90)));
+    operator.povLeft().onTrue(superstructureCommands.interpolateShot());
+    operator.povLeft().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
+    operator.povLeft().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
 
-    driver.povRight().onTrue(new InstantCommand(() -> turret.setPositionTurret(270)));
-    driver.povRight().onTrue(superstructureCommands.interpolateShot());
-    driver.povRight().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
-    driver.povRight().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
+    operator.povRight().onTrue(new InstantCommand(() -> turret.setPositionTurret(270)));
+    operator.povRight().onTrue(superstructureCommands.interpolateShot());
+    operator.povRight().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
+    operator.povRight().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
 
     // driver.rightTrigger().onTrue(new InstantCommand(() -> turret.setVoltageTurret(2), turret));
     // driver.rightTrigger().onFalse(new InstantCommand(() -> turret.stopTurret(), turret));
