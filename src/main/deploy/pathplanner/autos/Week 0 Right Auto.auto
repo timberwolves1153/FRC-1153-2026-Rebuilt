@@ -74,12 +74,6 @@
                 "data": {
                   "name": "Reset Hood"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Reset Turret"
-                }
               }
             ]
           }

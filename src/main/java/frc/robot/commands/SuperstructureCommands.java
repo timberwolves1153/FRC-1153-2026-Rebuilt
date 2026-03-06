@@ -1,11 +1,13 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.launcher.flywheel.Flywheel;
 import frc.robot.subsystems.launcher.hood.Hood;
 import frc.robot.subsystems.launcher.turret.Turret;
+import java.util.function.Supplier;
 
 public class SuperstructureCommands {
   private Drive drive;
@@ -18,6 +20,17 @@ public class SuperstructureCommands {
     this.flywheel = flywheel;
     this.hood = hood;
     this.turret = turret;
+  }
+
+  public Supplier<ChassisSpeeds> robotRelativeSpeed() {
+    ChassisSpeeds chassisSpeeds = drive.getChassisSpeeds();
+    double driveSpeedX = chassisSpeeds.vxMetersPerSecond + turret.turretFinalVelocityX;
+    double driveSpeedY = chassisSpeeds.vyMetersPerSecond + turret.turretFinalVelocityY;
+    double driveSpeedAngular = chassisSpeeds.omegaRadiansPerSecond;
+    ChassisSpeeds supplierRobotRelativeDriveSpeed =
+        new ChassisSpeeds(driveSpeedX, driveSpeedY, driveSpeedAngular);
+    Supplier<ChassisSpeeds> finalRobotRelativeDriveSpeed = () -> supplierRobotRelativeDriveSpeed;
+    return finalRobotRelativeDriveSpeed;
   }
 
   public Command autoAimTurretHub() {
@@ -37,5 +50,12 @@ public class SuperstructureCommands {
         turret.setTurretPositionPassing(drive::getPose),
         hood.setPositionHoodPassing(drive::getPose),
         flywheel.setVelocityPassing(drive::getPose));
+  }
+
+  public Command shootOnTheMoveCommand() {
+    return Commands.run(
+        () ->
+            turret.shootOnTheMoveCommand(
+                drive::getPose, robotRelativeSpeed(), drive::getChassisSpeeds));
   }
 }

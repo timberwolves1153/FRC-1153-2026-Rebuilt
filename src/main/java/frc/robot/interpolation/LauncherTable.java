@@ -101,4 +101,12 @@ public class LauncherTable {
   public double getFlywheelPassingValue(double distance) {
     return flywheelShootingMap.getInterpolated(new InterpolatingDouble(distance)).value;
   }
+
+  public DoubleSupplier getTimeofFlightSupplier(double distance) {
+    return () -> flightTimeMap.getInterpolated(new InterpolatingDouble(distance)).value;
+  }
+
+  public static double getTimeofFlightValue(double distance) {
+    return flightTimeMap.getInterpolated(new InterpolatingDouble(distance)).value;
+  }
 }

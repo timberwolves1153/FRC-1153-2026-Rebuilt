@@ -4,6 +4,9 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Twist2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -13,6 +16,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.FieldConstants;
+import frc.robot.interpolation.InterpolatingDouble;
+import frc.robot.interpolation.LauncherTable;
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
@@ -22,6 +27,13 @@ public class Turret extends SubsystemBase {
   private final TurretIOInputsAutoLogged inputs = new TurretIOInputsAutoLogged();
 
   public final Transform2d turretOffset;
+
+  private double phaseDelay = 0.03;
+  public Rotation2d finalTurretAngle;
+  public Pose2d turretPose;
+  public double turretFinalVelocityX;
+  public double turretFinalVelocityY;
+  public double turretFinalAngularVelocity;
 
   public Turret(TurretIO turretIO) {
     io = turretIO;
@@ -57,6 +69,15 @@ public class Turret extends SubsystemBase {
 
   public void stopTurret() {
     io.stopTurret();
+  }
+
+  private Rotation2d adjustedTurretRotation(
+      Pose2d robotPose, Pose2d desiredHub) { // Pose2d -> Supplier<Pose2d>
+    Rotation2d rot = calculateTurretRotation(robotPose, desiredHub);
+    Rotation2d adjustedRot = new Rotation2d(Units.degreesToRadians(adjustTurretAngle(rot)));
+    Rotation2d robotRot = robotPose.getRotation();
+    Rotation2d turretRot = adjustedRot.plus(robotRot);
+    return turretRot;
   }
 
   private void autoAimTurretHub(Supplier<Pose2d> robotPoseSupplier) {
@@ -179,5 +200,106 @@ public class Turret extends SubsystemBase {
 
   public Command setTurretPositionPassing(Supplier<Pose2d> robotPoseSupplier) {
     return Commands.run(() -> autoAimTurretPassing(robotPoseSupplier), this);
+  }
+
+  public void shootOnTheMove(
+      Supplier<Pose2d> robotPose,
+      Supplier<ChassisSpeeds> robotRelVelocity,
+      Supplier<ChassisSpeeds> robotFieldVelocity) {
+    boolean isRed =
+        DriverStation.getAlliance().isPresent()
+            && DriverStation.getAlliance().get() == Alliance.Red;
+
+    Pose2d desiredHub;
+    if (isRed) {
+      desiredHub = FieldConstants.Hub.redHubCenter;
+    } else {
+      desiredHub = FieldConstants.Hub.blueHubCenter;
+    }
+
+    Pose2d estimatedPose = robotPose.get();
+    ChassisSpeeds robotRelativeVelocity = robotRelVelocity.get();
+    Translation2d target = desiredHub.getTranslation();
+
+    estimatedPose =
+        estimatedPose.exp(
+            new Twist2d(
+                robotRelativeVelocity.vxMetersPerSecond * phaseDelay,
+                robotRelativeVelocity.vyMetersPerSecond * phaseDelay,
+                robotRelativeVelocity.omegaRadiansPerSecond * phaseDelay));
+
+    turretPose =
+        new Pose2d(
+            estimatedPose.getX() + turretOffset.getX(),
+            estimatedPose.getY() + turretOffset.getY(),
+            adjustedTurretRotation(robotPose.get(), desiredHub));
+
+    double turretToHubDistance = FieldConstants.getDistanceToHubCenter(turretPose);
+
+    ChassisSpeeds robotVelocity = robotFieldVelocity.get();
+    double robotAngle = estimatedPose.getRotation().getDegrees();
+
+    double
+        turretVelocityX = // subtract x from the y to tke into the account the robot's rotation when
+            // shooting and moving at the same time
+            robotVelocity.vxMetersPerSecond
+                + (robotVelocity.omegaRadiansPerSecond
+                    * ((turretPose.getY() * Math.cos(robotAngle))
+                        - (turretPose.getX() * Math.sin(robotAngle))));
+
+    double
+        turretVelocityY = // subtract y from the x to tke into the account the robot's rotation when
+            // shooting and moving at the same time
+            robotVelocity.vyMetersPerSecond
+                + (robotVelocity.omegaRadiansPerSecond
+                    * ((turretPose.getX() * Math.sin(robotAngle))
+                        - (turretPose.getY() * Math.cos(robotAngle))));
+
+    double turretFinalAngularVelocity = robotVelocity.omegaRadiansPerSecond;
+
+    double fuelTimeofFlight;
+    for (int i = 0; i < 20; i++) {
+
+      fuelTimeofFlight =
+          LauncherTable.flightTimeMap.getInterpolated(new InterpolatingDouble(turretToHubDistance))
+              .value;
+
+      turretFinalVelocityX = turretVelocityX * fuelTimeofFlight;
+      turretFinalVelocityY = turretVelocityY * fuelTimeofFlight;
+
+      turretPose =
+          new Pose2d(
+              turretPose
+                  .getTranslation()
+                  .plus(new Translation2d(turretFinalVelocityX, turretFinalVelocityY)),
+              turretPose.getRotation());
+
+      turretToHubDistance = target.getDistance(turretPose.getTranslation());
+    }
+
+    Rotation2d turretAngle = target.minus(turretPose.getTranslation()).getAngle();
+    double turretAngleDegrees = turretAngle.getDegrees();
+
+    if (finalTurretAngle == null) {
+      finalTurretAngle = Rotation2d.fromDegrees(turretAngleDegrees);
+    }
+
+    if (turretAngleDegrees < 0) {
+      finalTurretAngle = Rotation2d.fromDegrees(turretAngleDegrees + 360);
+    } else {
+      finalTurretAngle = Rotation2d.fromDegrees(turretAngleDegrees);
+    }
+
+    setPositionTurret(finalTurretAngle.getDegrees());
+
+    Logger.recordOutput("Turret Pose", turretPose);
+  }
+
+  public Command shootOnTheMoveCommand(
+      Supplier<Pose2d> robotPose,
+      Supplier<ChassisSpeeds> robotRelativeVelocity,
+      Supplier<ChassisSpeeds> robotFieldVelocity) {
+    return Commands.run(
+        () -> shootOnTheMove(robotPose, robotRelativeVelocity, robotFieldVelocity), this);
   }
 }
