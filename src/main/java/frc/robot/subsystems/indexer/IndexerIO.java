@@ -9,7 +9,8 @@ public interface IndexerIO {
     public double spinCurrentAmps = 0.0;
 
     public double feedAppliedVolts = 0.0;
-    public double feedCurrentAmps = 0.0;
+    public double feedSupplyCurrentAmps = 0.0;
+    public double feedStatorCurrentAmps = 0.0;
   }
 
   public default void updateInputs(IndexerIOInputs inputs) {}

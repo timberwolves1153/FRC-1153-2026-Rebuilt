@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.FeedUntilEmptyCommand;
 import frc.robot.commands.SuperstructureCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.interpolation.LauncherTable;
@@ -227,34 +227,35 @@ public class RobotContainer {
 
     superstructureCommands = new SuperstructureCommands(drive, flywheel, hood, turret);
 
-    // Set up auto routines
-    autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
-
     // Set up SysId routines
-    autoChooser.addOption(
-        "Drive Wheel Radius Characterization", DriveCommands.wheelRadiusCharacterization(drive));
-    autoChooser.addOption(
-        "Drive Simple FF Characterization", DriveCommands.feedforwardCharacterization(drive));
-    autoChooser.addOption(
-        "Drive SysId (Quasistatic Forward)",
-        drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    autoChooser.addOption(
-        "Drive SysId (Quasistatic Reverse)",
-        drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-    autoChooser.addOption(
-        "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
-    autoChooser.addOption(
-        "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    // autoChooser.addOption(
+    //     "Drive Wheel Radius Characterization", DriveCommands.wheelRadiusCharacterization(drive));
+    // autoChooser.addOption(
+    //     "Drive Simple FF Characterization", DriveCommands.feedforwardCharacterization(drive));
+    // autoChooser.addOption(
+    //     "Drive SysId (Quasistatic Forward)",
+    //     drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    // autoChooser.addOption(
+    //     "Drive SysId (Quasistatic Reverse)",
+    //     drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    // autoChooser.addOption(
+    //     "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    // autoChooser.addOption(
+    //     "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
-    NamedCommands.registerCommand(
-        "Run Feeder Wheel", new InstantCommand(() -> indexer.runFeed(-9), indexer));
-    NamedCommands.registerCommand(
-        "Stop Feeder Wheel", new InstantCommand(() -> indexer.runFeed(0), indexer));
+    // NamedCommands.registerCommand(
+    //     "Run Feeder Wheel", new InstantCommand(() -> indexer.runFeed(-9)));
+    // NamedCommands.registerCommand(
+    //     "Stop Feeder Wheel", new InstantCommand(() -> indexer.runFeed(0)));
 
-    NamedCommands.registerCommand(
-        "Run Indexer Wheel", new InstantCommand(() -> indexer.runSpin(10), indexer));
-    NamedCommands.registerCommand(
-        "Stop Indexer Wheel", new InstantCommand(() -> indexer.runSpin(0), indexer));
+    // NamedCommands.registerCommand(
+    //     "Run Indexer", new InstantCommand(() -> indexer.runSpin(10)));
+    // NamedCommands.registerCommand(
+    //     "Stop Indexer", new InstantCommand(() -> indexer.runSpin(0)));
+
+    NamedCommands.registerCommand("Run Indexer", new FeedUntilEmptyCommand(indexer));
+
+    NamedCommands.registerCommand("Stop Indexer", indexer.stopIndexer());
 
     NamedCommands.registerCommand("Shoot Fuel", superstructureCommands.autoAimTurretHub());
 
@@ -266,6 +267,10 @@ public class RobotContainer {
     //     "Reset Turret", new InstantCommand(() -> turret.setPositionTurret(-90)));
 
     updateDesiredHub();
+
+    // Set up auto routines
+    autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+
     // Configure the button bindings
     configureButtonBindings();
 
@@ -344,13 +349,14 @@ public class RobotContainer {
     driver.rightBumper().onTrue(new InstantCommand(() -> indexer.runSpin(10), indexer));
     driver.rightBumper().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
-    driver.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
-    driver.rightTrigger().onFalse(new InstantCommand(() -> turret.stopTurret()));
+    // driver.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
+    // driver.rightTrigger().onFalse(new InstantCommand(() -> turret.stopTurret()));
 
-    // driver.rightTrigger().onTrue(superstructureCommands.autoAimTurretHub());
-    // driver.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
-    // driver.rightTrigger().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
+    driver.rightTrigger().onTrue(superstructureCommands.autoAimTurretHub());
+    driver.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
+    driver.rightTrigger().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
 
+    driver.leftTrigger().onTrue(new FeedUntilEmptyCommand(indexer));
     // driver.povUp().onTrue(new InstantCommand(() -> turret.setPositionTurret(180)));
     // driver.povUp().onTrue(superstructureCommands.interpolateShot());
     // driver.povUp().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));

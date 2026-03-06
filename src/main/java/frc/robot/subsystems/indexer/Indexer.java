@@ -1,5 +1,6 @@
 package frc.robot.subsystems.indexer;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import org.littletonrobotics.junction.Logger;
@@ -50,5 +51,25 @@ public class Indexer extends SubsystemBase {
 
   public void stopFeeder() {
     indexerIO.stopFeeder();
+  }
+
+  public double getFeederCurrentAmps() {
+    return indexerInputs.feedStatorCurrentAmps;
+  }
+
+  public Command runIndexer() {
+    return runOnce(
+        () -> {
+          runSpin(10);
+          runFeed(-9);
+        });
+  }
+
+  public Command stopIndexer() {
+    return runOnce(
+        () -> {
+          runSpin(0);
+          runFeed(0);
+        });
   }
 }

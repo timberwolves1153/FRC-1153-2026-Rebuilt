@@ -29,7 +29,7 @@ public class IndexerIOSim implements IndexerIO {
     inputs.spinCurrentAmps = spinSim.getCurrentDrawAmps();
 
     inputs.feedAppliedVolts = feederSim.getInputVoltage();
-    inputs.feedCurrentAmps = feederSim.getCurrentDrawAmps();
+    inputs.feedSupplyCurrentAmps = feederSim.getCurrentDrawAmps();
   }
 
   /** Runs the Spin motor to serialize game pieces. */

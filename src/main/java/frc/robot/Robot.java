@@ -91,11 +91,14 @@ public class Robot extends LoggedRobot {
 
     CommandScheduler.getInstance().run();
 
-    SmartDashboard.putNumber("Match Info: Match Time Left?", DriverStation.getMatchTime());
+    double matchTime = DriverStation.getMatchTime();
+
+    SmartDashboard.putNumber("Match Info: Match Time Left?", matchTime);
     SmartDashboard.putBoolean("Match Info: Can Score?", ShiftHelpers.currentShiftIsYours());
     SmartDashboard.putNumber(
-        "Match Info: Shift Time Left?",
-        ShiftHelpers.timeLeftInShiftSeconds(DriverStation.getMatchTime()));
+        "Match Info: Shift Time Left?", ShiftHelpers.timeLeftInShiftSeconds(matchTime));
+    SmartDashboard.putBoolean(
+        "Match Info: Current Alliance Shift", ShiftHelpers.isCurrentShiftBlue(matchTime));
 
     // Return to non-RT thread priority (do not modify the first argument)
     // Threads.setCurrentThreadPriority(false, 10);

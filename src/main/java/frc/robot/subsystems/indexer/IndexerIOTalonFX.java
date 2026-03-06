@@ -54,8 +54,9 @@ public class IndexerIOTalonFX implements IndexerIO {
 
     indexerInputs.spinAppliedVolts = spinAppliedVoltage.getValueAsDouble();
     indexerInputs.spinCurrentAmps = spinCurrent.getValueAsDouble();
-    indexerInputs.feedAppliedVolts = feedAppliedVoltage.getValueAsDouble();
-    indexerInputs.feedCurrentAmps = feedCurrent.getValueAsDouble();
+    indexerInputs.feedAppliedVolts = feedMotor.getSupplyVoltage().getValueAsDouble();
+    indexerInputs.feedSupplyCurrentAmps = feedMotor.getSupplyCurrent().getValueAsDouble();
+    indexerInputs.feedStatorCurrentAmps = feedMotor.getStatorCurrent().getValueAsDouble();
   }
 
   /** Runs the Spin motor to serialize game pieces. */
