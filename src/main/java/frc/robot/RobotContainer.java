@@ -356,7 +356,17 @@ public class RobotContainer {
     driver.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
     driver.rightTrigger().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
 
-    driver.leftTrigger().onTrue(new FeedUntilEmptyCommand(indexer));
+    driver
+        .leftTrigger()
+        .onTrue(
+            turret.shootOnTheMoveCommand(
+                drive::getPose,
+                superstructureCommands.robotRelativeSpeed(),
+                drive::getChassisSpeeds,
+                hood,
+                flywheel));
+
+    // driver.leftTrigger().onTrue(new FeedUntilEmptyCommand(indexer));
     // driver.povUp().onTrue(new InstantCommand(() -> turret.setPositionTurret(180)));
     // driver.povUp().onTrue(superstructureCommands.interpolateShot());
     // driver.povUp().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));

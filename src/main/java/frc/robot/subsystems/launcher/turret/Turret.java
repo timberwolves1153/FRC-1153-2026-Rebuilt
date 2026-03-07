@@ -18,6 +18,8 @@ import frc.robot.Constants;
 import frc.robot.FieldConstants;
 import frc.robot.interpolation.InterpolatingDouble;
 import frc.robot.interpolation.LauncherTable;
+import frc.robot.subsystems.launcher.flywheel.Flywheel;
+import frc.robot.subsystems.launcher.hood.Hood;
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
@@ -31,7 +33,7 @@ public class Turret extends SubsystemBase {
   private double phaseDelay = 0.03;
   public Rotation2d finalTurretAngle;
   public Pose2d turretPose;
-  public double turretFinalVelocityX;
+  public double turretDisplacementX;
   public double turretFinalVelocityY;
   public double turretFinalAngularVelocity;
 
@@ -71,12 +73,16 @@ public class Turret extends SubsystemBase {
     io.stopTurret();
   }
 
-  private Rotation2d adjustedTurretRotation(
-      Pose2d robotPose, Pose2d desiredHub) { // Pose2d -> Supplier<Pose2d>
-    Rotation2d rot = calculateTurretRotation(robotPose, desiredHub);
+  private Rotation2d adjustedTurretRotation(Supplier<Pose2d> robotPoseSupplier, Pose2d desiredHub) {
+    Rotation2d rot = calculateTurretRotation(robotPoseSupplier.get(), desiredHub);
     Rotation2d adjustedRot = new Rotation2d(Units.degreesToRadians(adjustTurretAngle(rot)));
-    Rotation2d robotRot = robotPose.getRotation();
+    Rotation2d robotRot = robotPoseSupplier.get().getRotation();
     Rotation2d turretRot = adjustedRot.plus(robotRot);
+    if (turretRot.getDegrees() < 0) {
+      setPositionTurret(turretRot.getDegrees() + 360);
+    } else {
+      setPositionTurret(turretRot.getDegrees());
+    }
     return turretRot;
   }
 
@@ -205,7 +211,9 @@ public class Turret extends SubsystemBase {
   public void shootOnTheMove(
       Supplier<Pose2d> robotPose,
       Supplier<ChassisSpeeds> robotRelVelocity,
-      Supplier<ChassisSpeeds> robotFieldVelocity) {
+      Supplier<ChassisSpeeds> robotFieldVelocity,
+      Hood hood,
+      Flywheel flywheel) {
     boolean isRed =
         DriverStation.getAlliance().isPresent()
             && DriverStation.getAlliance().get() == Alliance.Red;
@@ -232,13 +240,12 @@ public class Turret extends SubsystemBase {
         new Pose2d(
             estimatedPose.getX() + turretOffset.getX(),
             estimatedPose.getY() + turretOffset.getY(),
-            adjustedTurretRotation(robotPose.get(), desiredHub));
+            adjustedTurretRotation(robotPose, desiredHub));
 
     double turretToHubDistance = FieldConstants.getDistanceToHubCenter(turretPose);
 
     ChassisSpeeds robotVelocity = robotFieldVelocity.get();
     double robotAngle = estimatedPose.getRotation().getDegrees();
-
     double
         turretVelocityX = // subtract x from the y to tke into the account the robot's rotation when
             // shooting and moving at the same time
@@ -255,8 +262,6 @@ public class Turret extends SubsystemBase {
                     * ((turretPose.getX() * Math.sin(robotAngle))
                         - (turretPose.getY() * Math.cos(robotAngle))));
 
-    double turretFinalAngularVelocity = robotVelocity.omegaRadiansPerSecond;
-
     double fuelTimeofFlight;
     for (int i = 0; i < 20; i++) {
 
@@ -264,42 +269,65 @@ public class Turret extends SubsystemBase {
           LauncherTable.flightTimeMap.getInterpolated(new InterpolatingDouble(turretToHubDistance))
               .value;
 
-      turretFinalVelocityX = turretVelocityX * fuelTimeofFlight;
+      turretDisplacementX = turretVelocityX * fuelTimeofFlight;
       turretFinalVelocityY = turretVelocityY * fuelTimeofFlight;
 
       turretPose =
           new Pose2d(
               turretPose
                   .getTranslation()
-                  .plus(new Translation2d(turretFinalVelocityX, turretFinalVelocityY)),
+                  .plus(new Translation2d(turretDisplacementX, turretFinalVelocityY)),
               turretPose.getRotation());
 
       turretToHubDistance = target.getDistance(turretPose.getTranslation());
     }
 
-    Rotation2d turretAngle = target.minus(turretPose.getTranslation()).getAngle();
-    double turretAngleDegrees = turretAngle.getDegrees();
+    // Calculate final turret angle to hub using atan2 for correct quadrant handling
+    Rotation2d fieldAngleToHub = target.minus(turretPose.getTranslation()).getAngle();
+    // Convert field angle to motor encoder coordinates using the same transformation as
+    // autoAimTurret
 
-    if (finalTurretAngle == null) {
-      finalTurretAngle = Rotation2d.fromDegrees(turretAngleDegrees);
+    // Set turret position using the same logic as autoAimTurret
+    double setMovingTurretAngle = adjustedTurretRotation(robotPose, desiredHub).getDegrees();
+    SmartDashboard.putNumber("SOTM Moving Turret Angle", setMovingTurretAngle);
+
+    if (setMovingTurretAngle < 0) {
+      setMovingTurretAngle = setMovingTurretAngle + 360;
     }
 
-    if (turretAngleDegrees < 0) {
-      finalTurretAngle = Rotation2d.fromDegrees(turretAngleDegrees + 360);
-    } else {
-      finalTurretAngle = Rotation2d.fromDegrees(turretAngleDegrees);
-    }
+    setPositionTurret(setMovingTurretAngle);
 
-    setPositionTurret(finalTurretAngle.getDegrees());
+    // Look up hood angle and flywheel velocity from LauncherTable based on final distance to hub
+    double hoodAngle =
+        LauncherTable.hoodMap.getInterpolated(new InterpolatingDouble(turretToHubDistance)).value;
+    double flywheelVelocity =
+        LauncherTable.flywheelShootingMap.getInterpolated(
+                new InterpolatingDouble(turretToHubDistance))
+            .value;
 
-    Logger.recordOutput("Turret Pose", turretPose);
+    // Log diagnostic values for troubleshooting
+    SmartDashboard.putNumber("SOTM Distance to Hub", turretToHubDistance);
+    // SmartDashboard.putNumber("SOTM Turret Angle", turretAngleDegrees);
+    SmartDashboard.putNumber("SOTM Turret X Displacement", turretDisplacementX);
+    SmartDashboard.putNumber("SOTM Turret Y Displacement", turretFinalVelocityY);
+    SmartDashboard.putNumber("SOTM Hood Angle", hoodAngle);
+    SmartDashboard.putNumber("SOTM Flywheel Velocity", flywheelVelocity);
+    Logger.recordOutput("SOTM Turret Pose", turretPose);
+    Logger.recordOutput("SOTM Target", new Pose2d(target, Rotation2d.kZero));
+
+    // Set hood and flywheel to calculated values
+    hood.setPositionHood(hoodAngle);
+    flywheel.setVelocityLeader(flywheelVelocity);
   }
 
   public Command shootOnTheMoveCommand(
       Supplier<Pose2d> robotPose,
       Supplier<ChassisSpeeds> robotRelativeVelocity,
-      Supplier<ChassisSpeeds> robotFieldVelocity) {
+      Supplier<ChassisSpeeds> robotFieldVelocity,
+      Hood hood,
+      Flywheel flywheel) {
     return Commands.run(
-        () -> shootOnTheMove(robotPose, robotRelativeVelocity, robotFieldVelocity), this);
+        () -> shootOnTheMove(robotPose, robotRelativeVelocity, robotFieldVelocity, hood, flywheel),
+        this);
   }
 }
