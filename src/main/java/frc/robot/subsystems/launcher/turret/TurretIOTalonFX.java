@@ -48,20 +48,20 @@ public class TurretIOTalonFX implements TurretIO {
     turretConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     encoderConfig.MagnetSensor.MagnetOffset =
-        (Units.degreesToRotations(69 * 1.25)); // subject to change
+        (Units.degreesToRotations((69 * 1.25) - (71 * 1.25))); // subject to change
 
     var slot0Configs = turretConfig.Slot0;
     slot0Configs.kS = 0.3;
     slot0Configs.kV = 0;
     slot0Configs.kA = 0;
-    slot0Configs.kP = 115;
+    slot0Configs.kP = 130;
     slot0Configs.kI = 0;
     slot0Configs.kD = 1;
 
     encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.99;
 
-    turretConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
-    turretConfig.MotionMagic.MotionMagicAcceleration = 5;
+    turretConfig.MotionMagic.MotionMagicCruiseVelocity = 7.5;
+    turretConfig.MotionMagic.MotionMagicAcceleration = 7.5;
 
     turretConfig.Feedback.FeedbackRemoteSensorID = encoder.getDeviceID();
     turretConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;

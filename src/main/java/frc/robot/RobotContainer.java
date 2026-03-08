@@ -362,9 +362,8 @@ public class RobotContainer {
             turret.shootOnTheMoveCommand(
                 drive::getPose,
                 superstructureCommands.robotRelativeSpeed(),
-                drive::getChassisSpeeds,
-                hood,
-                flywheel));
+                drive::getChassisSpeeds));
+    // driver.leftTrigger().onTrue(superstructureCommands.interpolateShot());
 
     // driver.leftTrigger().onTrue(new FeedUntilEmptyCommand(indexer));
     // driver.povUp().onTrue(new InstantCommand(() -> turret.setPositionTurret(180)));

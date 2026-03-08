@@ -24,8 +24,8 @@ public class SuperstructureCommands {
 
   public Supplier<ChassisSpeeds> robotRelativeSpeed() {
     ChassisSpeeds chassisSpeeds = drive.getChassisSpeeds();
-    double driveSpeedX = chassisSpeeds.vxMetersPerSecond + turret.turretFinalVelocityX;
-    double driveSpeedY = chassisSpeeds.vyMetersPerSecond + turret.turretFinalVelocityY;
+    double driveSpeedX = chassisSpeeds.vxMetersPerSecond + turret.turretDisplacementX;
+    double driveSpeedY = chassisSpeeds.vyMetersPerSecond + turret.turretDisplacementY;
     double driveSpeedAngular = chassisSpeeds.omegaRadiansPerSecond;
     ChassisSpeeds supplierRobotRelativeDriveSpeed =
         new ChassisSpeeds(driveSpeedX, driveSpeedY, driveSpeedAngular);
@@ -52,8 +52,8 @@ public class SuperstructureCommands {
         flywheel.setVelocityPassing(drive::getPose));
   }
 
-  public Command shootOnTheMoveCommand() {
-    return turret.shootOnTheMoveCommand(
-        drive::getPose, drive::getChassisSpeeds, drive::getChassisSpeeds, hood, flywheel);
-  }
+  // public Command shootOnTheMoveCommand() {
+  //   return turret.shootOnTheMoveCommand(
+  //       drive::getPose, drive::getChassisSpeeds, drive::getChassisSpeeds, hood, flywheel);
+  // }
 }
