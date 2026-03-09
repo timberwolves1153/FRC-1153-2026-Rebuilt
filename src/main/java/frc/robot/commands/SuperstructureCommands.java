@@ -22,15 +22,19 @@ public class SuperstructureCommands {
     this.turret = turret;
   }
 
+  // public Supplier<ChassisSpeeds> robotRelativeSpeed() {
+  //   ChassisSpeeds chassisSpeeds = drive.getChassisSpeeds();
+  //   double driveSpeedX = chassisSpeeds.vxMetersPerSecond + turret.turretDisplacementX;
+  //   double driveSpeedY = chassisSpeeds.vyMetersPerSecond + turret.turretDisplacementY;
+  //   double driveSpeedAngular = chassisSpeeds.omegaRadiansPerSecond;
+  //   ChassisSpeeds supplierRobotRelativeDriveSpeed =
+  //       new ChassisSpeeds(driveSpeedX, driveSpeedY, driveSpeedAngular);
+  //   Supplier<ChassisSpeeds> finalRobotRelativeDriveSpeed = () -> supplierRobotRelativeDriveSpeed;
+  //   return finalRobotRelativeDriveSpeed;
+  // }
+
   public Supplier<ChassisSpeeds> robotRelativeSpeed() {
-    ChassisSpeeds chassisSpeeds = drive.getChassisSpeeds();
-    double driveSpeedX = chassisSpeeds.vxMetersPerSecond + turret.turretDisplacementX;
-    double driveSpeedY = chassisSpeeds.vyMetersPerSecond + turret.turretDisplacementY;
-    double driveSpeedAngular = chassisSpeeds.omegaRadiansPerSecond;
-    ChassisSpeeds supplierRobotRelativeDriveSpeed =
-        new ChassisSpeeds(driveSpeedX, driveSpeedY, driveSpeedAngular);
-    Supplier<ChassisSpeeds> finalRobotRelativeDriveSpeed = () -> supplierRobotRelativeDriveSpeed;
-    return finalRobotRelativeDriveSpeed;
+    return () -> drive.getChassisSpeeds();
   }
 
   public Command autoAimTurretHub() {

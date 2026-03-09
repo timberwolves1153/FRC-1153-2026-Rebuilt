@@ -106,7 +106,7 @@ public class LauncherTable {
     return () -> flightTimeMap.getInterpolated(new InterpolatingDouble(distance)).value;
   }
 
-  public static double getTimeofFlightValue(double distance) {
+  public double getTimeofFlightSeconds(double distance) {
     return flightTimeMap.getInterpolated(new InterpolatingDouble(distance)).value;
   }
 }
