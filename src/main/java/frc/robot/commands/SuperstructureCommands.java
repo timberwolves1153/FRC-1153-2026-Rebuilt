@@ -3,6 +3,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.indexer.Indexer;
+import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.launcher.flywheel.Flywheel;
 import frc.robot.subsystems.launcher.hood.Hood;
 import frc.robot.subsystems.launcher.turret.Turret;
@@ -12,12 +14,17 @@ public class SuperstructureCommands {
   private Turret turret;
   private Flywheel flywheel;
   private Hood hood;
+  private Intake intake;
+  private Indexer indexer;
 
-  public SuperstructureCommands(Drive drive, Flywheel flywheel, Hood hood, Turret turret) {
+  public SuperstructureCommands(
+      Drive drive, Flywheel flywheel, Hood hood, Turret turret, Intake intake, Indexer indexer) {
     this.drive = drive;
     this.flywheel = flywheel;
     this.hood = hood;
     this.turret = turret;
+    this.intake = intake;
+    this.indexer = indexer;
   }
 
   public Command autoAimTurretHub() {
@@ -37,5 +44,16 @@ public class SuperstructureCommands {
         turret.setTurretPositionPassing(drive::getPose),
         hood.setPositionHoodPassing(drive::getPose),
         flywheel.setVelocityPassing(drive::getPose));
+  }
+
+  public Command shoot() {
+    return Commands.parallel(
+        indexer.indexFeed(-9),
+        indexer.indexSpin(10),
+        Commands.sequence(
+            intake.intakeDeploy(0),
+            Commands.waitSeconds(1),
+            intake.intakeDeploy(.125),
+            Commands.waitSeconds(1)));
   }
 }

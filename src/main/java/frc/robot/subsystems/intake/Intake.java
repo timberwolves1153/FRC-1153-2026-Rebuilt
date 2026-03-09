@@ -2,6 +2,8 @@
 
 package frc.robot.subsystems.intake;
 
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import org.littletonrobotics.junction.Logger;
@@ -50,5 +52,13 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     intakeIO.updateInputs(intakeInputs);
     Logger.processInputs("Intake", intakeInputs);
+  }
+
+  public Command intakeCollect(double volts) {
+    return Commands.run(() -> setCollectVoltage(volts), this);
+  }
+
+  public Command intakeDeploy(double rotations) {
+    return Commands.run(() -> setPositionIntake(rotations), this);
   }
 }

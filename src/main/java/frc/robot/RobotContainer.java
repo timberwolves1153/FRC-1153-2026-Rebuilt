@@ -225,7 +225,8 @@ public class RobotContainer {
         break;
     }
 
-    superstructureCommands = new SuperstructureCommands(drive, flywheel, hood, turret);
+    superstructureCommands =
+        new SuperstructureCommands(drive, flywheel, hood, turret, intake, indexer);
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -338,11 +339,10 @@ public class RobotContainer {
     operator.leftBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-11), intake));
     operator.leftBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
-    operator.rightBumper().onTrue(new InstantCommand(() -> indexer.runFeed(-9), indexer));
+    operator.rightBumper().onTrue(superstructureCommands.shoot());
     operator.rightBumper().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
-
-    operator.rightBumper().onTrue(new InstantCommand(() -> indexer.runSpin(10), indexer));
     operator.rightBumper().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
+    operator.rightBumper().onFalse(new InstantCommand(() -> intake.setPositionIntake(0), intake));
 
     operator.rightTrigger().onTrue(superstructureCommands.autoAimTurretHub());
     operator.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
