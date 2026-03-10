@@ -7,7 +7,6 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -17,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.FeedUntilEmptyCommand;
 import frc.robot.commands.SuperstructureCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.interpolation.LauncherTable;
@@ -253,16 +251,16 @@ public class RobotContainer {
     // NamedCommands.registerCommand(
     //     "Stop Indexer", new InstantCommand(() -> indexer.runSpin(0)));
 
-    NamedCommands.registerCommand("Run Indexer", new FeedUntilEmptyCommand(indexer));
+    // NamedCommands.registerCommand("Run Indexer", new FeedUntilEmptyCommand(indexer));
 
-    NamedCommands.registerCommand("Stop Indexer", indexer.stopIndexer());
+    // NamedCommands.registerCommand("Stop Indexer", indexer.stopIndexer());
 
-    NamedCommands.registerCommand("Shoot Fuel", superstructureCommands.autoAimTurretHub());
+    // NamedCommands.registerCommand("Shoot Fuel", superstructureCommands.autoAimTurretHub());
 
-    NamedCommands.registerCommand(
-        "Stop Flywheel", new InstantCommand(() -> flywheel.stopFlywheel()));
-    NamedCommands.registerCommand(
-        "Reset Hood", new InstantCommand(() -> hood.setPositionHood(-0.05)));
+    // NamedCommands.registerCommand(
+    //     "Stop Flywheel", new InstantCommand(() -> flywheel.stopFlywheel()));
+    // NamedCommands.registerCommand(
+    //     "Reset Hood", new InstantCommand(() -> hood.setPositionHood(-0.05)));
     // NamedCommands.registerCommand(
     //     "Reset Turret", new InstantCommand(() -> turret.setPositionTurret(-90)));
 
@@ -356,14 +354,13 @@ public class RobotContainer {
     driver.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(), flywheel));
     driver.rightTrigger().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
 
-    driver
-        .leftTrigger()
-        .onTrue(
-            turret.shootOnTheMoveCommand(
-                drive::getPose,
-                superstructureCommands.robotRelativeSpeed(),
-                drive::getChassisSpeeds));
-    // driver.leftTrigger().onTrue(superstructureCommands.interpolateShot());
+    driver.leftTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
+
+    driver.a().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.1)));
+    driver.x().onTrue(new InstantCommand(() -> hood.setPositionHood(-1.8)));
+
+    driver.b().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.1)));
+    driver.y().onTrue(new InstantCommand(() -> hood.setPositionHood(-1.8)));
 
     // driver.leftTrigger().onTrue(new FeedUntilEmptyCommand(indexer));
     // driver.povUp().onTrue(new InstantCommand(() -> turret.setPositionTurret(180)));

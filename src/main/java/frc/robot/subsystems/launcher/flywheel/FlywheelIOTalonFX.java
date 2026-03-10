@@ -54,11 +54,11 @@ public class FlywheelIOTalonFX implements FlywheelIO {
     slot0Configs.kS = 0.25;
     slot0Configs.kV = 0.12;
     slot0Configs.kA = 0;
-    slot0Configs.kP = 0.58;
+    slot0Configs.kP = 0.75;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0; // never change
-    flywheelConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
-    flywheelConfig.MotionMagic.MotionMagicAcceleration = 5;
+    flywheelConfig.MotionMagic.MotionMagicCruiseVelocity = 7.5;
+    flywheelConfig.MotionMagic.MotionMagicAcceleration = 7.5;
 
     leadMotor.getConfigurator().apply(flywheelConfig);
     followerMotor.getConfigurator().apply(flywheelConfig);
