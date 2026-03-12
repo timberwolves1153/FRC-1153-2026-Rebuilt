@@ -17,8 +17,8 @@ import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FlywheelIOTalonFX implements FlywheelIO {
-  private final TalonFX leadMotor = new TalonFX(58, "rio");
-  private final TalonFX followerMotor = new TalonFX(59, "rio");
+  private final TalonFX leadMotor = new TalonFX(58, "superstructure");
+  private final TalonFX followerMotor = new TalonFX(59, "superstructure");
 
   private VoltageOut voltageRequest = new VoltageOut(0);
   private VelocityVoltage velocityVoltage = new VelocityVoltage(0).withSlot(0);
@@ -45,7 +45,7 @@ public class FlywheelIOTalonFX implements FlywheelIO {
 
   public void configMotors() {
     flywheelConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
-    flywheelConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    flywheelConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
 
     flywheelConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     flywheelConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;

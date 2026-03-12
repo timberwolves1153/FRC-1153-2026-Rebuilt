@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ClimberIOTalonFX implements ClimberIO {
 
-  private TalonFX winchMotor = new TalonFX(65, "rio"); /* CAN ID TBD */
+  private TalonFX winchMotor = new TalonFX(65, "superstructure"); /* CAN ID TBD */
   private VoltageOut voltageRequest;
   private MotionMagicVoltage positionRequest;
   private final TrapezoidProfile trapezoidProfile;

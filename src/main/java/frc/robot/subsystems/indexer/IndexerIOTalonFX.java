@@ -14,7 +14,7 @@ public class IndexerIOTalonFX implements IndexerIO {
   // --- Constants ---
   // Update these if IDs are swapped
   private static final int SPIN_MOTOR_ID = 51;
-  private static final int FEED_MOTOR_ID = 62;
+  private static final int FEED_MOTOR_ID = 52;
 
   // Speeds (0.0 to 1.0)
   private static final double INDEX_SPEED = 0.5;
@@ -22,8 +22,8 @@ public class IndexerIOTalonFX implements IndexerIO {
 
   // --- Hardware ---
   // Krakens controlled by TalonFX class in Phoenix 6
-  private final TalonFX spinMotor = new TalonFX(SPIN_MOTOR_ID);
-  private final TalonFX feedMotor = new TalonFX(FEED_MOTOR_ID);
+  private final TalonFX spinMotor = new TalonFX(SPIN_MOTOR_ID, "superstructure");
+  private final TalonFX feedMotor = new TalonFX(FEED_MOTOR_ID, "superstructure");
 
   // --- Inputs to log ---
   private final StatusSignal<Voltage> spinAppliedVoltage = spinMotor.getMotorVoltage();
@@ -40,6 +40,11 @@ public class IndexerIOTalonFX implements IndexerIO {
   private void configMotors() {
     TalonFXConfiguration spinConfig = new TalonFXConfiguration();
     TalonFXConfiguration feedConfig = new TalonFXConfiguration();
+
+    spinConfig.CurrentLimits.SupplyCurrentLimit = 40;
+    spinConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+
+    spinConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = 0.5;
 
     spinMotor.getConfigurator().apply(spinConfig);
     feedMotor.getConfigurator().apply(feedConfig);

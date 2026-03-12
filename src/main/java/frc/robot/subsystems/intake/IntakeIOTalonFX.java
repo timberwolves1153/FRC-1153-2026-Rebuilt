@@ -16,8 +16,8 @@ import edu.wpi.first.units.measure.Voltage;
 
 public class IntakeIOTalonFX implements IntakeIO {
 
-  private TalonFX deployMotor = new TalonFX(41, "rio");
-  private TalonFX collectMotor = new TalonFX(42, "rio");
+  private TalonFX deployMotor = new TalonFX(41, "superstructure");
+  private TalonFX collectMotor = new TalonFX(42, "superstructure");
 
   private VoltageOut voltageRequest;
   private MotionMagicVoltage positionRequest;
@@ -47,7 +47,7 @@ public class IntakeIOTalonFX implements IntakeIO {
   public void config() {
 
     deployMotorConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
-    deployMotorConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    deployMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
 
     deployMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     deployMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;

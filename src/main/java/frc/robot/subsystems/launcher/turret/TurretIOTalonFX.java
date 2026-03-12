@@ -19,8 +19,8 @@ import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurretIOTalonFX implements TurretIO {
-  private TalonFX turretMotor = new TalonFX(55, "rio");
-  private CANcoder encoder = new CANcoder(56, "rio");
+  private TalonFX turretMotor = new TalonFX(55, "superstructure");
+  private CANcoder encoder = new CANcoder(56, "superstructure");
 
   private VoltageOut voltageRequest = new VoltageOut(0);
   private MotionMagicVoltage positionRequest = new MotionMagicVoltage(0).withSlot(0);
@@ -42,7 +42,7 @@ public class TurretIOTalonFX implements TurretIO {
 
   private void configMotors() {
     turretConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
-    turretConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    turretConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
 
     turretConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     turretConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;

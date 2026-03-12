@@ -19,7 +19,7 @@ import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class HoodIOTalonFX implements HoodIO {
-  private TalonFX hoodMotor = new TalonFX(57, "rio");
+  private TalonFX hoodMotor = new TalonFX(57, "superstructure");
 
   private VoltageOut voltageRequest = new VoltageOut(0);
   private MotionMagicVoltage positionRequest = new MotionMagicVoltage(0).withSlot(0);
@@ -41,7 +41,7 @@ public class HoodIOTalonFX implements HoodIO {
 
   public void configMotors() {
     hoodConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
-    hoodConfig.CurrentLimits.StatorCurrentLimitEnable = true;
+    hoodConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
 
     hoodConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     hoodConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
