@@ -13,6 +13,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeIOTalonFX implements IntakeIO {
 
@@ -58,9 +59,6 @@ public class IntakeIOTalonFX implements IntakeIO {
     collectorMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     collectorMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    deployMotor.getConfigurator().apply(deployMotorConfig);
-    collectMotor.getConfigurator().apply(collectorMotorConfig);
-
     var slot0Configs = deployMotorConfig.Slot0;
     slot0Configs.kS = 0;
     slot0Configs.kV = 0;
@@ -71,6 +69,11 @@ public class IntakeIOTalonFX implements IntakeIO {
 
     deployMotorConfig.MotionMagic.MotionMagicCruiseVelocity = 1;
     deployMotorConfig.MotionMagic.MotionMagicAcceleration = 1;
+
+    deployMotorConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = 1;
+
+    deployMotor.getConfigurator().apply(deployMotorConfig);
+    collectMotor.getConfigurator().apply(collectorMotorConfig);
 
     BaseStatusSignal.setUpdateFrequencyForAll(
         50,
@@ -83,6 +86,9 @@ public class IntakeIOTalonFX implements IntakeIO {
 
     deployMotor.optimizeBusUtilization();
     collectMotor.optimizeBusUtilization();
+
+    SmartDashboard.putNumber(
+        "Intake encoder position", deployMotor.getPosition().getValueAsDouble());
   }
 
   @Override
@@ -104,4 +110,9 @@ public class IntakeIOTalonFX implements IntakeIO {
   public void setPositionIntake(double rotations) {
     deployMotor.setControl(positionRequest.withPosition(rotations));
   }
+
+  // public void intakeFuel(double rotations, double volts) {
+  //   setPositionIntake(rotations);
+  //   setCollectVoltage(volts);
+  // }
 }

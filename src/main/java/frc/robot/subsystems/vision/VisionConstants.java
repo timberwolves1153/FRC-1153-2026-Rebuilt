@@ -19,26 +19,26 @@ public class VisionConstants {
       AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
 
   // Camera names, must match names configured on coprocessor
-  public static String camera0Name = "Blue";
-  public static String camera1Name = "Orange";
-  public static String camera2Name = "camera_2";
+  public static String camera0Name = "Turret";
+  public static String camera1Name = "Climber";
+  public static String camera2Name = "Swerve";
   // public static String camera3Name = "camera_3";
 
   // Robot to camera transforms
   // (Not used by Limelight, configure in web UI instead)
-  public static Transform3d robotToBlueCamera =
+  public static Transform3d robotToTurretCamera =
       new Transform3d(
           Units.inchesToMeters(-11),
-          Units.inchesToMeters(11),
-          Units.inchesToMeters(17.75),
-          new Rotation3d(0.0, Units.degreesToRadians(-13), Units.degreesToRadians(180 - 15)));
+          Units.inchesToMeters(12.25),
+          Units.inchesToMeters(16),
+          new Rotation3d(0.0, Units.degreesToRadians(-20), Units.degreesToRadians(180 - 20)));
 
-  public static Transform3d robotToOrangeCamera =
+  public static Transform3d robotToClimberCamera =
       new Transform3d(
-          Units.inchesToMeters(-10.625),
-          Units.inchesToMeters(-3.75), // 21.75
-          Units.inchesToMeters(17.75),
-          new Rotation3d(0.0, Units.degreesToRadians(-20), Units.degreesToRadians(180 + 30)));
+          Units.inchesToMeters(-12),
+          Units.inchesToMeters(10),
+          Units.inchesToMeters(16),
+          new Rotation3d(0.0, Units.degreesToRadians(-20), Units.degreesToRadians(270 + 25)));
 
   public static Transform3d robotToCamera2 =
       new Transform3d(

@@ -64,7 +64,7 @@ public class TurretIOTalonFX implements TurretIO {
 
     turretConfig.Feedback.FeedbackRemoteSensorID = encoder.getDeviceID();
     turretConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-    turretConfig.Feedback.SensorToMechanismRatio = 1.25;
+    turretConfig.Feedback.SensorToMechanismRatio = 1;
     turretConfig.Feedback.RotorToSensorRatio = 30;
 
     turretMotor.getConfigurator().apply(turretConfig);
