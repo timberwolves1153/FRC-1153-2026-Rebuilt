@@ -371,7 +371,6 @@ public class RobotContainer {
     driver.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
     operator.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
 
-
     // SmartDashboard.putNumber("Flywheel Manual RPS Input", -10);
     // operator
     //     .rightTrigger()

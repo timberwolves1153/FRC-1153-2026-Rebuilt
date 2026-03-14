@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -83,12 +82,13 @@ public class SuperstructureCommands {
                     robotRelativeVelocity.vyMetersPerSecond * phaseDelay,
                     robotRelativeVelocity.omegaRadiansPerSecond * phaseDelay));
 
-    Translation2d rotatedOffset = turret.turretOffset.getTranslation().rotateBy(estimatedPose.getRotation());
+    Translation2d rotatedOffset =
+        turret.turretOffset.getTranslation().rotateBy(estimatedPose.getRotation());
 
-        // new Transform2d(
-        //     turret.turretOffset.getX(), turret.turretOffset.getY(), estimatedPose.getRotation());
+    // new Transform2d(
+    //     turret.turretOffset.getX(), turret.turretOffset.getY(), estimatedPose.getRotation());
 
-   // turretPose = estimatedPose.transformBy(rotatedOffset);
+    // turretPose = estimatedPose.transformBy(rotatedOffset);
 
     turretPose = estimatedPose.transformBy(turret.turretOffset);
 
@@ -103,7 +103,9 @@ public class SuperstructureCommands {
 
     double turretToHubDistance = FieldConstants.getDistanceToHubCenter(turretPose);
 
-    ChassisSpeeds robotVelocity = robotFieldVelocity.get();
+    ChassisSpeeds robotVelocity =
+        ChassisSpeeds.fromRobotRelativeSpeeds(robotRelativeVelocity, estimatedPose.getRotation());
+
     double robotAngle = estimatedPose.getRotation().getRadians();
 
     double
@@ -131,7 +133,6 @@ public class SuperstructureCommands {
       turretDisplacementX = turretVelocityX * fuelTimeofFlight;
       turretDisplacementY = turretVelocityY * fuelTimeofFlight;
 
-
       lookAheadPose =
           new Pose2d(
               turretPose
@@ -139,9 +140,9 @@ public class SuperstructureCommands {
                   .plus(new Translation2d(turretDisplacementX, turretDisplacementY)),
               turretPose.getRotation());
 
-      SmartDashboard.putNumber("Turret Pose X", turretPose.getX());
-      SmartDashboard.putNumber("Turret Pose Y", turretPose.getY());
-      double lookAheadPoseDistance = target.getDistance(lookAheadPose.getTranslation());
+      // SmartDashboard.putNumber("Turret Pose X", turretPose.getX());
+      // SmartDashboard.putNumber("Turret Pose Y", turretPose.getY());
+      turretToHubDistance = target.getDistance(lookAheadPose.getTranslation());
     }
     // Calculate final turret angle to hub using atan2 for correct quadrant handling
     Rotation2d fieldAngleToHub = target.minus(lookAheadPose.getTranslation()).getAngle();
@@ -164,17 +165,6 @@ public class SuperstructureCommands {
     }
 
     SmartDashboard.putNumber("SOTM Moving Turret Angle", setMovingTurretAngle);
-
-    // Log diagnostic values for troubleshooting
-    // SmartDashboard.putNumber("SOTM Distance to Hub", turretToHubDistance);
-    // // SmartDashboard.putNumber("SOTM Turret Angle", turretAngleDegrees);
-    // SmartDashboard.putNumber("SOTM Turret X Displacement", turretDisplacementX);
-    // SmartDashboard.putNumber("SOTM Turret Y Displacement", turretDisplacementY);
-    // SmartDashboard.putNumber("Turret Y Velocity", turretVelocityY);
-    // SmartDashboard.putNumber("Turret X Velocity", turretVelocityX);
-    // SmartDashboard.putNumber("Robot Y Velocity", robotVelocity.vxMetersPerSecond);
-    // SmartDashboard.putNumber("Robot X Velocity", robotVelocity.vyMetersPerSecond);
-    // SmartDashboard.putNumber("Robot Angular Velocity", robotVelocity.omegaRadiansPerSecond);
     Logger.recordOutput("SOTM Turret Pose", lookAheadPose);
     Logger.recordOutput("SOTM Target", new Pose2d(target, Rotation2d.kZero));
 
