@@ -72,7 +72,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Orbit Auto Path 1"
+                  "pathName": "Right Middle + Outpost Path 1"
                 }
               }
             ]
@@ -81,25 +81,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Orbit Auto Path 2"
+            "pathName": "Right Middle + Outpost Path 2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Orbit Auto Path 3"
+            "pathName": "Right Middle + Outpost Path 4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Orbit Auto Path 4"
+            "pathName": "Right Middle + Outpost Path 5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Orbit Auto Path 5"
+            "pathName": "Right Middle + Outpost Path 6"
           }
         }
       ]
