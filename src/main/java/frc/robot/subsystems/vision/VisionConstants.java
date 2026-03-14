@@ -9,8 +9,12 @@ package frc.robot.subsystems.vision;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 
 public class VisionConstants {
@@ -29,14 +33,14 @@ public class VisionConstants {
   public static Transform3d robotToTurretCamera =
       new Transform3d(
           Units.inchesToMeters(-11),
-          Units.inchesToMeters(12.25),
+          Units.inchesToMeters(-12.25),
           Units.inchesToMeters(16),
           new Rotation3d(0.0, Units.degreesToRadians(-20), Units.degreesToRadians(180 - 20)));
 
   public static Transform3d robotToClimberCamera =
       new Transform3d(
           Units.inchesToMeters(-12),
-          Units.inchesToMeters(10),
+          Units.inchesToMeters(-10),
           Units.inchesToMeters(16),
           new Rotation3d(0.0, Units.degreesToRadians(-20), Units.degreesToRadians(270 + 25)));
 
@@ -53,6 +57,9 @@ public class VisionConstants {
   //         Units.inchesToMeters(12),
   //         Units.inchesToMeters(18.5),
   //         new Rotation3d(0.0, Units.degreesToRadians(-15), Units.degreesToRadians(45)));
+
+  public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
+  public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
 
   // Basic filtering thresholds
   public static double maxAmbiguity = 0.2;

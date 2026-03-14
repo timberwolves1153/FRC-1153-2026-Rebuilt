@@ -11,6 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Current;
@@ -41,30 +42,32 @@ public class TurretIOTalonFX implements TurretIO {
   }
 
   private void configMotors() {
-    turretConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
+    turretConfig.CurrentLimits.SupplyCurrentLimit = 25.0;
     turretConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
 
     turretConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     turretConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    encoderConfig.MagnetSensor.MagnetOffset = Units.degreesToRotations(26); // subject to change
+    encoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+    encoderConfig.MagnetSensor.MagnetOffset =
+        Units.degreesToRotations(294.4); // -294.2); // subject to change
 
     var slot0Configs = turretConfig.Slot0;
     slot0Configs.kS = 0.3;
     slot0Configs.kV = 0;
     slot0Configs.kA = 0;
-    slot0Configs.kP = 115;
+    slot0Configs.kP = 130;
     slot0Configs.kI = 0;
     slot0Configs.kD = 1;
 
     encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.99;
 
-    turretConfig.MotionMagic.MotionMagicCruiseVelocity = 1;
-    turretConfig.MotionMagic.MotionMagicAcceleration = 1;
+    turretConfig.MotionMagic.MotionMagicCruiseVelocity = 7.5;
+    turretConfig.MotionMagic.MotionMagicAcceleration = 7.5;
 
     turretConfig.Feedback.FeedbackRemoteSensorID = encoder.getDeviceID();
     turretConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-    turretConfig.Feedback.SensorToMechanismRatio = 1;
+    turretConfig.Feedback.SensorToMechanismRatio = 0.95;
     turretConfig.Feedback.RotorToSensorRatio = 30;
 
     turretMotor.getConfigurator().apply(turretConfig);
@@ -85,7 +88,7 @@ public class TurretIOTalonFX implements TurretIO {
 
     SmartDashboard.putNumber(
         "Turret Encoder Position",
-        Units.rotationsToDegrees(encoder.getPosition().getValueAsDouble()) / 1.25);
+        Units.rotationsToDegrees(encoder.getPosition().getValueAsDouble()) * 1.05);
   }
 
   @Override

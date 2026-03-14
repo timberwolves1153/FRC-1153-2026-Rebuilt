@@ -50,7 +50,7 @@ public class HoodIOTalonFX implements HoodIO {
     slot0Configs.kS = 0;
     slot0Configs.kV = 0;
     slot0Configs.kA = 0;
-    slot0Configs.kP = 10;
+    slot0Configs.kP = 60;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0;
 
@@ -83,7 +83,7 @@ public class HoodIOTalonFX implements HoodIO {
   }
 
   public void setPositionHood(double position) {
-    position = MathUtil.clamp(position, -1.9, -0.05);
+    position = MathUtil.clamp(position, -2.5, -0.05);
     hoodMotor.setControl(positionRequest.withPosition(position));
   }
 

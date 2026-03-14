@@ -22,6 +22,8 @@ public class Turret extends SubsystemBase {
   private final TurretIOInputsAutoLogged inputs = new TurretIOInputsAutoLogged();
 
   public final Transform2d turretOffset;
+  public double turretDisplacementX;
+  public double turretDisplacementY;
 
   public Turret(TurretIO turretIO) {
     io = turretIO;
@@ -56,6 +58,19 @@ public class Turret extends SubsystemBase {
 
   public void stopTurret() {
     io.stopTurret();
+  }
+
+  public Rotation2d adjustedTurretRotation(Supplier<Pose2d> robotPoseSupplier, Pose2d desiredHub) {
+    Rotation2d rot = calculateTurretRotation(robotPoseSupplier.get(), desiredHub);
+    Rotation2d adjustedRot = new Rotation2d(Units.degreesToRadians(adjustTurretAngle(rot)));
+    Rotation2d robotRot = robotPoseSupplier.get().getRotation();
+    Rotation2d turretRot = adjustedRot.plus(robotRot);
+    if (turretRot.getDegrees() < 0) {
+      setPositionTurret(turretRot.getDegrees() + 360);
+    } else {
+      setPositionTurret(turretRot.getDegrees());
+    }
+    return turretRot;
   }
 
   private void autoAimTurretHub(Supplier<Pose2d> robotPoseSupplier) {
