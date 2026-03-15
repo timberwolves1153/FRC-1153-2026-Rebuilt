@@ -70,7 +70,7 @@ public class IntakeIOTalonFX implements IntakeIO {
     slot0Configs.kD = 0.12;
 
     deployMotorConfig.MotionMagic.MotionMagicCruiseVelocity = 24;
-    deployMotorConfig.MotionMagic.MotionMagicAcceleration = 24;
+    deployMotorConfig.MotionMagic.MotionMagicAcceleration = 48;
 
     deployMotorConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = 1;
 

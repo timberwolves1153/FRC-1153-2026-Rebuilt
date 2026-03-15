@@ -246,7 +246,7 @@ public class RobotContainer {
     // Set up auto routines
 
     /*Autonomous Commands*/
-    NamedCommands.registerCommand("Run Indexer", indexer.setAllIndexingCommand(-12, 12)); // CHANGE
+    NamedCommands.registerCommand("Run Indexer", indexer.setAllIndexingCommand(-12, 8)); // CHANGE
     NamedCommands.registerCommand("Stop Indexer", indexer.setAllIndexingCommand(0, 0));
 
     NamedCommands.registerCommand("Run Timed Indexer", feedUntilEmptyCommand);
@@ -268,12 +268,17 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "Reset Turret", new InstantCommand(() -> turret.setPositionTurret(-90)));
 
+    NamedCommands.registerCommand(
+        "Rev Flywheel", new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
+
     NamedCommands.registerCommand("Aim to Score", superstructureCommands.shootOnTheMoveCommand());
     NamedCommands.registerCommand("Aim to Pass", superstructureCommands.autoAimTurretPassing());
 
-    NamedCommands.registerCommand("Deploy Intake", intake.setAllCollectCommand(10, 4.5)); // CHANGE
     NamedCommands.registerCommand(
-        "Run Collector", new InstantCommand(() -> intake.setCollectVoltage(4.5)));
+        "Deploy Intake", intake.setAllCollectCommand(10, -5).withTimeout(.1));
+
+    NamedCommands.registerCommand(
+        "Run Collector", new InstantCommand(() -> intake.setCollectVoltage(-5)));
     NamedCommands.registerCommand(
         "Stop Collector", new InstantCommand(() -> intake.setCollectVoltage(0)));
 
@@ -287,6 +292,12 @@ public class RobotContainer {
     RobotModeTriggers.autonomous()
         .or(RobotModeTriggers.teleop())
         .onTrue(Commands.run(() -> hood.homeHood()).until(hood::isHomed));
+
+    RobotModeTriggers.teleop().onTrue(new InstantCommand(() -> flywheel.stopFlywheel()));
+    RobotModeTriggers.teleop().onTrue(new InstantCommand(() -> hood.stopHood()));
+    RobotModeTriggers.teleop().onTrue(new InstantCommand(() -> turret.stopTurret()));
+    RobotModeTriggers.teleop().onTrue(new InstantCommand(() -> indexer.stopAll()));
+    RobotModeTriggers.teleop().onTrue(new InstantCommand(() -> intake.setCollectVoltage(0)));
   }
 
   public void updateDesiredHub() {
@@ -350,13 +361,13 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-5), intake));
+    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-4), intake));
     operator.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
     operator.rightTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-12), indexer));
     operator.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
 
-    operator.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(12), indexer));
+    operator.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(8), indexer));
     operator.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
     operator.rightStick().onTrue(superstructureCommands.autoAimTurretPassing());
@@ -374,7 +385,18 @@ public class RobotContainer {
     operator.povLeft().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.05), hood));
     operator.povLeft().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
 
-    operator.a().onTrue(feedUntilEmptyCommand);
+    // operator.a().onTrue(feedUntilEmptyCommand);
+
+    driver.rightTrigger().onTrue(intake.setAllCollectCommand(-0.5, 0));
+    driver.leftTrigger().onTrue(intake.setAllCollectCommand(10, -4.5));
+
+    driver.a().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
+    driver.a().onFalse(new InstantCommand(() -> flywheel.setVelocityLeader(0)));
+
+    driver.b().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-50)));
+    driver.b().onFalse(new InstantCommand(() -> flywheel.setVelocityLeader(0)));
+
+    // driver.rightTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
 
     // driver
     //     .x()
@@ -453,11 +475,11 @@ public class RobotContainer {
     //     .onTrue(new InstantCommand(() -> intake.setDeployVoltage(-3))); // intake tries to go in
     // driver.b().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
 
-    driver.b().onTrue(new InstantCommand(() -> intake.setPositionIntake(10)));
-    driver.b().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
+    // driver.b().onTrue(new InstantCommand(() -> intake.setPositionIntake(10)));
+    // driver.b().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
 
-    driver.a().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
-    driver.a().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
+    // driver.a().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
+    // driver.a().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
 
     //     operator.rightBumper().onFalse(new InstantCommand(() -> indexer.runSpin(0), indexer));
     //     operator.rightBumper().onFalse(new InstantCommand(() -> indexer.runFeed(0), indexer));

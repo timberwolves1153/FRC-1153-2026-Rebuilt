@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.709,
+        "x": 4.030048192771085,
         "y": 0.64
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.957373750873613,
+        "x": 4.278421943644698,
         "y": 0.66846892827228
       },
       "isLocked": false,
@@ -52,8 +52,8 @@
         "y": 3.5104698795157
       },
       "prevControl": {
-        "x": 7.681256500603116,
-        "y": 3.752082466042516
+        "x": 7.767325301204821,
+        "y": 3.2591325301204814
       },
       "nextControl": null,
       "isLocked": false,
@@ -61,12 +61,38 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 1.901222493887531,
+      "maxWaypointRelativePos": 3.0,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 4.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Run Intake",
+      "waypointRelativePos": 1.5710900473933624,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Run Collector"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 5.0,
-    "maxAcceleration": 4.5,
+    "maxVelocity": 4.37,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -80,7 +106,7 @@
   "folder": "Right Collect and Shoot",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 44.99999999999979
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

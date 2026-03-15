@@ -54,8 +54,8 @@ public class HoodIOTalonFX implements HoodIO {
     slot0Configs.kI = 0;
     slot0Configs.kD = 0;
 
-    hoodConfig.MotionMagic.MotionMagicCruiseVelocity = 3;
-    hoodConfig.MotionMagic.MotionMagicAcceleration = 3;
+    hoodConfig.MotionMagic.MotionMagicCruiseVelocity = 9;
+    hoodConfig.MotionMagic.MotionMagicAcceleration = 9;
 
     hoodMotor.getConfigurator().apply(hoodConfig);
 

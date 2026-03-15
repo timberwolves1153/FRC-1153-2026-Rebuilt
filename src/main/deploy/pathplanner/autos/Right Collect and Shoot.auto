@@ -5,39 +5,103 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Right Collect And Shoot Path 1"
+            "name": "Deploy Intake"
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Right Collect and Shoot Path 2"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Right Collect And Shoot Path 1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Rev Flywheel"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Right Collect and Shoot Path 2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Aim to Score"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Run Timed Indexer"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Run Collector"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Stop Collector"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Right Collect and Shoot Path 3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Right Collect and Shoot Path 4"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Right Collect and Shoot Path 5"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Right Collect and Shoot Path 6 "
           }
         }
       ]

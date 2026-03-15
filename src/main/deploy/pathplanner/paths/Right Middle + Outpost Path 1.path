@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.620144578313253,
+        "x": 4.073759036144579,
         "y": 0.64
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.620144578313253,
+        "x": 5.073759036144579,
         "y": 0.6399999999999997
       },
       "isLocked": false,
@@ -63,22 +63,10 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Set Intake Position",
-      "waypointRelativePos": 1.7075794621026699,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Deploy Intake"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.0,
-    "maxAcceleration": 4.5,
+    "maxVelocity": 4.37,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -92,7 +80,7 @@
   "folder": "Right Middle + Outpost",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 21.569803729454442
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

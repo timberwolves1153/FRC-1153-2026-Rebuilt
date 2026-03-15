@@ -54,7 +54,7 @@ public class FlywheelIOTalonFX implements FlywheelIO {
     slot0Configs.kS = 0.25;
     slot0Configs.kV = 0.12;
     slot0Configs.kA = 0;
-    slot0Configs.kP = 0.3;
+    slot0Configs.kP = 0.6;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0; // never change
     flywheelConfig.MotionMagic.MotionMagicCruiseVelocity = 5;
