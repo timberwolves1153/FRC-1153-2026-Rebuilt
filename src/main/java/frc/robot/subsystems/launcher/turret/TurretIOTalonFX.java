@@ -50,7 +50,7 @@ public class TurretIOTalonFX implements TurretIO {
 
     encoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
     encoderConfig.MagnetSensor.MagnetOffset =
-        Units.degreesToRotations(294.4); // -294.2); // subject to change
+        Units.degreesToRotations(294.4 - 25 - 0.65); // -294.2); // subject to change
 
     var slot0Configs = turretConfig.Slot0;
     slot0Configs.kS = 0.3;
@@ -67,7 +67,7 @@ public class TurretIOTalonFX implements TurretIO {
 
     turretConfig.Feedback.FeedbackRemoteSensorID = encoder.getDeviceID();
     turretConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-    turretConfig.Feedback.SensorToMechanismRatio = 0.95;
+    turretConfig.Feedback.SensorToMechanismRatio = 0.933;
     turretConfig.Feedback.RotorToSensorRatio = 30;
 
     turretMotor.getConfigurator().apply(turretConfig);
@@ -88,7 +88,16 @@ public class TurretIOTalonFX implements TurretIO {
 
     SmartDashboard.putNumber(
         "Turret Encoder Position",
-        Units.rotationsToDegrees(encoder.getPosition().getValueAsDouble()) * 1.05);
+        Units.rotationsToDegrees(encoder.getPosition().getValueAsDouble()) * 1.0718);
+
+    SmartDashboard.putNumber(
+        "Turret Encoder Position Raw",
+        Units.rotationsToDegrees(encoder.getPosition().getValueAsDouble()));
+
+    SmartDashboard.putNumber(
+        "Error",
+        (Units.rotationsToDegrees(encoder.getPosition().getValueAsDouble()) * 1.0718)
+            - SmartDashboard.getNumber("SOTM TurretAngle", 0));
   }
 
   @Override

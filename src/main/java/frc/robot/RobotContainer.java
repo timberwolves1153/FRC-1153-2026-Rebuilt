@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.FeedUntilEmptyCommand;
 import frc.robot.commands.SuperstructureCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.interpolation.LauncherTable;
@@ -86,6 +86,7 @@ public class RobotContainer {
   private final LoggedDashboardChooser<Command> autoChooser;
 
   private final SuperstructureCommands superstructureCommands;
+  private final FeedUntilEmptyCommand feedUntilEmptyCommand;
 
   // Match constants
 
@@ -240,25 +241,15 @@ public class RobotContainer {
     }
 
     superstructureCommands = new SuperstructureCommands(drive, flywheel, hood, turret);
+    feedUntilEmptyCommand = new FeedUntilEmptyCommand(indexer);
 
     // Set up auto routines
-    autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
-    // Set up SysId routines
-    autoChooser.addOption(
-        "Drive Wheel Radius Characterization", DriveCommands.wheelRadiusCharacterization(drive));
-    autoChooser.addOption(
-        "Drive Simple FF Characterization", DriveCommands.feedforwardCharacterization(drive));
-    autoChooser.addOption(
-        "Drive SysId (Quasistatic Forward)",
-        drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    autoChooser.addOption(
-        "Drive SysId (Quasistatic Reverse)",
-        drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-    autoChooser.addOption(
-        "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
-    autoChooser.addOption(
-        "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    /*Autonomous Commands*/
+    NamedCommands.registerCommand("Run Indexer", indexer.setAllIndexingCommand(-12, 12)); // CHANGE
+    NamedCommands.registerCommand("Stop Indexer", indexer.setAllIndexingCommand(0, 0));
+
+    NamedCommands.registerCommand("Run Timed Indexer", feedUntilEmptyCommand);
 
     NamedCommands.registerCommand(
         "Run Feeder Wheel", new InstantCommand(() -> indexer.runFeed(-3), indexer));
@@ -270,8 +261,6 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "Stop Indexer Wheel", new InstantCommand(() -> indexer.runSpin(0), indexer));
 
-    // NamedCommands.registerCommand(
-    // "Shoot Fuel", new InstantCommand(() -> superstructure.interpolateShot()));
     NamedCommands.registerCommand(
         "Stop Flywheel", new InstantCommand(() -> flywheel.stopFlywheel()));
     NamedCommands.registerCommand(
@@ -279,7 +268,19 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "Reset Turret", new InstantCommand(() -> turret.setPositionTurret(-90)));
 
+    NamedCommands.registerCommand("Aim to Score", superstructureCommands.shootOnTheMoveCommand());
+    NamedCommands.registerCommand("Aim to Pass", superstructureCommands.autoAimTurretPassing());
+
+    NamedCommands.registerCommand("Deploy Intake", intake.setAllCollectCommand(10, 4.5)); // CHANGE
+    NamedCommands.registerCommand(
+        "Run Collector", new InstantCommand(() -> intake.setCollectVoltage(4.5)));
+    NamedCommands.registerCommand(
+        "Stop Collector", new InstantCommand(() -> intake.setCollectVoltage(0)));
+
+    autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+
     updateDesiredHub();
+
     // Configure the button bindings
     configureButtonBindings();
 
@@ -349,14 +350,31 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    operator.leftBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-4.5), intake));
-    operator.leftBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
+    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-5), intake));
+    operator.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
-    operator.rightBumper().onTrue(new InstantCommand(() -> indexer.runFeed(-12), indexer));
-    operator.rightBumper().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
+    operator.rightTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-12), indexer));
+    operator.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
 
-    operator.rightBumper().onTrue(new InstantCommand(() -> indexer.runSpin(12), indexer));
-    operator.rightBumper().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
+    operator.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(12), indexer));
+    operator.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
+
+    operator.rightStick().onTrue(superstructureCommands.autoAimTurretPassing());
+    operator.leftStick().onTrue(superstructureCommands.shootOnTheMoveCommand());
+
+    operator.povRight().onTrue(new InstantCommand(() -> turret.setPositionTurret(90), turret));
+    operator.povRight().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.05), hood));
+    operator.povRight().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
+
+    operator.povUp().onTrue(new InstantCommand(() -> turret.setPositionTurret(180), turret));
+    operator.povUp().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.05), hood));
+    operator.povUp().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
+
+    operator.povLeft().onTrue(new InstantCommand(() -> turret.setPositionTurret(270), turret));
+    operator.povLeft().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.05), hood));
+    operator.povLeft().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
+
+    operator.a().onTrue(feedUntilEmptyCommand);
 
     // driver
     //     .x()
@@ -368,8 +386,8 @@ public class RobotContainer {
     // Rotation2d.fromDegrees(45))),
     //             drive));
 
-    driver.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
-    operator.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
+    // driver.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
+    // operator.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
 
     // SmartDashboard.putNumber("Flywheel Manual RPS Input", -10);
     // operator
@@ -402,11 +420,11 @@ public class RobotContainer {
     //     .onFalse(new InstantCommand(() -> flywheel.setVelocityLeader(0), flywheel));
     // operator.rightTrigger().onFalse(new InstantCommand(() -> hood.setPositionHood(-0.05), hood));
 
-    operator.a().onTrue(new InstantCommand(() -> turret.setPositionTurret(70)));
-    operator.b().onTrue(new InstantCommand(() -> turret.setPositionTurret(300)));
+    // operator.a().onTrue(new InstantCommand(() -> turret.setPositionTurret(70)));
+    // operator.b().onTrue(new InstantCommand(() -> turret.setPositionTurret(300)));
 
-    operator.x().onTrue(new InstantCommand(() -> turret.setPositionTurret(40)));
-    operator.y().onTrue(new InstantCommand(() -> turret.setPositionTurret(320)));
+    // operator.x().onTrue(new InstantCommand(() -> turret.setPositionTurret(40)));
+    // operator.y().onTrue(new InstantCommand(() -> turret.setPositionTurret(320)));
 
     // operator.rightTrigger().onTrue(superstructureCommands.autoAimTurretHub());
     // operator.rightTrigger().onFalse(new InstantCommand(() -> turret.stopTurret()));
@@ -425,17 +443,21 @@ public class RobotContainer {
     //     operator.rightBumper().onTrue(new InstantCommand(() -> indexer.runSpin(6), indexer));
     //     operator.rightBumper().onTrue(new InstantCommand(() -> indexer.runFeed(-10), indexer));
 
-    //     // driver
-    //     //     .a()
-    //     //     .onTrue(new InstantCommand(() -> intake.setDeployVoltage(2))); // intake tries to
-    // go down
-    //     // driver.a().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
+    // driver
+    //     .a()
+    //     .onTrue(new InstantCommand(() -> intake.setDeployVoltage(2))); // intake tries to go down
+    // driver.a().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
 
-    //     // driver
-    //     //     .b()
-    //     //     .onTrue(new InstantCommand(() -> intake.setDeployVoltage(-5))); // intake tries to
-    // go in
-    //     // driver.b().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
+    // driver
+    //     .b()
+    //     .onTrue(new InstantCommand(() -> intake.setDeployVoltage(-3))); // intake tries to go in
+    // driver.b().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
+
+    driver.b().onTrue(new InstantCommand(() -> intake.setPositionIntake(10)));
+    driver.b().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
+
+    driver.a().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
+    driver.a().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
 
     //     operator.rightBumper().onFalse(new InstantCommand(() -> indexer.runSpin(0), indexer));
     //     operator.rightBumper().onFalse(new InstantCommand(() -> indexer.runFeed(0), indexer));

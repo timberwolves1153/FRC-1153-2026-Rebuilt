@@ -34,7 +34,7 @@ public class SuperstructureCommands {
   public double turretDisplacementY;
   public double turretFinalAngularVelocity;
   public Pose2d lookAheadPose;
-  private double setMovingTurretAngle;
+  public double setMovingTurretAngle;
 
   public SuperstructureCommands(Drive drive, Flywheel flywheel, Hood hood, Turret turret) {
     this.drive = drive;

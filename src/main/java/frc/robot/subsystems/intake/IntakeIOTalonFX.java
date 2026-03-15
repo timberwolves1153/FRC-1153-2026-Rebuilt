@@ -42,12 +42,14 @@ public class IntakeIOTalonFX implements IntakeIO {
     deployMotorConfig = new TalonFXConfiguration();
     collectorMotorConfig = new TalonFXConfiguration();
 
+    // deployMotor.setPosition(0);
+
     config();
   }
 
   public void config() {
 
-    deployMotorConfig.CurrentLimits.SupplyCurrentLimit = 40.0;
+    deployMotorConfig.CurrentLimits.SupplyCurrentLimit = 15.0;
     deployMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
 
     deployMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -63,12 +65,12 @@ public class IntakeIOTalonFX implements IntakeIO {
     slot0Configs.kS = 0;
     slot0Configs.kV = 0;
     slot0Configs.kA = 0;
-    slot0Configs.kP = 0;
+    slot0Configs.kP = 25;
     slot0Configs.kI = 0;
-    slot0Configs.kD = 0;
+    slot0Configs.kD = 0.12;
 
-    deployMotorConfig.MotionMagic.MotionMagicCruiseVelocity = 1;
-    deployMotorConfig.MotionMagic.MotionMagicAcceleration = 1;
+    deployMotorConfig.MotionMagic.MotionMagicCruiseVelocity = 24;
+    deployMotorConfig.MotionMagic.MotionMagicAcceleration = 24;
 
     deployMotorConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = 1;
 
@@ -87,6 +89,12 @@ public class IntakeIOTalonFX implements IntakeIO {
     deployMotor.optimizeBusUtilization();
     collectMotor.optimizeBusUtilization();
 
+    SmartDashboard.putNumber(
+        "Intake encoder position", deployMotor.getPosition().getValueAsDouble());
+  }
+
+  @Override
+  public void updateInputs(IntakeInputs inputs) {
     SmartDashboard.putNumber(
         "Intake encoder position", deployMotor.getPosition().getValueAsDouble());
   }

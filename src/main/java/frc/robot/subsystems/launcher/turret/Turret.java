@@ -29,7 +29,7 @@ public class Turret extends SubsystemBase {
     io = turretIO;
 
     turretOffset =
-        new Transform2d(Units.inchesToMeters(-4.5), Units.inchesToMeters(-6), new Rotation2d());
+        new Transform2d(Units.inchesToMeters(-6), Units.inchesToMeters(-4.5), new Rotation2d());
 
     switch (Constants.currentMode) {
       case REAL:
@@ -45,6 +45,7 @@ public class Turret extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     Logger.processInputs("Turret", inputs);
+    // SmartDashboard.putNumber("Angle Error", )
   }
 
   public void setPositionTurret(double degrees) {
