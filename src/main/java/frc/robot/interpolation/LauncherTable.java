@@ -62,7 +62,7 @@ public class LauncherTable {
     flywheelShootingMap.put(new InterpolatingDouble(5.0), new InterpolatingDouble(-39.5));
 
     /*Flywheel Passing */
-    flywheelPassingMap.put(new InterpolatingDouble(4.457), new InterpolatingDouble(-20.0));
+    flywheelPassingMap.put(new InterpolatingDouble(4.457), new InterpolatingDouble(-35.0));
     flywheelPassingMap.put(new InterpolatingDouble(8.71), new InterpolatingDouble(-50.0));
     flywheelPassingMap.put(new InterpolatingDouble(9.71), new InterpolatingDouble(-55.0));
     flywheelPassingMap.put(new InterpolatingDouble(11.131), new InterpolatingDouble(-60.0));
@@ -94,11 +94,11 @@ public class LauncherTable {
   }
 
   public DoubleSupplier getFlywheelPassingValueSupplier(double distance) {
-    return () -> flywheelShootingMap.getInterpolated(new InterpolatingDouble(distance)).value;
+    return () -> flywheelPassingMap.getInterpolated(new InterpolatingDouble(distance)).value;
   }
 
   public double getFlywheelPassingValue(double distance) {
-    return flywheelShootingMap.getInterpolated(new InterpolatingDouble(distance)).value;
+    return flywheelPassingMap.getInterpolated(new InterpolatingDouble(distance)).value;
   }
 
   public DoubleSupplier getTimeofFlightSupplier(double distance) {
