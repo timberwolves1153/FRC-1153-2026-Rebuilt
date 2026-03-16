@@ -343,13 +343,42 @@ public class RobotContainer {
 
     driver.y().onTrue(Commands.runOnce(() -> drive.resetGyro(0), drive));
 
+    // Set robot rotation to 45 degrees when X button is presse
+
+    driver
+        .rightBumper()
+        .whileTrue(
+            DriveCommands.joystickDriveAtAngle(
+                drive,
+                () -> -driver.getLeftY(),
+                () -> -driver.getLeftX(), 
+                () -> Rotation2d.fromDegrees(45)));
+
+    driver
+        .leftBumper()
+        .whileTrue(
+            DriveCommands.joystickDriveAtAngle(
+                drive,
+                () -> -driver.getLeftY(),
+                () -> -driver.getLeftX(), 
+                () -> Rotation2d.fromDegrees(-45)));
+    
+    driver
+        .a()
+        .onTrue(
+            Commands.runOnce(
+                () -> 
+                drive.setPose(
+                    new Pose2d(drive.getPose().getTranslation(), Rotation2d.fromDegrees(-45))
+                ), drive)
+        );
+
+
     // Drive Forward Button for testing
     //  operator.povUp().whileTrue(drive.sysIdDynamic(Direction.kForward));
-    // Reset gyro to 0° when B button is pressed
+    // Reset gyro to 0° when B button is pressed
 
     /* Week 0 Bindings */
-
-    //   driver.x().onTrue(drive.driveToTower());
 
     driver
         .b()
@@ -386,15 +415,6 @@ public class RobotContainer {
     operator.povLeft().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
 
     // operator.a().onTrue(feedUntilEmptyCommand);
-
-    driver.rightTrigger().onTrue(intake.setAllCollectCommand(-0.5, 0));
-    driver.leftTrigger().onTrue(intake.setAllCollectCommand(10, -4.5));
-
-    driver.a().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
-    driver.a().onFalse(new InstantCommand(() -> flywheel.setVelocityLeader(0)));
-
-    driver.b().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-50)));
-    driver.b().onFalse(new InstantCommand(() -> flywheel.setVelocityLeader(0)));
 
     // driver.rightTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
 
