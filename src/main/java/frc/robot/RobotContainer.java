@@ -362,16 +362,7 @@ public class RobotContainer {
                 () -> -driver.getLeftY(),
                 () -> -driver.getLeftX(), 
                 () -> Rotation2d.fromDegrees(-45)));
-    
-    driver
-        .a()
-        .onTrue(
-            Commands.runOnce(
-                () -> 
-                drive.setPose(
-                    new Pose2d(drive.getPose().getTranslation(), Rotation2d.fromDegrees(-45))
-                ), drive)
-        );
+
 
 
     // Drive Forward Button for testing
