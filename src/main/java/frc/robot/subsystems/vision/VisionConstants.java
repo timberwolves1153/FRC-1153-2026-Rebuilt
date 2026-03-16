@@ -26,7 +26,7 @@ public class VisionConstants {
   public static String camera0Name = "Turret";
   public static String camera1Name = "Climber";
   public static String camera2Name = "Swerve";
-  // public static String camera3Name = "camera_3";
+  public static String camera3Name = "Hopper";
 
   // Robot to camera transforms
   // (Not used by Limelight, configure in web UI instead)
@@ -44,19 +44,19 @@ public class VisionConstants {
           Units.inchesToMeters(16),
           new Rotation3d(0.0, Units.degreesToRadians(-20), Units.degreesToRadians(270 + 25)));
 
-  public static Transform3d robotToCamera2 =
+  public static Transform3d robotToSwerveCamera =
       new Transform3d(
           Units.inchesToMeters(-13),
           Units.inchesToMeters(0),
           Units.inchesToMeters(15),
-          new Rotation3d(0.0, Units.degreesToRadians(-5), Units.degreesToRadians(180)));
+          new Rotation3d(0.0, Units.degreesToRadians(-20), Units.degreesToRadians(180 - 88)));
 
-  // public static Transform3d robotToCamera3 =
-  //     new Transform3d(
-  //         Units.inchesToMeters(9),
-  //         Units.inchesToMeters(12),
-  //         Units.inchesToMeters(18.5),
-  //         new Rotation3d(0.0, Units.degreesToRadians(-15), Units.degreesToRadians(45)));
+  public static Transform3d robotToHopperCamera =
+      new Transform3d(
+          Units.inchesToMeters(9),
+          Units.inchesToMeters(12),
+          Units.inchesToMeters(18.5),
+          new Rotation3d(0.0, Units.degreesToRadians(-20), Units.degreesToRadians(180 + 20)));
 
   public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
   public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
