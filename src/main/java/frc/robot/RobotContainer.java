@@ -128,6 +128,14 @@ public class RobotContainer {
                 new VisionIOPhotonVision(
                     VisionConstants.camera1Name,
                     VisionConstants.robotToClimberCamera,
+                    drive::addVisionMeasurement),
+                new VisionIOPhotonVision(
+                    VisionConstants.camera2Name,
+                    VisionConstants.robotToSwerveCamera,
+                    drive::addVisionMeasurement),
+                new VisionIOPhotonVision(
+                    VisionConstants.camera3Name,
+                    VisionConstants.robotToHopperCamera,
                     drive::addVisionMeasurement));
         // drive::addVisionMeasurement,
         // new VisionIOPhotonVision(
@@ -275,7 +283,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Aim to Pass", superstructureCommands.autoAimTurretPassing());
 
     NamedCommands.registerCommand(
-        "Deploy Intake", intake.setAllCollectCommand(10, -5).withTimeout(.1));
+        "Deploy Intake", intake.setAllCollectCommand(10, -5).withTimeout(.25));
 
     NamedCommands.registerCommand(
         "Run Collector", new InstantCommand(() -> intake.setCollectVoltage(-5)));
@@ -386,16 +394,6 @@ public class RobotContainer {
     operator.povLeft().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
 
     // operator.a().onTrue(feedUntilEmptyCommand);
-
-    driver.rightTrigger().onTrue(intake.setAllCollectCommand(-0.5, 0));
-    driver.leftTrigger().onTrue(intake.setAllCollectCommand(10, -4.5));
-
-    driver.a().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
-    driver.a().onFalse(new InstantCommand(() -> flywheel.setVelocityLeader(0)));
-
-    driver.b().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-50)));
-    driver.b().onFalse(new InstantCommand(() -> flywheel.setVelocityLeader(0)));
-
     // driver.rightTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
 
     // driver

@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.315867469879517,
-        "y": 0.056975903614458145
+        "x": 7.297433734939759,
+        "y": 0.21030120481927717
       },
       "isLocked": false,
       "linkedName": null
@@ -32,60 +32,12 @@
     },
     {
       "anchor": {
-        "x": 7.395783132530121,
-        "y": 4.013144578313253
+        "x": 4.314,
+        "y": 0.658
       },
       "prevControl": {
-        "x": 6.719229081726506,
-        "y": 4.722098813742949
-      },
-      "nextControl": {
-        "x": 8.706719488928503,
-        "y": 2.63942745823472
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 7.745,
-        "y": 1.57
-      },
-      "prevControl": {
-        "x": 7.892311486115852,
-        "y": 1.7832607830589509
-      },
-      "nextControl": {
-        "x": 7.220939759036145,
-        "y": 0.8113253012048198
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 4.227,
-        "y": 0.71
-      },
-      "prevControl": {
-        "x": 4.781804400055245,
-        "y": 0.7142696850249053
-      },
-      "nextControl": {
-        "x": 3.931698795180723,
-        "y": 0.707727409638554
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 0.6096746987951804,
-        "y": 0.6606099397590359
-      },
-      "prevControl": {
-        "x": 1.3197228915662784,
-        "y": 0.6908027108433729
+        "x": 8.324638554216868,
+        "y": 0.3086506024096388
       },
       "nextControl": null,
       "isLocked": false,
@@ -94,92 +46,48 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.40327868852458726,
+      "waypointRelativePos": 0.2562874251496983,
+      "rotationDegrees": 55.0
+    },
+    {
+      "waypointRelativePos": 0.45,
       "rotationDegrees": 115.0
     },
     {
-      "waypointRelativePos": 0.9508196721311427,
+      "waypointRelativePos": 0.95,
       "rotationDegrees": 105.00000000000001
-    },
-    {
-      "waypointRelativePos": 2,
-      "rotationDegrees": -20.0
-    },
-    {
-      "waypointRelativePos": 2.4131147540983493,
-      "rotationDegrees": -105.00000000000001
-    },
-    {
-      "waypointRelativePos": 4.1,
-      "rotationDegrees": 180.0
     }
   ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 3.951100244498797,
-      "maxWaypointRelativePos": 5.0,
+      "minWaypointRelativePos": 0.3002375296912538,
+      "maxWaypointRelativePos": 1.0945368171021452,
       "constraints": {
-        "maxVelocity": 2.0,
+        "maxVelocity": 2.5,
         "maxAcceleration": 3.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
         "unlimited": false
       }
+    },
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 1.4023752969121057,
+      "maxWaypointRelativePos": 1.8888361045130575,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 300.0,
+        "maxAngularAcceleration": 500.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Run Intake",
-      "waypointRelativePos": 0.1330073349633286,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Run Collector"
-        }
-      }
-    },
-    {
-      "name": "Run Spindexer",
-      "waypointRelativePos": 4.1564792176038665,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "Aim to Score"
-              }
-            },
-            {
-              "type": "sequential",
-              "data": {
-                "commands": [
-                  {
-                    "type": "wait",
-                    "data": {
-                      "waitTime": 1.0
-                    }
-                  },
-                  {
-                    "type": "named",
-                    "data": {
-                      "name": "Run Indexer"
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.37,
     "maxAcceleration": 3.5,
@@ -190,13 +98,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "Right Collect and Shoot",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
