@@ -308,6 +308,18 @@ public class FieldConstants {
         new Translation3d(depth, (fieldWidth / 2) + distanceFromCenterY + (width / 2), height);
     public static final Translation3d rightCorner =
         new Translation3d(depth, (fieldWidth / 2) + distanceFromCenterY - (width / 2), height);
+
+    public static final Pose2d blueDepotCenter =
+        new Pose2d(
+            0,
+            (fieldWidth / 2) + Depot.distanceFromCenterY,
+            Rotation2d.kZero);
+
+    public static final Pose2d redDepotCenter =
+        new Pose2d(
+            fieldLength,
+            (fieldWidth / 2) - Depot.distanceFromCenterY,
+            Rotation2d.kZero);
   }
 
   public static class Outpost {
@@ -372,6 +384,27 @@ public class FieldConstants {
     SmartDashboard.putNumber("Distance to Outpost", distanceToOutpost);
 
     return distanceToOutpost;
+  }
+
+  public static double getDistanceToDepot(Pose2d currentPose) {
+    Pose2d depotCenter;
+
+    boolean isFlipped =
+        DriverStation.getAlliance().isPresent()
+            && DriverStation.getAlliance().get() == Alliance.Red;
+
+    if (isFlipped) {
+      depotCenter = FieldConstants.Depot.redDepotCenter;
+    } else {
+      depotCenter = FieldConstants.Depot.blueDepotCenter;
+    }
+
+    double distanceToDepot;
+
+    distanceToDepot = currentPose.getTranslation().getDistance(depotCenter.getTranslation());
+    SmartDashboard.putNumber("Distance to Depot", distanceToDepot);
+
+    return distanceToDepot;
   }
 
   public enum FieldType {

@@ -351,13 +351,33 @@ public class RobotContainer {
 
     driver.y().onTrue(Commands.runOnce(() -> drive.resetGyro(0), drive));
 
+    // Set robot rotation to 45 degrees when X button is presse
+
+    driver
+        .rightBumper()
+        .whileTrue(
+            DriveCommands.joystickDriveAtAngle(
+                drive,
+                () -> -driver.getLeftY(),
+                () -> -driver.getLeftX(), 
+                () -> Rotation2d.fromDegrees(45)));
+
+    driver
+        .leftBumper()
+        .whileTrue(
+            DriveCommands.joystickDriveAtAngle(
+                drive,
+                () -> -driver.getLeftY(),
+                () -> -driver.getLeftX(), 
+                () -> Rotation2d.fromDegrees(-45)));
+
+
+
     // Drive Forward Button for testing
     //  operator.povUp().whileTrue(drive.sysIdDynamic(Direction.kForward));
-    // Reset gyro to 0° when B button is pressed
+    // Reset gyro to 0° when B button is pressed
 
     /* Week 0 Bindings */
-
-    //   driver.x().onTrue(drive.driveToTower());
 
     driver
         .b()
@@ -394,6 +414,10 @@ public class RobotContainer {
     operator.povLeft().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
 
     // operator.a().onTrue(feedUntilEmptyCommand);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9c77c24e3aa2d80846082f84c11b0250b701436d
     // driver.rightTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
 
     // driver
