@@ -414,10 +414,6 @@ public class RobotContainer {
     operator.povLeft().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
 
     // operator.a().onTrue(feedUntilEmptyCommand);
-<<<<<<< HEAD
-=======
-
->>>>>>> 9c77c24e3aa2d80846082f84c11b0250b701436d
     // driver.rightTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
 
     // driver
