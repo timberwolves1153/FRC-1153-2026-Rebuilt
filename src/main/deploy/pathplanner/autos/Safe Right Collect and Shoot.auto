@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right Collect And Shoot Path 1"
+                  "pathName": "Safe Right Collect And Shoot Path 1"
                 }
               },
               {
@@ -46,7 +46,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Right Collect and Shoot Path 2"
+                        "pathName": "Safe Right Collect and Shoot Path 2"
                       }
                     },
                     {
@@ -118,7 +118,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right Collect and Shoot Path 3"
+                  "pathName": "Safe Right Collect and Shoot Path 3"
                 }
               },
               {
@@ -131,7 +131,7 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
@@ -141,9 +141,40 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "Run Collector"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Run Collector"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Stop Collector"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -152,7 +183,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Right Collect and Shoot Path 4 "
+            "pathName": "Safe Right Collect and Shoot Path 4 "
           }
         }
       ]

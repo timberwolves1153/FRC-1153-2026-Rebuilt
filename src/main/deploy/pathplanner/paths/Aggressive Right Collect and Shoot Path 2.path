@@ -1,0 +1,59 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.346,
+        "y": 3.707
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 8.073301204819277,
+        "y": 0.7239036144578312
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.314,
+        "y": 0.658
+      },
+      "prevControl": {
+        "x": 5.625493975903614,
+        "y": 0.4961325301204823
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.75,
+      "rotationDegrees": 0.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.37,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "Aggressive Right Collect and Shoot",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 118.02800000000002
+  },
+  "useDefaultConstraints": true
+}

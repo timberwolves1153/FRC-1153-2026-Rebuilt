@@ -4,8 +4,9 @@
   "holonomicMode": true,
   "pathFolders": [
     "Left Collect and Shoot",
+    "Aggressive Right Collect and Shoot",
     "Right Middle + Outpost",
-    "Right Collect and Shoot",
+    "Safe Right Collect and Shoot",
     "Week 0 Autos"
   ],
   "autoFolders": [],

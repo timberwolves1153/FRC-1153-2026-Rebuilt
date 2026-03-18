@@ -310,16 +310,10 @@ public class FieldConstants {
         new Translation3d(depth, (fieldWidth / 2) + distanceFromCenterY - (width / 2), height);
 
     public static final Pose2d blueDepotCenter =
-        new Pose2d(
-            0,
-            (fieldWidth / 2) + Depot.distanceFromCenterY,
-            Rotation2d.kZero);
+        new Pose2d(0, (fieldWidth / 2) + Depot.distanceFromCenterY, Rotation2d.kZero);
 
     public static final Pose2d redDepotCenter =
-        new Pose2d(
-            fieldLength,
-            (fieldWidth / 2) - Depot.distanceFromCenterY,
-            Rotation2d.kZero);
+        new Pose2d(fieldLength, (fieldWidth / 2) - Depot.distanceFromCenterY, Rotation2d.kZero);
   }
 
   public static class Outpost {

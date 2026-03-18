@@ -17,8 +17,6 @@ import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.launcher.flywheel.Flywheel;
 import frc.robot.subsystems.launcher.hood.Hood;
 import frc.robot.subsystems.launcher.turret.Turret;
-
-import java.lang.reflect.Field;
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.Logger;
 
@@ -173,7 +171,7 @@ public class SuperstructureCommands {
     return lookAheadPose;
   }
 
-    public Pose2d passOnTheMove(
+  public Pose2d passOnTheMove(
       Supplier<Pose2d> robotPose,
       Supplier<ChassisSpeeds> robotRelVelocity,
       Supplier<ChassisSpeeds> robotFieldVelocity) {
@@ -230,7 +228,7 @@ public class SuperstructureCommands {
     if (isRed && robotPose.get().getY() > (FieldConstants.fieldWidth / 2)) {
       turretToPassDistance = FieldConstants.getDistanceToOutpost(turretPose);
     } else if (isRed) {
-     turretToPassDistance = FieldConstants.getDistanceToDepot(turretPose);
+      turretToPassDistance = FieldConstants.getDistanceToDepot(turretPose);
     } else if (!isRed && robotPose.get().getY() > (FieldConstants.fieldWidth / 2)) {
       turretToPassDistance = FieldConstants.getDistanceToDepot(turretPose);
     } else {

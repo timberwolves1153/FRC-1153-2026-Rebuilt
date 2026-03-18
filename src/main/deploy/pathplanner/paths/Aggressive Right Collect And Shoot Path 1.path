@@ -1,0 +1,103 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 4.030048192771085,
+        "y": 0.64
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.276078522763483,
+        "y": 0.6843742799809962
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.35,
+        "y": 0.64
+      },
+      "prevControl": {
+        "x": 5.100877677646199,
+        "y": 0.6190699138785962
+      },
+      "nextControl": {
+        "x": 6.0310831044619935,
+        "y": 0.6972213999032076
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.346,
+        "y": 1.5216265060240959
+      },
+      "prevControl": {
+        "x": 7.715027777664193,
+        "y": 0.6421803472453964
+      },
+      "nextControl": {
+        "x": 8.892922532313648,
+        "y": 2.2839245964410955
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.346,
+        "y": 3.707168674698795
+      },
+      "prevControl": {
+        "x": 8.342494234305303,
+        "y": 3.1800687619275427
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 2,
+      "rotationDegrees": 105.00000000000001
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Run Intake",
+      "waypointRelativePos": 1.5710900473933624,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Run Collector"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.37,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 118.02800000000002
+  },
+  "reversed": false,
+  "folder": "Aggressive Right Collect and Shoot",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 90.0
+  },
+  "useDefaultConstraints": true
+}

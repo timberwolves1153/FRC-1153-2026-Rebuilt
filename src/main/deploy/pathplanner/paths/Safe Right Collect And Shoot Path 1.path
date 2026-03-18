@@ -67,8 +67,8 @@
       "minWaypointRelativePos": 1.901222493887531,
       "maxWaypointRelativePos": 3.0,
       "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 4.5,
+        "maxVelocity": 1.5,
+        "maxAcceleration": 3.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -103,7 +103,7 @@
     "rotation": 82.23483398157487
   },
   "reversed": false,
-  "folder": "Right Collect and Shoot",
+  "folder": "Safe Right Collect and Shoot",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 90.0

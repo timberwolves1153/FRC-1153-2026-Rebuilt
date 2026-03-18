@@ -277,13 +277,13 @@ public class RobotContainer {
         "Reset Turret", new InstantCommand(() -> turret.setPositionTurret(-90)));
 
     NamedCommands.registerCommand(
-        "Rev Flywheel", new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
+        "Rev Flywheel", new InstantCommand(() -> flywheel.setVelocityLeader(-35)));
 
     NamedCommands.registerCommand("Aim to Score", superstructureCommands.shootOnTheMoveCommand());
     NamedCommands.registerCommand("Aim to Pass", superstructureCommands.autoAimTurretPassing());
 
     NamedCommands.registerCommand(
-        "Deploy Intake", intake.setAllCollectCommand(10, -5).withTimeout(.25));
+        "Deploy Intake", intake.setAllCollectCommand(4.25, -5).withTimeout(.25));
 
     NamedCommands.registerCommand(
         "Run Collector", new InstantCommand(() -> intake.setCollectVoltage(-5)));
@@ -359,7 +359,7 @@ public class RobotContainer {
             DriveCommands.joystickDriveAtAngle(
                 drive,
                 () -> -driver.getLeftY(),
-                () -> -driver.getLeftX(), 
+                () -> -driver.getLeftX(),
                 () -> Rotation2d.fromDegrees(45)));
 
     driver
@@ -368,10 +368,8 @@ public class RobotContainer {
             DriveCommands.joystickDriveAtAngle(
                 drive,
                 () -> -driver.getLeftY(),
-                () -> -driver.getLeftX(), 
+                () -> -driver.getLeftX(),
                 () -> Rotation2d.fromDegrees(-45)));
-
-
 
     // Drive Forward Button for testing
     //  operator.povUp().whileTrue(drive.sysIdDynamic(Direction.kForward));
@@ -389,14 +387,17 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-4), intake));
+    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-4.5), intake));
     operator.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
     operator.rightTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-12), indexer));
     operator.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
 
-    operator.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(8), indexer));
+    operator.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(12), indexer));
     operator.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
+
+    operator.rightBumper().onTrue(new InstantCommand(() -> indexer.runSpin(-12), indexer));
+    operator.rightBumper().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
     operator.rightStick().onTrue(superstructureCommands.autoAimTurretPassing());
     operator.leftStick().onTrue(superstructureCommands.shootOnTheMoveCommand());
@@ -412,6 +413,8 @@ public class RobotContainer {
     operator.povLeft().onTrue(new InstantCommand(() -> turret.setPositionTurret(270), turret));
     operator.povLeft().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.05), hood));
     operator.povLeft().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
+
+    operator.leftBumper().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
 
     // operator.a().onTrue(feedUntilEmptyCommand);
     // driver.rightTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
@@ -430,8 +433,9 @@ public class RobotContainer {
     // operator.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
 
     // SmartDashboard.putNumber("Flywheel Manual RPS Input", -10);
+
     // operator
-    //     .rightTrigger()
+    //     .leftStick()
     //     .onTrue(
     //         new DeferredCommand(
     //             () -> {
@@ -442,9 +446,12 @@ public class RobotContainer {
     //             },
     //             Set.of(flywheel)));
 
+    // // operator.leftStick().onTrue(hood.setPositionHoodHub(drive::getPose));
+    // operator.leftStick().onTrue(turret.setTurretPositionHub(drive::getPose));
+
     // SmartDashboard.putNumber("Hood Manual Setpoint Input", -0.05);
     // operator
-    //     .rightTrigger()
+    //     .leftStick()
     //     .onTrue(
     //         new DeferredCommand(
     //             () -> {
