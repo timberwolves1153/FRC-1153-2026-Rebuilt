@@ -73,6 +73,6 @@ public class Hood extends SubsystemBase {
   }
 
   public Command setPositionHoodPassing(Supplier<Pose2d> robotPose) {
-    return Commands.run(() -> setPositionHood(-1.4), this);
+    return Commands.run(() -> setPositionHood(-2.5), this);
   }
 }

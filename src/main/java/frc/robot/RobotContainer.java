@@ -254,18 +254,18 @@ public class RobotContainer {
     // Set up auto routines
 
     /*Autonomous Commands*/
-    NamedCommands.registerCommand("Run Indexer", indexer.setAllIndexingCommand(-12, 8)); // CHANGE
+    NamedCommands.registerCommand("Run Indexer", indexer.setAllIndexingCommand(-12, 12)); // CHANGE
     NamedCommands.registerCommand("Stop Indexer", indexer.setAllIndexingCommand(0, 0));
 
     NamedCommands.registerCommand("Run Timed Indexer", feedUntilEmptyCommand);
 
     NamedCommands.registerCommand(
-        "Run Feeder Wheel", new InstantCommand(() -> indexer.runFeed(-3), indexer));
+        "Run Feeder Wheel", new InstantCommand(() -> indexer.runFeed(-12), indexer));
     NamedCommands.registerCommand(
         "Stop Feeder Wheel", new InstantCommand(() -> indexer.runFeed(0), indexer));
 
     NamedCommands.registerCommand(
-        "Run Indexer Wheel", new InstantCommand(() -> indexer.runSpin(8), indexer));
+        "Run Indexer Wheel", new InstantCommand(() -> indexer.runSpin(12), indexer));
     NamedCommands.registerCommand(
         "Stop Indexer Wheel", new InstantCommand(() -> indexer.runSpin(0), indexer));
 
@@ -283,10 +283,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("Aim to Pass", superstructureCommands.autoAimTurretPassing());
 
     NamedCommands.registerCommand(
-        "Deploy Intake", intake.setAllCollectCommand(4.25, -5).withTimeout(.25));
+        "Deploy Intake", intake.setAllCollectCommand(20.25, -5.5).withTimeout(.5));
 
     NamedCommands.registerCommand(
-        "Run Collector", new InstantCommand(() -> intake.setCollectVoltage(-5)));
+        "Run Collector", new InstantCommand(() -> intake.setCollectVoltage(-5.5)));
     NamedCommands.registerCommand(
         "Stop Collector", new InstantCommand(() -> intake.setCollectVoltage(0)));
 
@@ -387,7 +387,7 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-4.5), intake));
+    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-5.5), intake));
     operator.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
     operator.rightTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-12), indexer));
@@ -399,22 +399,29 @@ public class RobotContainer {
     operator.rightBumper().onTrue(new InstantCommand(() -> indexer.runSpin(-12), indexer));
     operator.rightBumper().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
-    operator.rightStick().onTrue(superstructureCommands.autoAimTurretPassing());
-    operator.leftStick().onTrue(superstructureCommands.shootOnTheMoveCommand());
+    driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-12), indexer));
+    driver.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
 
-    operator.povRight().onTrue(new InstantCommand(() -> turret.setPositionTurret(90), turret));
-    operator.povRight().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.05), hood));
-    operator.povRight().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
+    driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(12), indexer));
+    driver.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
+
+    operator.leftStick().onTrue(superstructureCommands.shootOnTheMoveCommand());
+    operator.rightStick().onTrue(superstructureCommands.passOnTheMoveCommand());
+
+    operator.povRight().onTrue(new InstantCommand(() -> turret.setPositionTurret(270), turret));
+    operator.povRight().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.8), hood));
+    operator.povRight().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-32.5)));
 
     operator.povUp().onTrue(new InstantCommand(() -> turret.setPositionTurret(180), turret));
-    operator.povUp().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.05), hood));
-    operator.povUp().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
+    operator.povUp().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.8), hood));
+    operator.povUp().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-32.5)));
 
-    operator.povLeft().onTrue(new InstantCommand(() -> turret.setPositionTurret(270), turret));
-    operator.povLeft().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.05), hood));
-    operator.povLeft().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
+    operator.povLeft().onTrue(new InstantCommand(() -> turret.setPositionTurret(90), turret));
+    operator.povLeft().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.8), hood));
+    operator.povLeft().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-32.5)));
 
     operator.leftBumper().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
+    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setPositionIntake(20.25)));
 
     // operator.a().onTrue(feedUntilEmptyCommand);
     // driver.rightTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));

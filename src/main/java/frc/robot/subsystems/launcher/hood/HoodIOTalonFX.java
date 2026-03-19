@@ -93,12 +93,12 @@ public class HoodIOTalonFX implements HoodIO {
 
   public void homeHood() {
     if (!isHomed) {
-      if (hoodMotor.getSupplyCurrent().getValue().in(Amps) > 0.49) {
+      if (hoodMotor.getSupplyCurrent().getValue().in(Amps) > 1.49) {
         isHomed = true;
         hoodMotor.setPosition(0);
         setPositionHood(-0.05);
       } else {
-        setVoltageHood(.5);
+        setVoltageHood(1);
       }
     } else {
       setPositionHood(-0.05);

@@ -108,7 +108,7 @@ public class Turret extends SubsystemBase {
         DriverStation.getAlliance().isPresent()
             && DriverStation.getAlliance().get() == Alliance.Red;
 
-    Pose2d desiredPassingLocation = FieldConstants.Outpost.redOutpostCenter;
+    Pose2d desiredPassingLocation;
 
     if (isRed && robotPoseSupplier.get().getY() > (FieldConstants.fieldWidth / 2)) {
       desiredPassingLocation = FieldConstants.Outpost.redOutpostCenter;

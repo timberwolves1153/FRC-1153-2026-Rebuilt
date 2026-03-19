@@ -3,45 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.27,
-        "y": 0.56
+        "x": 4.61,
+        "y": 0.64
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.518373750873613,
-        "y": 0.58846892827228
+        "x": 4.858373750873613,
+        "y": 0.66846892827228
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.35,
-        "y": 0.6
+        "x": 6.35,
+        "y": 0.67
       },
       "prevControl": {
-        "x": 5.100946898258563,
-        "y": 0.5782617270012163
+        "x": 6.100946898258563,
+        "y": 0.6482617270012163
       },
       "nextControl": {
-        "x": 5.878037252669909,
-        "y": 0.6460890383287947
+        "x": 6.878037252669909,
+        "y": 0.7160890383287948
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.37392771084451,
-        "y": 1.4997710843349763
+        "x": 7.7,
+        "y": 1.32
       },
       "prevControl": {
-        "x": 6.831839917105704,
-        "y": 0.7971184025741371
+        "x": 7.076388954987367,
+        "y": 0.6885815715038411
       },
       "nextControl": {
-        "x": 7.987819954909112,
-        "y": 2.2954964937361177
+        "x": 7.9530963855421675,
+        "y": 1.5762650602409645
       },
       "isLocked": false,
       "linkedName": null
@@ -52,15 +52,24 @@
         "y": 3.5104698795157
       },
       "prevControl": {
-        "x": 7.767325301204821,
-        "y": 3.2591325301204814
+        "x": 7.800108433734941,
+        "y": 3.029650602409638
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 180.0
+    },
+    {
+      "waypointRelativePos": 2.0,
+      "rotationDegrees": 85.0
+    }
+  ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
@@ -103,10 +112,10 @@
     "rotation": 82.23483398157487
   },
   "reversed": false,
-  "folder": "Safe Right Collect and Shoot",
+  "folder": "Safe Right Collect and Shoot V2",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 90.0
+    "velocity": 0.0,
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

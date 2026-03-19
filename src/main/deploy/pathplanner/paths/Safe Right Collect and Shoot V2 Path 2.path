@@ -3,57 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.609216867469879,
-        "y": 0.65
+        "x": 7.745,
+        "y": 3.51
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.871481927710843,
-        "y": 0.6364819277108438
+        "x": 6.7510481927710835,
+        "y": 3.128000000000001
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.35,
-        "y": 0.64
+        "x": 6.270228915662651,
+        "y": 1.2812168674698796
       },
       "prevControl": {
-        "x": 5.100024941913346,
-        "y": 0.6364686639109194
+        "x": 6.618273600722508,
+        "y": 1.9250437202654953
       },
       "nextControl": {
-        "x": 6.033414424653338,
-        "y": 0.6496544272858613
+        "x": 5.959274707405574,
+        "y": 0.7060014487046817
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.346,
-        "y": 1.5216265060240959
+        "x": 4.314,
+        "y": 0.7
       },
       "prevControl": {
-        "x": 7.715027777664193,
-        "y": 0.6421803472453966
-      },
-      "nextControl": {
-        "x": 8.892922532313648,
-        "y": 2.2839245964410955
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 8.346,
-        "y": 3.707168674698795
-      },
-      "prevControl": {
-        "x": 8.342494234305303,
-        "y": 3.1800687619275427
+        "x": 5.559927710843374,
+        "y": 0.4288554216867476
       },
       "nextControl": null,
       "isLocked": false,
@@ -62,11 +46,25 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 2,
-      "rotationDegrees": 105.00000000000001
+      "waypointRelativePos": 1.452459016393417,
+      "rotationDegrees": 0.0
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.95,
+      "maxWaypointRelativePos": 1.7,
+      "constraints": {
+        "maxVelocity": 2.5,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 300.0,
+        "maxAngularAcceleration": 500.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -79,13 +77,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 118.02800000000002
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Aggressive Right Collect and Shoot",
+  "folder": "Safe Right Collect and Shoot V2",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 82.23
   },
   "useDefaultConstraints": true
 }
