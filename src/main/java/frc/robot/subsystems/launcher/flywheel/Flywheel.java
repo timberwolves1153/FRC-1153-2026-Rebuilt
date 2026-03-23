@@ -59,6 +59,10 @@ public class Flywheel extends SubsystemBase {
     io.stopFlywheel();
   }
 
+  public double getFlywheelCurrentRPS() {
+    return io.getCurrentRPS();
+  }
+
   public Command setVelocityHub(Supplier<Pose2d> robotPose) {
     return Commands.run(
         () ->

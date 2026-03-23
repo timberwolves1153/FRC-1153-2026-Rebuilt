@@ -27,4 +27,8 @@ public interface FlywheelIO {
   public default void setVelocityFollower(double velocity) {}
 
   public default void stopFlywheel() {}
+
+  public default double getCurrentRPS() {
+    return 1;
+  }
 }

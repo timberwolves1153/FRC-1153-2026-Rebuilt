@@ -11,6 +11,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -248,7 +249,7 @@ public class RobotContainer {
         break;
     }
 
-    superstructureCommands = new SuperstructureCommands(drive, flywheel, hood, turret);
+    superstructureCommands = new SuperstructureCommands(drive, flywheel, hood, turret, indexer);
     feedUntilEmptyCommand = new FeedUntilEmptyCommand(indexer);
 
     // Set up auto routines
@@ -301,7 +302,7 @@ public class RobotContainer {
         .or(RobotModeTriggers.teleop())
         .onTrue(Commands.run(() -> hood.homeHood()).until(hood::isHomed));
 
-    RobotModeTriggers.teleop().onTrue(new InstantCommand(() -> flywheel.stopFlywheel()));
+    RobotModeTriggers.teleop().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-10)));
     RobotModeTriggers.teleop().onTrue(new InstantCommand(() -> hood.stopHood()));
     RobotModeTriggers.teleop().onTrue(new InstantCommand(() -> turret.stopTurret()));
     RobotModeTriggers.teleop().onTrue(new InstantCommand(() -> indexer.stopAll()));
@@ -387,23 +388,31 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-5.5), intake));
-    operator.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
-
     operator.rightTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-12), indexer));
     operator.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
 
     operator.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(12), indexer));
     operator.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
-    operator.rightBumper().onTrue(new InstantCommand(() -> indexer.runSpin(-12), indexer));
-    operator.rightBumper().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
+    // operator
+    //     .rightTrigger()
+    //     .onTrue(superstructureCommands.runIndexerSafe(flywheel::getFlywheelCurrentRPS));
+
+    // operator.rightBumper().onTrue(new InstantCommand(() -> indexer.runSpin(-12), indexer));
+    // operator.rightBumper().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
     driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-12), indexer));
     driver.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
 
-    driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(12), indexer));
+    driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(10), indexer));
     driver.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
+
+    driver.leftTrigger().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
+
+    // operator
+    //     .rightTrigger()
+    //     .onTrue(
+    //         superstructureCommands.runIndexerSafe(flywheel::getFlywheelCurrentRPS));
 
     operator.leftStick().onTrue(superstructureCommands.shootOnTheMoveCommand());
     operator.rightStick().onTrue(superstructureCommands.passOnTheMoveCommand());
@@ -422,6 +431,8 @@ public class RobotContainer {
 
     operator.leftBumper().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
     operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setPositionIntake(20.25)));
+    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-5.5), intake));
+    operator.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
     // operator.a().onTrue(feedUntilEmptyCommand);
     // driver.rightTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
@@ -439,7 +450,7 @@ public class RobotContainer {
     // driver.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
     // operator.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
 
-    // SmartDashboard.putNumber("Flywheel Manual RPS Input", -10);
+    SmartDashboard.putNumber("Flywheel Manual RPS Input", -10);
 
     // operator
     //     .leftStick()
@@ -453,7 +464,7 @@ public class RobotContainer {
     //             },
     //             Set.of(flywheel)));
 
-    // // operator.leftStick().onTrue(hood.setPositionHoodHub(drive::getPose));
+    // operator.leftStick().onTrue(hood.setPositionHoodHub(drive::getPose));
     // operator.leftStick().onTrue(turret.setTurretPositionHub(drive::getPose));
 
     // SmartDashboard.putNumber("Hood Manual Setpoint Input", -0.05);

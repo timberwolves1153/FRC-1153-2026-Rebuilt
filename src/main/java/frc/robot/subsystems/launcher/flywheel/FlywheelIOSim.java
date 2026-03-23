@@ -13,6 +13,8 @@ public class FlywheelIOSim implements FlywheelIO {
 
   private double appliedVoltsLeader = 0.0;
   private double appliedVoltsFollower = 0.0;
+  private double appliedVelocityLeader = 0.0;
+  private double appliedVelocityFollower = 0.0;
 
   public FlywheelIOSim() {
     leaderSim =
@@ -35,9 +37,11 @@ public class FlywheelIOSim implements FlywheelIO {
 
     inputs.leadAppliedVoltage = leaderSim.getInputVoltage();
     inputs.leadCurrent = leaderSim.getCurrentDrawAmps();
+    inputs.leadVelocity = leaderSim.getAngularVelocityRPM() / 60;
 
     inputs.followerAppliedVoltage = followerSim.getInputVoltage();
     inputs.followerCurrent = followerSim.getCurrentDrawAmps();
+    inputs.leadVelocity = followerSim.getAngularVelocityRPM() / 60;
   }
 
   @Override
@@ -51,6 +55,11 @@ public class FlywheelIOSim implements FlywheelIO {
   public void setVoltageFollower(double volts) {
     appliedVoltsFollower = MathUtil.clamp(volts, -12.0, 12.0);
     leaderSim.setInputVoltage(appliedVoltsFollower);
+  }
+
+  @Override
+  public void setVelocityLeader(double velocity) {
+    leaderSim.setAngularVelocity(30);
   }
 
   @Override

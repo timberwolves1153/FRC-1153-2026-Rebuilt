@@ -29,7 +29,7 @@ public class FlywheelIOTalonFX implements FlywheelIO {
   private final StatusSignal<Voltage> followerAppliedVoltage = followerMotor.getMotorVoltage();
 
   private final StatusSignal<AngularVelocity> leadVelocity = leadMotor.getVelocity();
-  private final StatusSignal<AngularVelocity> FollowerVelocity = followerMotor.getVelocity();
+  private final StatusSignal<AngularVelocity> followerVelocity = followerMotor.getVelocity();
 
   private final StatusSignal<Current> leadCurrent = leadMotor.getSupplyCurrent();
   private final StatusSignal<Current> followerCurrent = followerMotor.getSupplyCurrent();
@@ -75,7 +75,7 @@ public class FlywheelIOTalonFX implements FlywheelIO {
         leadCurrent,
         leadTemp,
         followerAppliedVoltage,
-        FollowerVelocity,
+        followerVelocity,
         followerCurrent,
         followerTemp);
   }
@@ -88,7 +88,7 @@ public class FlywheelIOTalonFX implements FlywheelIO {
         leadCurrent,
         leadTemp,
         followerAppliedVoltage,
-        FollowerVelocity,
+        followerVelocity,
         followerCurrent,
         followerTemp);
 
@@ -98,7 +98,7 @@ public class FlywheelIOTalonFX implements FlywheelIO {
     flywheelInputs.followerCurrent = followerCurrent.getValueAsDouble();
 
     flywheelInputs.followerAppliedVoltage = followerAppliedVoltage.getValueAsDouble();
-    flywheelInputs.followerVelocity = FollowerVelocity.getValueAsDouble();
+    flywheelInputs.followerVelocity = followerVelocity.getValueAsDouble();
     flywheelInputs.leadTemp = leadTemp.getValueAsDouble();
     flywheelInputs.followerTemp = followerTemp.getValueAsDouble();
 
@@ -130,5 +130,10 @@ public class FlywheelIOTalonFX implements FlywheelIO {
   public void stopFlywheel() {
     leadMotor.setControl(voltageRequest.withOutput(0));
     // followerMotor.setControl(voltageRequest.withOutput(0));
+  }
+
+  @Override
+  public double getCurrentRPS() {
+    return leadMotor.getVelocity().getValueAsDouble();
   }
 }

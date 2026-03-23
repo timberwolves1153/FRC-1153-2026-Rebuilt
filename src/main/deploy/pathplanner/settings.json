@@ -10,7 +10,11 @@
     "Safe Right Collect and Shoot",
     "Week 0 Autos"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "New Folder",
+    "New New Folder",
+    "New New New Folder"
+  ],
   "defaultMaxVel": 4.37,
   "defaultMaxAccel": 3.5,
   "defaultMaxAngVel": 540.0,

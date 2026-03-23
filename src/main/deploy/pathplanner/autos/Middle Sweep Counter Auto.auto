@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Safe Right Collect And Shoot Path 1"
+                  "pathName": "Middle Sweep Counter Path 1"
                 }
               },
               {
@@ -46,7 +46,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Safe Right Collect and Shoot Path 2"
+                        "pathName": "Middle Sweep Counter Path 2"
                       }
                     },
                     {
@@ -90,19 +90,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Stop Collector"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.0
+                        "waitTime": 4.0
                       }
                     }
                   ]
@@ -118,7 +106,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Safe Right Collect and Shoot Path 3"
+                  "pathName": "Middle Sweep Counter Path 3"
                 }
               },
               {
@@ -159,19 +147,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Stop Collector"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.0
+                        "waitTime": 5.0
                       }
                     }
                   ]
@@ -183,7 +159,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Safe Right Collect and Shoot V2 Path 4 "
+            "pathName": "Middle Sweep Counter Path 4 "
           }
         }
       ]

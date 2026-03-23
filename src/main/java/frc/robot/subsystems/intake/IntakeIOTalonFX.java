@@ -34,6 +34,9 @@ public class IntakeIOTalonFX implements IntakeIO {
   private final StatusSignal<Voltage> deployMotorAppliedVolts = deployMotor.getMotorVoltage();
   private final StatusSignal<Temperature> deployMotorTemp = deployMotor.getDeviceTemp();
 
+  public double error;
+  public double currentPosition = collectMotor.getPosition().getValueAsDouble();
+
   public IntakeIOTalonFX() {
     voltageRequest = new VoltageOut(0);
     positionRequest = new MotionMagicVoltage(0).withSlot(0);
@@ -116,7 +119,13 @@ public class IntakeIOTalonFX implements IntakeIO {
 
   @Override
   public void setPositionIntake(double rotations) {
+    // error = rotations - currentPosition;
+
     deployMotor.setControl(positionRequest.withPosition(rotations));
+
+    // if (Math.abs(error) < 5) {
+    //   setDeployVoltage(0);
+    // }
   }
 
   // public void intakeFuel(double rotations, double volts) {
