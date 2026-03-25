@@ -23,6 +23,7 @@ import org.littletonrobotics.junction.Logger;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 /** IO implementation for real PhotonVision hardware. */
@@ -43,7 +44,9 @@ public class VisionIOPhotonVision implements VisionIO {
       String name, Transform3d robotToCamera, VisionConsumer estimateConsumer) {
     camera = new PhotonCamera(name);
     this.robotToCamera = robotToCamera;
-    this.visionPoseEstimator = new PhotonPoseEstimator(aprilTagLayout, robotToCamera);
+    this.visionPoseEstimator =
+        new PhotonPoseEstimator(
+            aprilTagLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, robotToCamera);
     this.curStdDev = kMultiTagStdDevs;
     this.estimateConsumer = estimateConsumer;
   }

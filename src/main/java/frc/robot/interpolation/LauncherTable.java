@@ -54,7 +54,7 @@ public class LauncherTable {
     // flywheelShootingMap.put(new InterpolatingDouble(5.135), new InterpolatingDouble(-47.0));
 
     // 9V Feeder
-    flywheelShootingMap.put(new InterpolatingDouble(1.5), new InterpolatingDouble(-33.0));
+    flywheelShootingMap.put(new InterpolatingDouble(1.5), new InterpolatingDouble(-28.0));
     flywheelShootingMap.put(new InterpolatingDouble(2.0), new InterpolatingDouble(-30.0));
     flywheelShootingMap.put(new InterpolatingDouble(2.5), new InterpolatingDouble(-30.5));
     flywheelShootingMap.put(new InterpolatingDouble(3.0), new InterpolatingDouble(-32.0));
@@ -69,6 +69,7 @@ public class LauncherTable {
     flywheelPassingMap.put(new InterpolatingDouble(9.71), new InterpolatingDouble(-55.0));
     flywheelPassingMap.put(new InterpolatingDouble(11.131), new InterpolatingDouble(-60.0));
     flywheelPassingMap.put(new InterpolatingDouble(13.184), new InterpolatingDouble(-70.0));
+    flywheelPassingMap.put(new InterpolatingDouble(15.0), new InterpolatingDouble(-75.0));
 
     /* Flight Time
     Key = distance from hub in meters

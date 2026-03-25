@@ -329,10 +329,22 @@ public class FieldConstants {
             AprilTagLayoutType.OFFICIAL.getLayout().getTagPose(29).get().getY(),
             Rotation2d.kZero);
 
+    public static final Pose2d blueOutpostLeft =
+        new Pose2d(
+            0,
+            AprilTagLayoutType.OFFICIAL.getLayout().getTagPose(30).get().getY(),
+            Rotation2d.kZero);
+
     public static final Pose2d redOutpostCenter =
         new Pose2d(
             fieldLength,
             AprilTagLayoutType.OFFICIAL.getLayout().getTagPose(13).get().getY(),
+            Rotation2d.kZero);
+
+    public static final Pose2d redOutpostLeft =
+        new Pose2d(
+            fieldLength,
+            AprilTagLayoutType.OFFICIAL.getLayout().getTagPose(14).get().getY(),
             Rotation2d.kZero);
   }
 
@@ -360,21 +372,21 @@ public class FieldConstants {
   }
 
   public static double getDistanceToOutpost(Pose2d currentPose) {
-    Pose2d outpostCenter;
+    Pose2d outpostLocation;
 
     boolean isFlipped =
         DriverStation.getAlliance().isPresent()
             && DriverStation.getAlliance().get() == Alliance.Red;
 
     if (isFlipped) {
-      outpostCenter = FieldConstants.Outpost.redOutpostCenter;
+      outpostLocation = FieldConstants.Outpost.redOutpostLeft;
     } else {
-      outpostCenter = FieldConstants.Outpost.blueOutpostCenter;
+      outpostLocation = FieldConstants.Outpost.blueOutpostLeft;
     }
 
     double distanceToOutpost;
 
-    distanceToOutpost = currentPose.getTranslation().getDistance(outpostCenter.getTranslation());
+    distanceToOutpost = currentPose.getTranslation().getDistance(outpostLocation.getTranslation());
     SmartDashboard.putNumber("Distance to Outpost", distanceToOutpost);
 
     return distanceToOutpost;

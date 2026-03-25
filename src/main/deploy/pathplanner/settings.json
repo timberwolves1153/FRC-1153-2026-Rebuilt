@@ -5,16 +5,13 @@
   "pathFolders": [
     "Aggressive Right Collect and Shoot",
     "Left Collect and Shoot",
-    "Safe Right Collect and Shoot V2",
+    "Slip N' Slide",
     "Right Middle + Outpost",
     "Safe Right Collect and Shoot",
+    "Safe Right Collect and Shoot V2",
     "Week 0 Autos"
   ],
-  "autoFolders": [
-    "New Folder",
-    "New New Folder",
-    "New New New Folder"
-  ],
+  "autoFolders": [],
   "defaultMaxVel": 4.37,
   "defaultMaxAccel": 3.5,
   "defaultMaxAngVel": 540.0,

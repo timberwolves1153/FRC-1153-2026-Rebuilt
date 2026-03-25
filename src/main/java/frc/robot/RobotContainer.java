@@ -11,7 +11,6 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -391,7 +390,7 @@ public class RobotContainer {
     operator.rightTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-12), indexer));
     operator.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
 
-    operator.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(12), indexer));
+    operator.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(10), indexer));
     operator.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
     // operator
@@ -450,7 +449,7 @@ public class RobotContainer {
     // driver.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
     // operator.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
 
-    SmartDashboard.putNumber("Flywheel Manual RPS Input", -10);
+    // SmartDashboard.putNumber("Flywheel Manual RPS Input", -10);
 
     // operator
     //     .leftStick()

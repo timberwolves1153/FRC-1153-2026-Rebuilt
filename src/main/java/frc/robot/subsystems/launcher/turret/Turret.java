@@ -30,10 +30,7 @@ public class Turret extends SubsystemBase {
 
     turretOffset =
         new Transform2d(
-            Units.inchesToMeters(-6),
-            Units.inchesToMeters(-4.5),
-            new Rotation2d()); // Units.inchesToMeters(-4.5), new Rotation2d());
-
+            Units.inchesToMeters(-6), Units.inchesToMeters(-4.5), new Rotation2d()); // 6.5 degrees
     switch (Constants.currentMode) {
       case REAL:
       case REPLAY:
