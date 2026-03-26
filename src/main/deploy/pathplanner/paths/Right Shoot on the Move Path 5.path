@@ -1,0 +1,68 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 6.205,
+        "y": 2.822
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.34583801391207,
+        "y": 2.694565824231599
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.653,
+        "y": 2.308
+      },
+      "prevControl": {
+        "x": 4.392082087594744,
+        "y": 2.543579728094207
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.2337292161520221,
+      "maxWaypointRelativePos": 0.7398104265402845,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.37,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0.25,
+    "rotation": 115.0
+  },
+  "reversed": false,
+  "folder": "Right Shoot on the Move Auto",
+  "idealStartingState": {
+    "velocity": 0.0,
+    "rotation": 115.0
+  },
+  "useDefaultConstraints": true
+}

@@ -103,7 +103,7 @@
     "rotation": 101.041
   },
   "reversed": false,
-  "folder": "Safe Right Collect and Shoot",
+  "folder": "Middle Sweep Counter Auto",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

@@ -55,13 +55,13 @@ public class LauncherTable {
 
     // 9V Feeder
     flywheelShootingMap.put(new InterpolatingDouble(1.5), new InterpolatingDouble(-28.0));
-    flywheelShootingMap.put(new InterpolatingDouble(2.0), new InterpolatingDouble(-30.0));
-    flywheelShootingMap.put(new InterpolatingDouble(2.5), new InterpolatingDouble(-30.5));
-    flywheelShootingMap.put(new InterpolatingDouble(3.0), new InterpolatingDouble(-32.0));
-    flywheelShootingMap.put(new InterpolatingDouble(3.5), new InterpolatingDouble(-34.0));
-    flywheelShootingMap.put(new InterpolatingDouble(4.0), new InterpolatingDouble(-35.75));
+    flywheelShootingMap.put(new InterpolatingDouble(2.0), new InterpolatingDouble(-39.0));
+    flywheelShootingMap.put(new InterpolatingDouble(2.5), new InterpolatingDouble(-30.0));
+    flywheelShootingMap.put(new InterpolatingDouble(3.0), new InterpolatingDouble(-32.75));
+    flywheelShootingMap.put(new InterpolatingDouble(3.5), new InterpolatingDouble(-33.5));
+    flywheelShootingMap.put(new InterpolatingDouble(4.0), new InterpolatingDouble(-35.25));
     flywheelShootingMap.put(new InterpolatingDouble(4.5), new InterpolatingDouble(-36.75));
-    flywheelShootingMap.put(new InterpolatingDouble(5.0), new InterpolatingDouble(-37.75));
+    flywheelShootingMap.put(new InterpolatingDouble(5.0), new InterpolatingDouble(-37.5));
 
     /*Flywheel Passing */
     flywheelPassingMap.put(new InterpolatingDouble(4.457), new InterpolatingDouble(-35.0));

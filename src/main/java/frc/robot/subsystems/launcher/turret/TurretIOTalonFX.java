@@ -63,7 +63,7 @@ public class TurretIOTalonFX implements TurretIO {
     encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.99;
 
     turretConfig.MotionMagic.MotionMagicCruiseVelocity = 7.5;
-    turretConfig.MotionMagic.MotionMagicAcceleration = 7.5;
+    turretConfig.MotionMagic.MotionMagicAcceleration = 9;
 
     turretConfig.Feedback.FeedbackRemoteSensorID = encoder.getDeviceID();
     turretConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;

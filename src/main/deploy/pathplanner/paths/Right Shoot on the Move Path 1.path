@@ -3,57 +3,57 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.073759036144579,
+        "x": 4.467156626506024,
         "y": 0.64
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.073759036144579,
-        "y": 0.6399999999999997
+        "x": 5.441613177271454,
+        "y": 0.6712349661171993
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.35,
+        "x": 5.712915662650602,
         "y": 0.64
       },
       "prevControl": {
-        "x": 5.100946767475326,
-        "y": 0.6182632254230068
+        "x": 5.463060120844387,
+        "y": 0.648497542510811
       },
       "nextControl": {
-        "x": 5.877992852952307,
-        "y": 0.6860819621032256
+        "x": 5.9860281943595375,
+        "y": 0.6307114914015721
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.374,
-        "y": 1.5
+        "x": 7.537843373493976,
+        "y": 1.4560602409638557
       },
       "prevControl": {
-        "x": 6.832188171180733,
-        "y": 0.7977116388893224
+        "x": 6.9368249780163875,
+        "y": 0.7401113597668886
       },
       "nextControl": {
-        "x": 7.987890516305933,
-        "y": 2.2957156740881968
+        "x": 8.214545209078755,
+        "y": 2.262165221670596
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.745,
-        "y": 3.51
+        "x": 8.139,
+        "y": 3.5432530120481935
       },
       "prevControl": {
-        "x": 7.767325301204821,
-        "y": 3.1498554216867465
+        "x": 8.136348914526547,
+        "y": 3.1746435963454678
       },
       "nextControl": null,
       "isLocked": false,
@@ -73,14 +73,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 82.235
+    "velocity": 0.0,
+    "rotation": 103.025
   },
   "reversed": false,
-  "folder": "Right Middle + Outpost",
+  "folder": "Right Shoot on the Move Auto",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

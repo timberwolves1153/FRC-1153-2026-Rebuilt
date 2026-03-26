@@ -80,8 +80,6 @@ public class RobotContainer {
   private final CommandXboxController driver = new CommandXboxController(0);
   private final CommandXboxController operator = new CommandXboxController(1);
 
-  //   private final CommandXboxoperator opoperator = new CommandXboxoperator(1);
-
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
 

@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.314,
-        "y": 0.658
+        "x": 4.281,
+        "y": 0.6474096385542167
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.297433734939759,
-        "y": 0.21030120481927672
+        "x": 7.3626144578313255,
+        "y": 0.04638554216867408
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.800337349397592,
-        "y": 3.4011927710843373
+        "x": 5.822192771084336,
+        "y": 3.8820120481927702
       },
       "prevControl": {
-        "x": 5.782419683828815,
-        "y": 3.151835683235274
+        "x": 5.745237699730669,
+        "y": 4.119873177831373
       },
       "nextControl": {
-        "x": 5.838928245541987,
-        "y": 3.9382556737886407
+        "x": 5.9423975903614465,
+        "y": 3.510469879518072
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.26,
-        "y": 0.658
+        "x": 6.205,
+        "y": 2.822024096385543
       },
       "prevControl": {
-        "x": 8.291855421686748,
-        "y": 0.06824096385542244
+        "x": 6.0691871804606805,
+        "y": 3.0319166356735803
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,7 +46,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.2562874251496983,
+      "waypointRelativePos": 0.2,
       "rotationDegrees": 55.0
     },
     {
@@ -61,8 +61,8 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.3002375296912538,
-      "maxWaypointRelativePos": 1.0945368171021452,
+      "minWaypointRelativePos": 0.3,
+      "maxWaypointRelativePos": 1.0499999999999998,
       "constraints": {
         "maxVelocity": 2.5,
         "maxAcceleration": 3.5,
@@ -71,35 +71,10 @@
         "nominalVoltage": 12.0,
         "unlimited": false
       }
-    },
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 1.4023752969121057,
-      "maxWaypointRelativePos": 1.8888361045130575,
-      "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 2.0,
-        "maxAngularVelocity": 300.0,
-        "maxAngularAcceleration": 500.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "Run Intake",
-      "waypointRelativePos": 0.28123515439429886,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Run Collector"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.37,
     "maxAcceleration": 3.5,
@@ -110,10 +85,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 127.185
   },
   "reversed": false,
-  "folder": "Aggressive Right Collect and Shoot",
+  "folder": "Right Shoot on the Move Auto",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0
