@@ -53,15 +53,15 @@ public class LauncherTable {
     // flywheelShootingMap.put(new InterpolatingDouble(4.0), new InterpolatingDouble(-43.0));
     // flywheelShootingMap.put(new InterpolatingDouble(5.135), new InterpolatingDouble(-47.0));
 
-    // 9V Feeder
-    flywheelShootingMap.put(new InterpolatingDouble(1.5), new InterpolatingDouble(-28.0));
-    flywheelShootingMap.put(new InterpolatingDouble(2.0), new InterpolatingDouble(-30.0));
-    flywheelShootingMap.put(new InterpolatingDouble(2.5), new InterpolatingDouble(-30.5));
-    flywheelShootingMap.put(new InterpolatingDouble(3.0), new InterpolatingDouble(-32.0));
-    flywheelShootingMap.put(new InterpolatingDouble(3.5), new InterpolatingDouble(-34.0));
-    flywheelShootingMap.put(new InterpolatingDouble(4.0), new InterpolatingDouble(-36.0));
-    flywheelShootingMap.put(new InterpolatingDouble(4.5), new InterpolatingDouble(-36.75));
-    flywheelShootingMap.put(new InterpolatingDouble(5.0), new InterpolatingDouble(-37.75));
+    // 9V Feeder --> 0.1905 accounts for turret offset from robot center
+    flywheelShootingMap.put(new InterpolatingDouble(1.5 - 0.1905), new InterpolatingDouble(-28.0));
+    flywheelShootingMap.put(new InterpolatingDouble(2.0 - 0.1905), new InterpolatingDouble(-30.0));
+    flywheelShootingMap.put(new InterpolatingDouble(2.5 - 0.1905), new InterpolatingDouble(-30.5));
+    flywheelShootingMap.put(new InterpolatingDouble(3.0 - 0.1905), new InterpolatingDouble(-32.0));
+    flywheelShootingMap.put(new InterpolatingDouble(3.5 - 0.1905), new InterpolatingDouble(-34.0));
+    flywheelShootingMap.put(new InterpolatingDouble(4.0 - 0.1905), new InterpolatingDouble(-36.0));
+    flywheelShootingMap.put(new InterpolatingDouble(4.5 - 0.1905), new InterpolatingDouble(-36.75));
+    flywheelShootingMap.put(new InterpolatingDouble(5.0 - 0.1905), new InterpolatingDouble(-37.75));
 
     /*Flywheel Passing */
     flywheelPassingMap.put(new InterpolatingDouble(4.457), new InterpolatingDouble(-35.0));

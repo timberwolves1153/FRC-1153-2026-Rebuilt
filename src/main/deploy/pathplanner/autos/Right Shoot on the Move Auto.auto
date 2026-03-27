@@ -79,9 +79,28 @@
                       "data": {
                         "commands": [
                           {
+                            "type": "parallel",
+                            "data": {
+                              "commands": [
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "Set Turret Position"
+                                  }
+                                },
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "Interpolate Shot"
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          {
                             "type": "wait",
                             "data": {
-                              "waitTime": 0.75
+                              "waitTime": 0.5
                             }
                           },
                           {
@@ -150,12 +169,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Reset Robot Pose"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -199,9 +212,28 @@
                       "data": {
                         "commands": [
                           {
+                            "type": "parallel",
+                            "data": {
+                              "commands": [
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "Set Turret Position"
+                                  }
+                                },
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "Interpolate Shot"
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          {
                             "type": "wait",
                             "data": {
-                              "waitTime": 0.75
+                              "waitTime": 0.5
                             }
                           },
                           {

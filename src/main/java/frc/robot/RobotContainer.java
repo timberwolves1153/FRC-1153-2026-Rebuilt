@@ -10,6 +10,8 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -55,6 +57,7 @@ import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionConstants;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
+import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -198,13 +201,27 @@ public class RobotContainer {
 
         vision =
             new Vision(
-                new VisionIO() {}
-                // new VisionIOPhotonVisionSim(
-                //     "camera2", VisionConstants.robotToCamera2, drive::getPose)
-                // ,
-                // new VisionIOPhotonVisionSim(
-                //     "camera3", VisionConstants.robotToCamera3, drive::getPose)
-                );
+                // new VisionIO() {}
+                new VisionIOPhotonVisionSim(
+                    VisionConstants.camera0Name,
+                    VisionConstants.robotToTurretCamera,
+                    drive::getPose,
+                    drive::addVisionMeasurement),
+                new VisionIOPhotonVisionSim(
+                    VisionConstants.camera1Name,
+                    VisionConstants.robotToClimberCamera,
+                    drive::getPose,
+                    drive::addVisionMeasurement),
+                new VisionIOPhotonVisionSim(
+                    VisionConstants.camera2Name,
+                    VisionConstants.robotToSwerveCamera,
+                    drive::getPose,
+                    drive::addVisionMeasurement),
+                new VisionIOPhotonVisionSim(
+                    VisionConstants.camera3Name,
+                    VisionConstants.robotToHopperCamera,
+                    drive::getPose,
+                    drive::addVisionMeasurement));
         alignment = new Alignment(new AlignmentIO() {});
         turret = new Turret(new TurretIOSim());
         launcherTable = new LauncherTable();
@@ -277,6 +294,11 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "Rev Flywheel", new InstantCommand(() -> flywheel.setVelocityLeader(-35)));
 
+    NamedCommands.registerCommand(
+        "Interpolate Shot", superstructureCommands.interpolateShotCommand().withTimeout(0.25));
+    NamedCommands.registerCommand(
+        "Set Turret Position", new InstantCommand(() -> turret.setPositionTurret(300)));
+
     NamedCommands.registerCommand("Aim to Score", superstructureCommands.shootOnTheMoveCommand());
     NamedCommands.registerCommand("Aim to Pass", superstructureCommands.autoAimTurretPassing());
 
@@ -289,7 +311,7 @@ public class RobotContainer {
         "Stop Collector", new InstantCommand(() -> intake.setCollectVoltage(0)));
 
     NamedCommands.registerCommand(
-        "Reset Robot Pose",
+        "Reset Robot Pose Turret",
         new InstantCommand(() -> drive.setPose(vision.getPoseFromTurretCamera())));
 
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -353,9 +375,8 @@ public class RobotContainer {
 
     driver.y().onTrue(Commands.runOnce(() -> drive.resetGyro(0), drive));
 
-    // Set robot rotation to 45 degrees when X button is presse
-
-    driver
+    // Set robot rotation to 45 degrees when X button is pressed
+        driver
         .rightBumper()
         .whileTrue(
             DriveCommands.joystickDriveAtAngle(
@@ -372,6 +393,7 @@ public class RobotContainer {
                 () -> -driver.getLeftY(),
                 () -> -driver.getLeftX(),
                 () -> Rotation2d.fromDegrees(-45)));
+    
 
     // Drive Forward Button for testing
     //  operator.povUp().whileTrue(drive.sysIdDynamic(Direction.kForward));
@@ -435,17 +457,18 @@ public class RobotContainer {
     operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-5.5), intake));
     operator.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
+
     // operator.a().onTrue(feedUntilEmptyCommand);
     // driver.rightTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
 
-    driver
-        .x()
-        .onTrue(
-            Commands.runOnce(
-                () ->
-                    drive.setPose(
-                        new Pose2d(drive.getPose().getTranslation(), Rotation2d.fromDegrees(45))),
-                drive));
+    // driver
+    //     .x()
+    //     .onTrue(
+    //         Commands.runOnce(
+    //             () ->
+    //                 drive.setPose(
+    //                     new Pose2d(drive.getPose().getTranslation(), Rotation2d.fromDegrees(45))),
+    //             drive));
 
     // driver.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
     // operator.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());

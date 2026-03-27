@@ -341,6 +341,14 @@ public class SuperstructureCommands {
             () -> shootOnTheMove(drive::getPose, robotRelativeSpeed(), drive::getChassisSpeeds)));
   }
 
+  public Command interpolateShotCommand() {
+    return Commands.parallel(
+        hood.setPositionHoodHub(
+            () -> shootOnTheMove(drive::getPose, robotRelativeSpeed(), drive::getChassisSpeeds)),
+        flywheel.setVelocityHub(
+            () -> shootOnTheMove(drive::getPose, robotRelativeSpeed(), drive::getChassisSpeeds)));
+  }
+
   public Command runIndexerSafe(Supplier<Double> rpsSupplier) {
     if (Math.abs(rpsSupplier.get()) > 5) {
       return indexer.setAllIndexingCommand(-12, 12);
