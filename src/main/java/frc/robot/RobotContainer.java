@@ -288,6 +288,10 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "Stop Collector", new InstantCommand(() -> intake.setCollectVoltage(0)));
 
+    NamedCommands.registerCommand(
+        "Reset Robot Pose",
+        new InstantCommand(() -> drive.setPose(vision.getPoseFromTurretCamera())));
+
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
     updateDesiredHub();
@@ -434,15 +438,14 @@ public class RobotContainer {
     // operator.a().onTrue(feedUntilEmptyCommand);
     // driver.rightTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
 
-    // driver
-    //     .x()
-    //     .onTrue(
-    //         Commands.runOnce(
-    //             () ->
-    //                 drive.setPose(
-    //                     new Pose2d(drive.getPose().getTranslation(),
-    // Rotation2d.fromDegrees(45))),
-    //             drive));
+    driver
+        .x()
+        .onTrue(
+            Commands.runOnce(
+                () ->
+                    drive.setPose(
+                        new Pose2d(drive.getPose().getTranslation(), Rotation2d.fromDegrees(45))),
+                drive));
 
     // driver.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
     // operator.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());

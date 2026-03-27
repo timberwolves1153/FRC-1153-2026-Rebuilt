@@ -11,6 +11,7 @@ import static frc.robot.subsystems.vision.VisionConstants.*;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -33,6 +34,7 @@ public class VisionIOPhotonVision implements VisionIO {
   private final PhotonPoseEstimator visionPoseEstimator;
   private Matrix<N3, N1> curStdDev;
   private final VisionConsumer estimateConsumer;
+  private Pose2d bestPose = Pose2d.kZero;
 
   /**
    * Creates a new VisionIOPhotonVision.
@@ -70,9 +72,9 @@ public class VisionIOPhotonVision implements VisionIO {
           est -> {
             var estStdDevs = getEstimatedStdDevs();
 
-            estimateConsumer.accept(est.estimatedPose.toPose2d(), est.timestampSeconds, estStdDevs);
-            Logger.recordOutput(
-                "Vision " + camera.getName() + " Pose", est.estimatedPose.toPose2d());
+            bestPose = est.estimatedPose.toPose2d();
+            estimateConsumer.accept(bestPose, est.timestampSeconds, estStdDevs);
+            Logger.recordOutput("Vision " + camera.getName() + " Pose", bestPose);
           });
     }
 
@@ -128,5 +130,10 @@ public class VisionIOPhotonVision implements VisionIO {
 
   public Matrix<N3, N1> getEstimatedStdDevs() {
     return curStdDev;
+  }
+
+  @Override
+  public Pose2d getBestPose() {
+    return this.bestPose;
   }
 }

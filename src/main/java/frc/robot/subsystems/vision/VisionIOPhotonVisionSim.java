@@ -31,7 +31,7 @@
 //    */
 //   public VisionIOPhotonVisionSim(
 //       String name, Transform3d robotToCamera, Supplier<Pose2d> poseSupplier) {
-//     super(name, robotToCamera);
+//     super(name, robotToCamera, poseSupplier);
 //     this.poseSupplier = poseSupplier;
 
 //     // Initialize vision sim
