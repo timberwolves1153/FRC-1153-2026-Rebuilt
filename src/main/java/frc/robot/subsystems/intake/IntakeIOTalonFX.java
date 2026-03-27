@@ -85,7 +85,7 @@ public class IntakeIOTalonFX implements IntakeIO {
     slot0Configs.kS = 0;
     slot0Configs.kV = 0;
     slot0Configs.kA = 0;
-    slot0Configs.kP = 25;
+    slot0Configs.kP = 5;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0.12;
 
