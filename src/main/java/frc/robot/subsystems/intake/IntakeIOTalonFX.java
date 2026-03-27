@@ -5,10 +5,12 @@ package frc.robot.subsystems.intake;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
@@ -18,7 +20,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class IntakeIOTalonFX implements IntakeIO {
 
   private TalonFX deployMotor = new TalonFX(41, "superstructure");
-  private TalonFX collectMotor = new TalonFX(42, "superstructure");
+  private TalonFX leftCollectMotor = new TalonFX(42, "superstructure");
+  private TalonFX rightCollectMotor = new TalonFX(43, "superstructure");
+  private TalonFX insideCollectMotor = new TalonFX(44, "superstructure");
 
   private VoltageOut voltageRequest;
   private MotionMagicVoltage positionRequest;
@@ -26,16 +30,29 @@ public class IntakeIOTalonFX implements IntakeIO {
   private TalonFXConfiguration deployMotorConfig;
   private TalonFXConfiguration collectorMotorConfig;
 
-  private final StatusSignal<Current> collectorMotorCurrent = collectMotor.getSupplyCurrent();
-  private final StatusSignal<Voltage> collectorMotorAppliedVolts = collectMotor.getMotorVoltage();
-  private final StatusSignal<Temperature> collectorMotorTemp = collectMotor.getDeviceTemp();
+  private final StatusSignal<Current> leftCollectorMotorCurrent =
+      leftCollectMotor.getSupplyCurrent();
+  private final StatusSignal<Voltage> leftCollectorMotorAppliedVolts =
+      leftCollectMotor.getMotorVoltage();
+  private final StatusSignal<Temperature> leftCollectorMotorTemp = leftCollectMotor.getDeviceTemp();
+
+  private final StatusSignal<Current> rightCollectorMotorCurrent =
+      rightCollectMotor.getSupplyCurrent();
+  private final StatusSignal<Voltage> rightCollectorMotorAppliedVolts =
+      rightCollectMotor.getMotorVoltage();
+  private final StatusSignal<Temperature> rightCollectorMotorTemp =
+      rightCollectMotor.getDeviceTemp();
+
+  private final StatusSignal<Current> insideollectorMotorCurrent =
+      insideCollectMotor.getSupplyCurrent();
+  private final StatusSignal<Voltage> insideCollectorMotorAppliedVolts =
+      insideCollectMotor.getMotorVoltage();
+  private final StatusSignal<Temperature> insideCollectorMotorTemp =
+      insideCollectMotor.getDeviceTemp();
 
   private final StatusSignal<Current> deployMotorCurrent = deployMotor.getSupplyCurrent();
   private final StatusSignal<Voltage> deployMotorAppliedVolts = deployMotor.getMotorVoltage();
   private final StatusSignal<Temperature> deployMotorTemp = deployMotor.getDeviceTemp();
-
-  public double error;
-  public double currentPosition = collectMotor.getPosition().getValueAsDouble();
 
   public IntakeIOTalonFX() {
     voltageRequest = new VoltageOut(0);
@@ -47,10 +64,10 @@ public class IntakeIOTalonFX implements IntakeIO {
 
     // deployMotor.setPosition(0);
 
-    config();
+    configMotors();
   }
 
-  public void config() {
+  public void configMotors() {
 
     deployMotorConfig.CurrentLimits.SupplyCurrentLimit = 15.0;
     deployMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
@@ -68,7 +85,7 @@ public class IntakeIOTalonFX implements IntakeIO {
     slot0Configs.kS = 0;
     slot0Configs.kV = 0;
     slot0Configs.kA = 0;
-    slot0Configs.kP = 25;
+    slot0Configs.kP = 5;
     slot0Configs.kI = 0;
     slot0Configs.kD = 0.12;
 
@@ -78,19 +95,32 @@ public class IntakeIOTalonFX implements IntakeIO {
     deployMotorConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = 1;
 
     deployMotor.getConfigurator().apply(deployMotorConfig);
-    collectMotor.getConfigurator().apply(collectorMotorConfig);
+    leftCollectMotor.getConfigurator().apply(collectorMotorConfig);
+    rightCollectMotor.getConfigurator().apply(collectorMotorConfig);
+    insideCollectMotor.getConfigurator().apply(collectorMotorConfig);
+
+    rightCollectMotor.setControl(new Follower(42, MotorAlignmentValue.Opposed));
+    insideCollectMotor.setControl(new Follower(42, MotorAlignmentValue.Opposed));
 
     BaseStatusSignal.setUpdateFrequencyForAll(
         50,
-        collectorMotorCurrent,
-        collectorMotorAppliedVolts,
-        collectorMotorTemp,
+        leftCollectorMotorCurrent,
+        leftCollectorMotorAppliedVolts,
+        leftCollectorMotorTemp,
+        rightCollectorMotorCurrent,
+        rightCollectorMotorAppliedVolts,
+        rightCollectorMotorTemp,
+        insideollectorMotorCurrent,
+        insideCollectorMotorAppliedVolts,
+        insideCollectorMotorTemp,
         deployMotorCurrent,
         deployMotorAppliedVolts,
         deployMotorTemp);
 
     deployMotor.optimizeBusUtilization();
-    collectMotor.optimizeBusUtilization();
+    leftCollectMotor.optimizeBusUtilization();
+    rightCollectMotor.optimizeBusUtilization();
+    insideCollectMotor.optimizeBusUtilization();
 
     SmartDashboard.putNumber(
         "Intake encoder position", deployMotor.getPosition().getValueAsDouble());
@@ -109,7 +139,7 @@ public class IntakeIOTalonFX implements IntakeIO {
 
   @Override
   public void setCollectVoltage(double volts) {
-    collectMotor.setControl(voltageRequest.withOutput(volts));
+    leftCollectMotor.setControl(voltageRequest.withOutput(volts));
   }
 
   // @Override

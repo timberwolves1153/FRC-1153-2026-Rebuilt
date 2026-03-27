@@ -450,9 +450,15 @@ public class RobotContainer {
     operator.povLeft().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-32.5)));
 
     operator.leftBumper().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
-    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setPositionIntake(20.25)));
-    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-5.5), intake));
+    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setPositionIntake(4.9)));
+    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(4), intake));
     operator.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
+
+    operator.a().onTrue(new InstantCommand(() -> intake.setDeployVoltage(5), intake));
+    operator.b().onTrue(new InstantCommand(() -> intake.setDeployVoltage(-5), intake));
+
+    operator.a().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0), intake));
+    operator.b().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0), intake));
 
     // operator.a().onTrue(feedUntilEmptyCommand);
     // driver.rightTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
