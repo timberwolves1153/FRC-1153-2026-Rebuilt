@@ -10,8 +10,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -303,7 +301,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Aim to Pass", superstructureCommands.autoAimTurretPassing());
 
     NamedCommands.registerCommand(
-        "Deploy Intake", intake.setAllCollectCommand(20.25, -5.5).withTimeout(.5));
+        "Deploy Intake", intake.setAllCollectCommand(4, -5.5).withTimeout(.5));
 
     NamedCommands.registerCommand(
         "Run Collector", new InstantCommand(() -> intake.setCollectVoltage(-5.5)));
@@ -376,7 +374,7 @@ public class RobotContainer {
     driver.y().onTrue(Commands.runOnce(() -> drive.resetGyro(0), drive));
 
     // Set robot rotation to 45 degrees when X button is pressed
-        driver
+    driver
         .rightBumper()
         .whileTrue(
             DriveCommands.joystickDriveAtAngle(
@@ -393,7 +391,6 @@ public class RobotContainer {
                 () -> -driver.getLeftY(),
                 () -> -driver.getLeftX(),
                 () -> Rotation2d.fromDegrees(-45)));
-    
 
     // Drive Forward Button for testing
     //  operator.povUp().whileTrue(drive.sysIdDynamic(Direction.kForward));
@@ -457,7 +454,6 @@ public class RobotContainer {
     operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-5.5), intake));
     operator.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
-
     // operator.a().onTrue(feedUntilEmptyCommand);
     // driver.rightTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
 
@@ -467,7 +463,8 @@ public class RobotContainer {
     //         Commands.runOnce(
     //             () ->
     //                 drive.setPose(
-    //                     new Pose2d(drive.getPose().getTranslation(), Rotation2d.fromDegrees(45))),
+    //                     new Pose2d(drive.getPose().getTranslation(),
+    // Rotation2d.fromDegrees(45))),
     //             drive));
 
     // driver.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());

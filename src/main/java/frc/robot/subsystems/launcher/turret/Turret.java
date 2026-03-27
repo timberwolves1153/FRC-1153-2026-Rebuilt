@@ -45,7 +45,6 @@ public class Turret extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     Logger.processInputs("Turret", inputs);
-    // SmartDashboard.putNumber("Angle Error", )
   }
 
   public void setPositionTurret(double degrees) {

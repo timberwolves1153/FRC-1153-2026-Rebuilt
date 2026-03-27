@@ -37,6 +37,7 @@ public class SuperstructureCommands {
   public double turretFinalAngularVelocity;
   public Pose2d lookAheadPose;
   public double setMovingTurretAngle;
+  public double turretToHubDistance;
 
   public SuperstructureCommands(
       Drive drive, Flywheel flywheel, Hood hood, Turret turret, Indexer indexer) {
@@ -56,6 +57,25 @@ public class SuperstructureCommands {
         new ChassisSpeeds(driveSpeedX, driveSpeedY, driveSpeedAngular);
     Supplier<ChassisSpeeds> finalRobotRelativeDriveSpeed = () -> supplierRobotRelativeDriveSpeed;
     return finalRobotRelativeDriveSpeed;
+  }
+
+  public double getTurretDistanceToHub() {
+    Pose2d turretPose = drive.getPose().transformBy(turret.turretOffset);
+
+    // new Pose2d(
+    //   drive.getPose().getX() + turret.turretOffset.getX(),
+    //   drive.getPose().getY() + turret.turretOffset.getY(),
+    //   drive.getPose().getRotation());
+
+    Logger.recordOutput("Superstructure Turret Pose", turretPose);
+
+    double turretDistanceToHub = FieldConstants.getDistanceToHubCenter(turretPose);
+    SmartDashboard.putNumber("Turret distance to Hub", turretDistanceToHub);
+    return turretDistanceToHub;
+  }
+
+  public Pose2d turretRealTimePose() {
+    return drive.getPose().transformBy(turret.turretOffset);
   }
 
   public Pose2d shootOnTheMove(
