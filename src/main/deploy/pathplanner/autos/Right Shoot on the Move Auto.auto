@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Deploy Intake"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -85,13 +91,26 @@
                                 {
                                   "type": "named",
                                   "data": {
-                                    "name": "Set Turret Position"
+                                    "name": "Interpolate Shot"
                                   }
                                 },
                                 {
-                                  "type": "named",
+                                  "type": "sequential",
                                   "data": {
-                                    "name": "Interpolate Shot"
+                                    "commands": [
+                                      {
+                                        "type": "wait",
+                                        "data": {
+                                          "waitTime": 0.25
+                                        }
+                                      },
+                                      {
+                                        "type": "named",
+                                        "data": {
+                                          "name": "Set Turret Position 300"
+                                        }
+                                      }
+                                    ]
                                   }
                                 }
                               ]
@@ -151,12 +170,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Reset Robot Pose"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Right Shoot on the Move Path 4"
@@ -166,6 +179,12 @@
           "type": "path",
           "data": {
             "pathName": "Right Shoot on the Move Path 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Reset Robot Pose"
           }
         },
         {
@@ -218,13 +237,26 @@
                                 {
                                   "type": "named",
                                   "data": {
-                                    "name": "Set Turret Position"
+                                    "name": "Interpolate Shot"
                                   }
                                 },
                                 {
-                                  "type": "named",
+                                  "type": "sequential",
                                   "data": {
-                                    "name": "Interpolate Shot"
+                                    "commands": [
+                                      {
+                                        "type": "wait",
+                                        "data": {
+                                          "waitTime": 0.25
+                                        }
+                                      },
+                                      {
+                                        "type": "named",
+                                        "data": {
+                                          "name": "Set Turret Position 300"
+                                        }
+                                      }
+                                    ]
                                   }
                                 }
                               ]

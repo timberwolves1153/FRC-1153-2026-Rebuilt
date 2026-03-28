@@ -295,16 +295,16 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "Interpolate Shot", superstructureCommands.interpolateShotCommand().withTimeout(0.25));
     NamedCommands.registerCommand(
-        "Set Turret Position", new InstantCommand(() -> turret.setPositionTurret(300)));
+        "Set Turret Position 300", new InstantCommand(() -> turret.setPositionTurret(300)));
 
     NamedCommands.registerCommand("Aim to Score", superstructureCommands.shootOnTheMoveCommand());
     NamedCommands.registerCommand("Aim to Pass", superstructureCommands.autoAimTurretPassing());
 
     NamedCommands.registerCommand(
-        "Deploy Intake", intake.setAllCollectCommand(4, -5.5).withTimeout(.5));
+        "Deploy Intake", intake.setAllCollectCommand(4.9, 5.5).withTimeout(.5));
 
     NamedCommands.registerCommand(
-        "Run Collector", new InstantCommand(() -> intake.setCollectVoltage(-5.5)));
+        "Run Collector", new InstantCommand(() -> intake.setCollectVoltage(5.5)));
     NamedCommands.registerCommand(
         "Stop Collector", new InstantCommand(() -> intake.setCollectVoltage(0)));
 
@@ -451,7 +451,7 @@ public class RobotContainer {
 
     operator.leftBumper().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
     operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setPositionIntake(4.9)));
-    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(4), intake));
+    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(5), intake));
     operator.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
     operator.a().onTrue(new InstantCommand(() -> intake.setDeployVoltage(5), intake));
