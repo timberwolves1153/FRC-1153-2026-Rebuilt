@@ -207,13 +207,13 @@ public class SuperstructureCommands {
     Pose2d desiredPass;
 
     if (isRed && robotPose.get().getY() > (FieldConstants.fieldWidth / 2)) {
-      desiredPass = FieldConstants.Outpost.redOutpostCenter;
+      desiredPass = FieldConstants.Outpost.redOutpostLeft;
     } else if (isRed) {
       desiredPass = FieldConstants.Depot.redDepotCenter;
     } else if (!isRed && robotPose.get().getY() > (FieldConstants.fieldWidth / 2)) {
       desiredPass = FieldConstants.Depot.blueDepotCenter;
     } else {
-      desiredPass = FieldConstants.Outpost.blueOutpostCenter;
+      desiredPass = FieldConstants.Outpost.blueOutpostLeft;
     }
 
     ChassisSpeeds robotRelativeVelocity = robotRelVelocity.get();
@@ -231,21 +231,7 @@ public class SuperstructureCommands {
     Translation2d rotatedOffset =
         turret.turretOffset.getTranslation().rotateBy(estimatedPose.getRotation());
 
-    // new Transform2d(
-    //     turret.turretOffset.getX(), turret.turretOffset.getY(), estimatedPose.getRotation());
-
-    // turretPose = estimatedPose.transformBy(rotatedOffset);
-
     turretPose = estimatedPose.transformBy(turret.turretOffset);
-
-    // estimatedPose.transformBy(rotatedOffset);  //estimatedPose.transformBy(turret.turretOffset);
-    // new Pose2d(
-    //     estimatedPose.getX() + rotatedOffset.getX(),
-    //     estimatedPose.getY() + rotatedOffset.getY(),
-    //     adjustedTurretRotation(robotPose, desiredHub));
-
-    // Translation2d turretFieldOffset =
-    //     turretPose.getTranslation().minus(estimatedPose.getTranslation());
 
     double turretToPassDistance;
 
@@ -265,8 +251,7 @@ public class SuperstructureCommands {
     double robotAngle = estimatedPose.getRotation().getRadians();
 
     double
-        turretVelocityX = // subtract x from the y to tke into the account the robot's rotation when
-            // shooting and moving at the same time
+        turretVelocityX = 
             robotVelocity.vxMetersPerSecond
                 + robotVelocity.omegaRadiansPerSecond
                     * (turret.turretOffset.getY() * Math.cos(robotAngle)
@@ -296,20 +281,10 @@ public class SuperstructureCommands {
                   .plus(new Translation2d(turretDisplacementX, turretDisplacementY)),
               turretPose.getRotation());
 
-      // SmartDashboard.putNumber("Turret Pose X", turretPose.getX());
-      // SmartDashboard.putNumber("Turret Pose Y", turretPose.getY());
       turretToPassDistance = target.getDistance(lookAheadPose.getTranslation());
     }
-    // Calculate final turret angle to hub using atan2 for correct quadrant handling
     Rotation2d fieldAngleToHub = target.minus(lookAheadPose.getTranslation()).getAngle();
-    // double turretVelocity =
-    //     turretFilter.calculate(fieldAngleToHub.minus(fieldAngleToHub).getRadians() / 0.02);
-    //                                       loopPeriodSecs ^^^^
 
-    // Convert field angle to motor encoder coordinates using the same transformation as
-    // autoAimTurret
-
-    // Set turret position using the same logic as autoAimTurret
     setMovingTurretAngle =
         turret.adjustedTurretRotation(() -> lookAheadPose, desiredPass).getDegrees();
 

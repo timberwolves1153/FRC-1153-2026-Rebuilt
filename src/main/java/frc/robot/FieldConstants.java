@@ -336,6 +336,14 @@ public class FieldConstants {
                 + Units.inchesToMeters(10),
             Rotation2d.kZero);
 
+     public static final Pose2d blueTowerAndOutpostCenter =
+        new Pose2d(
+            0,
+            (AprilTagLayoutType.OFFICIAL.getLayout().getTagPose(31).get().getY()
+                    + AprilTagLayoutType.OFFICIAL.getLayout().getTagPose(30).get().getY())
+                / 2,
+            Rotation2d.kZero);
+
     public static final Pose2d redOutpostCenter =
         new Pose2d(
             fieldLength,
@@ -347,6 +355,14 @@ public class FieldConstants {
             fieldLength,
             AprilTagLayoutType.OFFICIAL.getLayout().getTagPose(14).get().getY()
                 - Units.inchesToMeters(10),
+            Rotation2d.kZero);
+
+    public static final Pose2d redTowerAndOutpostCenter =
+        new Pose2d(
+            fieldLength,
+            (AprilTagLayoutType.OFFICIAL.getLayout().getTagPose(14).get().getY()
+                    + AprilTagLayoutType.OFFICIAL.getLayout().getTagPose(15).get().getY())
+                / 2,
             Rotation2d.kZero);
   }
 
