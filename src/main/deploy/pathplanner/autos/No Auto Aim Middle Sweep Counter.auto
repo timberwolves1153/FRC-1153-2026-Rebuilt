@@ -30,32 +30,31 @@
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "Aim to Score"
+                  "pathName": "Middle Sweep Counter Path 2"
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Middle Sweep Counter Path 2"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    }
-                  ]
+                  "name": "Set Turret Position 300"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Set Manual Flywheel RPS"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Set Manual Hood Value"
                 }
               }
             ]
@@ -100,32 +99,31 @@
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "Aim to Score"
+                  "pathName": "Middle Sweep Counter Path 3"
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Middle Sweep Counter Path 3"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    }
-                  ]
+                  "name": "Set Turret Position 300"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Set Manual Flywheel RPS"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Set Manual Hood Value"
                 }
               }
             ]

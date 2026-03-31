@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.314,
+        "x": 4.01,
         "y": 0.658
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.52156626506024,
-        "y": 0.4616385542168677
+        "x": 7.122590361445783,
+        "y": 0.3086506024096388
       },
       "isLocked": false,
       "linkedName": null
@@ -28,13 +28,18 @@
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 180.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.37,
-    "maxAcceleration": 3.5,
+    "maxAcceleration": 3.7,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -48,7 +53,7 @@
   "folder": "Aggressive Right Collect and Shoot",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

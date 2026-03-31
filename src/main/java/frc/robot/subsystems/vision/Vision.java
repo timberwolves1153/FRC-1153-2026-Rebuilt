@@ -5,6 +5,8 @@
 // license that can be found in the LICENSE file
 // at the root directory of this project.
 
+// old exposures: 147 (Climber), 140 (Turret), 45 (Swerve), 60 (Hopper)
+
 package frc.robot.subsystems.vision;
 
 import static frc.robot.subsystems.vision.VisionConstants.*;
@@ -16,6 +18,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -54,6 +57,10 @@ public class Vision extends SubsystemBase {
   @Override
   public void periodic() {
     for (int i = 0; i < io.length; i++) {
+      if (DriverStation.isDisabled()
+          && VisionConstants.camera1Name.equalsIgnoreCase(io[i].getName())) {
+        continue;
+      }
       io[i].updateInputs(inputs[i]);
       Logger.processInputs("Vision/Camera" + Integer.toString(i), inputs[i]);
     }

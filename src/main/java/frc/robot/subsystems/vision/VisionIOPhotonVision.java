@@ -136,4 +136,8 @@ public class VisionIOPhotonVision implements VisionIO {
   public Pose2d getBestPose() {
     return this.bestPose;
   }
+
+  public String getName() {
+    return camera.getName();
+  }
 }

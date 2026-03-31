@@ -336,7 +336,7 @@ public class FieldConstants {
                 + Units.inchesToMeters(10),
             Rotation2d.kZero);
 
-     public static final Pose2d blueTowerAndOutpostCenter =
+    public static final Pose2d blueTowerAndOutpostCenter =
         new Pose2d(
             0,
             (AprilTagLayoutType.OFFICIAL.getLayout().getTagPose(31).get().getY()

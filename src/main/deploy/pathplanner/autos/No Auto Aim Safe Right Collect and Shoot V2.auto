@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Middle Sweep Counter Path 1"
+                  "pathName": "Safe Right Collect And Shoot V2 Path 1"
                 }
               },
               {
@@ -30,32 +30,31 @@
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "Aim to Score"
+                  "name": "Set Turret Position 300"
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Middle Sweep Counter Path 2"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    }
-                  ]
+                  "name": "Set Manual Flywheel RPS"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Set Manual Hood Value"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Safe Right Collect and Shoot V2 Path 2"
                 }
               }
             ]
@@ -90,7 +89,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 4.0
+                        "waitTime": 3.0
                       }
                     }
                   ]
@@ -100,32 +99,31 @@
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "Aim to Score"
+                  "pathName": "Safe Right Collect and Shoot V2 Path 3"
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Middle Sweep Counter Path 3"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    }
-                  ]
+                  "name": "Set Turret Position 300"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Set Manual Flywheel RPS"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Set Manual Hood Value"
                 }
               }
             ]
@@ -160,7 +158,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 5.0
+                        "waitTime": 3.0
                       }
                     }
                   ]
@@ -172,7 +170,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Middle Sweep Counter Path 4 "
+            "pathName": "Safe Right Collect and Shoot V2 Path 4 "
           }
         }
       ]

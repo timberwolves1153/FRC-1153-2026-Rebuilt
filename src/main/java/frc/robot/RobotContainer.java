@@ -295,7 +295,11 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "Interpolate Shot", superstructureCommands.interpolateShotCommand().withTimeout(0.25));
     NamedCommands.registerCommand(
-        "Set Turret Position 300", new InstantCommand(() -> turret.setPositionTurret(300)));
+        "Set Turret Position 300", new InstantCommand(() -> turret.setPositionTurret(290)));
+    NamedCommands.registerCommand(
+        "Set Manual Flywheel RPS", new InstantCommand(() -> flywheel.setVelocityLeader(-32.75)));
+    NamedCommands.registerCommand(
+        "Set Manual Hood Value", new InstantCommand(() -> hood.setPositionHood(-0.875)));
 
     NamedCommands.registerCommand("Aim to Score", superstructureCommands.shootOnTheMoveCommand());
     NamedCommands.registerCommand("Aim to Pass", superstructureCommands.autoAimTurretPassing());
@@ -437,31 +441,27 @@ public class RobotContainer {
     operator.leftStick().onTrue(superstructureCommands.shootOnTheMoveCommand());
     operator.rightStick().onTrue(superstructureCommands.passOnTheMoveCommand());
 
-    operator.povRight().onTrue(new InstantCommand(() -> turret.setPositionTurret(270), turret));
-    operator.povRight().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.8), hood));
-    operator.povRight().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-32.5)));
+    operator.povRight().onTrue(new InstantCommand(() -> turret.setPositionTurret(300), turret));
+    operator.povRight().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.87), hood));
+    operator.povRight().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-33.0)));
 
     operator.povUp().onTrue(new InstantCommand(() -> turret.setPositionTurret(180), turret));
     operator.povUp().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.8), hood));
     operator.povUp().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-32.5)));
 
-    operator.povLeft().onTrue(new InstantCommand(() -> turret.setPositionTurret(90), turret));
-    operator.povLeft().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.8), hood));
-    operator.povLeft().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-32.5)));
+    operator.povLeft().onTrue(new InstantCommand(() -> turret.setPositionTurret(60), turret));
+    operator.povLeft().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.87), hood));
+    operator.povLeft().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-33.0)));
 
     operator.leftBumper().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
     operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setPositionIntake(4.9)));
     operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(5), intake));
     operator.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
-    operator.a().onTrue(new InstantCommand(() -> intake.setDeployVoltage(5), intake));
-    operator.b().onTrue(new InstantCommand(() -> intake.setDeployVoltage(-5), intake));
+    operator.a().onTrue(new InstantCommand(() -> hood.homeHood(), hood));
 
-    operator.a().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0), intake));
-    operator.b().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0), intake));
-
-    // operator.a().onTrue(feedUntilEmptyCommand);
-    // driver.rightTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0)));
+    driver.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(5), intake));
+    driver.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
     // driver
     //     .x()
@@ -476,90 +476,36 @@ public class RobotContainer {
     // driver.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
     // operator.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
 
-    // SmartDashboard.putNumber("Flywheel Manual RPS Input", -10);
+    //     SmartDashboard.putNumber("Flywheel Manual RPS Input", -10);
 
-    // operator
-    //     .leftStick()
-    //     .onTrue(
-    //         new DeferredCommand(
-    //             () -> {
-    //               return new InstantCommand(
-    //                   () ->
-    //                       flywheel.setVelocityLeader(
-    //                           SmartDashboard.getNumber("Flywheel Manual RPS Input", -10)));
-    //             },
-    //             Set.of(flywheel)));
+    //     operator
+    //         .leftStick()
+    //         .onTrue(
+    //             new DeferredCommand(
+    //                 () -> {
+    //                   return new InstantCommand(
+    //                       () ->
+    //                           flywheel.setVelocityLeader(
+    //                               SmartDashboard.getNumber("Flywheel Manual RPS Input", -10)));
+    //                 },
+    //                 Set.of(flywheel)));
 
-    // operator.leftStick().onTrue(hood.setPositionHoodHub(drive::getPose));
-    // operator.leftStick().onTrue(turret.setTurretPositionHub(drive::getPose));
+    //     // operator.leftStick().onTrue(hood.setPositionHoodHub(drive::getPose));
+    //     operator.leftStick().onTrue(turret.setTurretPositionHub(drive::getPose));
 
-    // SmartDashboard.putNumber("Hood Manual Setpoint Input", -0.05);
-    // operator
-    //     .leftStick()
-    //     .onTrue(
-    //         new DeferredCommand(
-    //             () -> {
-    //               return new InstantCommand(
-    //                   () ->
-    //                       hood.setPositionHood(
-    //                           SmartDashboard.getNumber("Hood Manual Setpoint Input", -0.05)));
-    //             },
-    //             Set.of(hood)));
-
-    // operator
-    //     .rightTrigger()
-    //     .onFalse(new InstantCommand(() -> flywheel.setVelocityLeader(0), flywheel));
-    // operator.rightTrigger().onFalse(new InstantCommand(() -> hood.setPositionHood(-0.05), hood));
-
-    // operator.a().onTrue(new InstantCommand(() -> turret.setPositionTurret(70)));
-    // operator.b().onTrue(new InstantCommand(() -> turret.setPositionTurret(300)));
-
-    // operator.x().onTrue(new InstantCommand(() -> turret.setPositionTurret(40)));
-    // operator.y().onTrue(new InstantCommand(() -> turret.setPositionTurret(320)));
-
-    // operator.rightTrigger().onTrue(superstructureCommands.autoAimTurretHub());
-    // operator.rightTrigger().onFalse(new InstantCommand(() -> turret.stopTurret()));
-
-    //     driver.rightTrigger().onTrue(superstructureCommands.autoAimTurretHub());
-    //     driver.rightTrigger().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(),
-    // flywheel));
-    //     driver.rightTrigger().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
-
-    //     driver.rightBumper().onTrue(superstructureCommands.autoAimTurretPassing());
-    //     driver.rightBumper().onFalse(new InstantCommand(() -> flywheel.stopFlywheel(),
-    // flywheel));
-    //     driver.rightBumper().onFalse(new InstantCommand(() -> hood.setPositionHood(0), hood));
-    // }
-
-    //     operator.rightBumper().onTrue(new InstantCommand(() -> indexer.runSpin(6), indexer));
-    //     operator.rightBumper().onTrue(new InstantCommand(() -> indexer.runFeed(-10), indexer));
-
-    // driver
-    //     .a()
-    //     .onTrue(new InstantCommand(() -> intake.setDeployVoltage(2))); // intake tries to go down
-    // driver.a().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
-
-    // driver
-    //     .b()
-    //     .onTrue(new InstantCommand(() -> intake.setDeployVoltage(-3))); // intake tries to go in
-    // driver.b().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
-
-    // driver.b().onTrue(new InstantCommand(() -> intake.setPositionIntake(10)));
-    // driver.b().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
-
-    // driver.a().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
-    // driver.a().onFalse(new InstantCommand(() -> intake.setDeployVoltage(0)));
-
-    //     operator.rightBumper().onFalse(new InstantCommand(() -> indexer.runSpin(0), indexer));
-    //     operator.rightBumper().onFalse(new InstantCommand(() -> indexer.runFeed(0), indexer));
-
-    //     operator.leftBumper().onTrue(new InstantCommand(() -> intake.setCollectVoltage(-4.5),
-    // intake));
-    //     operator.leftBumper().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0),
-    // intake));
-
-    // operator.rightTrigger().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-35)));
-    // operator.rightTrigger().onFalse(new InstantCommand(() -> flywheel.setVelocityLeader(0)));
+    //     SmartDashboard.putNumber("Hood Manual Setpoint Input", -0.05);
+    //     operator
+    //         .leftStick()
+    //         .onTrue(
+    //             new DeferredCommand(
+    //                 () -> {
+    //                   return new InstantCommand(
+    //                       () ->
+    //                           hood.setPositionHood(
+    //                               SmartDashboard.getNumber("Hood Manual Setpoint Input",
+    // -0.05)));
+    //                 },
+    //                 Set.of(hood)));
   }
 
   /**

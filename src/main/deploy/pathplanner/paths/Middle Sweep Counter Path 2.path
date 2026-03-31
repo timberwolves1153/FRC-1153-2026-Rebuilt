@@ -8,36 +8,36 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.4240481927710835,
-        "y": 3.0960000000000014
+        "x": 7.439493975903615,
+        "y": 2.1335783132530115
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.270228915662651,
-        "y": 1.2812168674698796
+        "x": 6.718265060240964,
+        "y": 1.008024096385542
       },
       "prevControl": {
-        "x": 6.618273600722508,
-        "y": 1.9250437202654953
+        "x": 7.166301204819277,
+        "y": 1.3795662650602414
       },
       "nextControl": {
-        "x": 5.959274707405574,
-        "y": 0.7060014487046817
+        "x": 6.21493205030446,
+        "y": 0.5906259905845386
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.314,
-        "y": 0.7
+        "x": 3.801,
+        "y": 0.6364819277108438
       },
       "prevControl": {
-        "x": 5.559927710843374,
-        "y": 0.4288554216867476
+        "x": 5.046927710843374,
+        "y": 0.36533734939759144
       },
       "nextControl": null,
       "isLocked": false,
@@ -69,7 +69,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.37,
-    "maxAcceleration": 3.5,
+    "maxAcceleration": 3.7,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -83,7 +83,7 @@
   "folder": "Middle Sweep Counter Auto",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 101.041
+    "rotation": 80.379
   },
   "useDefaultConstraints": true
 }

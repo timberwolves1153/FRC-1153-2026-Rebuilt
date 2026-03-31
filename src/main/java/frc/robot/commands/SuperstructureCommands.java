@@ -250,12 +250,11 @@ public class SuperstructureCommands {
 
     double robotAngle = estimatedPose.getRotation().getRadians();
 
-    double
-        turretVelocityX = 
-            robotVelocity.vxMetersPerSecond
-                + robotVelocity.omegaRadiansPerSecond
-                    * (turret.turretOffset.getY() * Math.cos(robotAngle)
-                        - turret.turretOffset.getX() * Math.sin(robotAngle));
+    double turretVelocityX =
+        robotVelocity.vxMetersPerSecond
+            + robotVelocity.omegaRadiansPerSecond
+                * (turret.turretOffset.getY() * Math.cos(robotAngle)
+                    - turret.turretOffset.getX() * Math.sin(robotAngle));
 
     double turretVelocityY =
         robotVelocity.vyMetersPerSecond

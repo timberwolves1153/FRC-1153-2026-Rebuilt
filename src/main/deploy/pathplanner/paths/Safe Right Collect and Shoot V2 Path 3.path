@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.314,
-        "y": 0.658
+        "x": 3.735,
+        "y": 0.636
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.483204819277108,
-        "y": 0.177518072289157
+        "x": 7.668975903614458,
+        "y": 0.11195180722891562
       },
       "isLocked": false,
       "linkedName": null
@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 4.314,
+        "x": 3.975,
         "y": 0.658
       },
       "prevControl": {
-        "x": 8.291855421686748,
-        "y": -0.008253012048193065
+        "x": 8.247734939759036,
+        "y": -0.06289156626506043
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,7 +46,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.20480000000000112,
+      "waypointRelativePos": 0.2947723440134907,
       "rotationDegrees": 55.0
     },
     {
@@ -56,13 +56,17 @@
     {
       "waypointRelativePos": 0.95,
       "rotationDegrees": 105.00000000000001
+    },
+    {
+      "waypointRelativePos": 1.7,
+      "rotationDegrees": -150.0
     }
   ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 0.3002375296912538,
-      "maxWaypointRelativePos": 1.2693586698337234,
+      "maxWaypointRelativePos": 1.3,
       "constraints": {
         "maxVelocity": 2.5,
         "maxAcceleration": 3.5,
@@ -74,8 +78,8 @@
     },
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 1.4023752969121057,
-      "maxWaypointRelativePos": 1.8888361045130575,
+      "minWaypointRelativePos": 1.4,
+      "maxWaypointRelativePos": 1.9,
       "constraints": {
         "maxVelocity": 2.0,
         "maxAcceleration": 2.0,
@@ -102,7 +106,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.37,
-    "maxAcceleration": 3.5,
+    "maxAcceleration": 3.7,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -110,7 +114,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "Safe Right Collect and Shoot V2",

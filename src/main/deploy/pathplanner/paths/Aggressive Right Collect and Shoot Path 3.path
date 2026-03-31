@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 7.297433734939759,
-        "y": 0.21030120481927672
+        "y": 0.2103012048192766
       },
       "isLocked": false,
       "linkedName": null
@@ -20,24 +20,24 @@
         "y": 3.4011927710843373
       },
       "prevControl": {
-        "x": 5.782419683828815,
-        "y": 3.151835683235274
+        "x": 5.8279452309163045,
+        "y": 3.1527218374159327
       },
       "nextControl": {
-        "x": 5.838928245541987,
-        "y": 3.9382556737886407
+        "x": 5.772729467878879,
+        "y": 3.649663704752742
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.26,
+        "x": 4.01,
         "y": 0.658
       },
       "prevControl": {
-        "x": 8.291855421686748,
-        "y": 0.06824096385542244
+        "x": 8.46875903614458,
+        "y": 0.352361445783132
       },
       "nextControl": null,
       "isLocked": false,
@@ -56,13 +56,17 @@
     {
       "waypointRelativePos": 0.95,
       "rotationDegrees": 105.00000000000001
+    },
+    {
+      "waypointRelativePos": 1.85,
+      "rotationDegrees": -150.0
     }
   ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 0.3002375296912538,
-      "maxWaypointRelativePos": 1.0945368171021452,
+      "maxWaypointRelativePos": 1.1,
       "constraints": {
         "maxVelocity": 2.5,
         "maxAcceleration": 3.5,
@@ -74,8 +78,8 @@
     },
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 1.4023752969121057,
-      "maxWaypointRelativePos": 1.8888361045130575,
+      "minWaypointRelativePos": 1.55,
+      "maxWaypointRelativePos": 1.9,
       "constraints": {
         "maxVelocity": 2.0,
         "maxAcceleration": 2.0,
@@ -102,7 +106,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.37,
-    "maxAcceleration": 3.5,
+    "maxAcceleration": 3.7,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -110,7 +114,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "Aggressive Right Collect and Shoot",

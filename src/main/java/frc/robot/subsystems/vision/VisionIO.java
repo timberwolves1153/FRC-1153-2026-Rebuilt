@@ -20,6 +20,7 @@ public interface VisionIO {
         new TargetObservation(Rotation2d.kZero, Rotation2d.kZero);
     public PoseObservation[] poseObservations = new PoseObservation[0];
     public int[] tagIds = new int[0];
+    public String name = "";
   }
 
   /** Represents the angle to a simple target, not used for pose estimation. */
@@ -44,5 +45,9 @@ public interface VisionIO {
 
   public default Pose2d getBestPose() {
     return Pose2d.kZero;
+  }
+
+  public default String getName() {
+    return "";
   }
 }
