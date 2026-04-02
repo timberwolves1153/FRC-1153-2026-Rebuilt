@@ -428,10 +428,10 @@ public class RobotContainer {
     driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-12), indexer));
     driver.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
 
-    driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(10), indexer));
+    driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(12), indexer));
     driver.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
-    driver.leftTrigger().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
+    // driver.leftTrigger().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
 
     // operator
     //     .rightTrigger()
@@ -453,8 +453,8 @@ public class RobotContainer {
     operator.povLeft().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.87), hood));
     operator.povLeft().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-33.0)));
 
-    operator.leftBumper().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
-    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setPositionIntake(4.9)));
+    // operator.leftBumper().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
+    // operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setPositionIntake(4.9)));
     operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(5), intake));
     operator.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
@@ -476,36 +476,35 @@ public class RobotContainer {
     // driver.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
     // operator.rightTrigger().onTrue(superstructureCommands.shootOnTheMoveCommand());
 
-    //     SmartDashboard.putNumber("Flywheel Manual RPS Input", -10);
+    // SmartDashboard.putNumber("Flywheel Manual RPS Input", -10);
 
-    //     operator
-    //         .leftStick()
-    //         .onTrue(
-    //             new DeferredCommand(
-    //                 () -> {
-    //                   return new InstantCommand(
-    //                       () ->
-    //                           flywheel.setVelocityLeader(
-    //                               SmartDashboard.getNumber("Flywheel Manual RPS Input", -10)));
-    //                 },
-    //                 Set.of(flywheel)));
+    // operator
+    //     .leftStick()
+    //     .onTrue(
+    //         new DeferredCommand(
+    //             () -> {
+    //               return new InstantCommand(
+    //                   () ->
+    //                       flywheel.setVelocityLeader(
+    //                           SmartDashboard.getNumber("Flywheel Manual RPS Input", -10)));
+    //             },
+    //             Set.of(flywheel)));
 
-    //     // operator.leftStick().onTrue(hood.setPositionHoodHub(drive::getPose));
-    //     operator.leftStick().onTrue(turret.setTurretPositionHub(drive::getPose));
+    // // operator.leftStick().onTrue(hood.setPositionHoodHub(drive::getPose));
+    // operator.leftStick().onTrue(turret.setTurretPositionHub(drive::getPose));
 
-    //     SmartDashboard.putNumber("Hood Manual Setpoint Input", -0.05);
-    //     operator
-    //         .leftStick()
-    //         .onTrue(
-    //             new DeferredCommand(
-    //                 () -> {
-    //                   return new InstantCommand(
-    //                       () ->
-    //                           hood.setPositionHood(
-    //                               SmartDashboard.getNumber("Hood Manual Setpoint Input",
-    // -0.05)));
-    //                 },
-    //                 Set.of(hood)));
+    // SmartDashboard.putNumber("Hood Manual Setpoint Input", -0.05);
+    // operator
+    //     .leftStick()
+    //     .onTrue(
+    //         new DeferredCommand(
+    //             () -> {
+    //               return new InstantCommand(
+    //                   () ->
+    //                       hood.setPositionHood(
+    //                           SmartDashboard.getNumber("Hood Manual Setpoint Input", -0.05)));
+    //             },
+    //             Set.of(hood)));
   }
 
   /**

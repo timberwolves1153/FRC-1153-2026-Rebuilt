@@ -328,11 +328,17 @@ public class SuperstructureCommands {
   public Command shootOnTheMoveCommand() {
     return Commands.parallel(
         turret.setTurretPositionHub(
-            () -> shootOnTheMove(drive::getPose, robotRelativeSpeed(), drive::getChassisSpeeds)),
+            () ->
+                shootOnTheMove(
+                    () -> turretRealTimePose(), robotRelativeSpeed(), drive::getChassisSpeeds)),
         hood.setPositionHoodHub(
-            () -> shootOnTheMove(drive::getPose, robotRelativeSpeed(), drive::getChassisSpeeds)),
+            () ->
+                shootOnTheMove(
+                    () -> turretRealTimePose(), robotRelativeSpeed(), drive::getChassisSpeeds)),
         flywheel.setVelocityHub(
-            () -> shootOnTheMove(drive::getPose, robotRelativeSpeed(), drive::getChassisSpeeds)));
+            () ->
+                shootOnTheMove(
+                    () -> turretRealTimePose(), robotRelativeSpeed(), drive::getChassisSpeeds)));
   }
 
   public Command interpolateShotCommand() {

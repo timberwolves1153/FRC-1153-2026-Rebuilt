@@ -22,13 +22,13 @@ public class LauncherTable {
     Value = hood angle setpoint */
 
     hoodMap.put(new InterpolatingDouble(1.5), new InterpolatingDouble(-0.2));
-    hoodMap.put(new InterpolatingDouble(2.0), new InterpolatingDouble(-0.45));
-    hoodMap.put(new InterpolatingDouble(2.5), new InterpolatingDouble(-0.75));
-    hoodMap.put(new InterpolatingDouble(3.0), new InterpolatingDouble(-0.8));
-    hoodMap.put(new InterpolatingDouble(3.5), new InterpolatingDouble(-0.95));
-    hoodMap.put(new InterpolatingDouble(4.0), new InterpolatingDouble(-1.1));
-    hoodMap.put(new InterpolatingDouble(4.5), new InterpolatingDouble(-1.35));
-    hoodMap.put(new InterpolatingDouble(5.0), new InterpolatingDouble(-1.5));
+    hoodMap.put(new InterpolatingDouble(2.0), new InterpolatingDouble(-0.5));
+    hoodMap.put(new InterpolatingDouble(2.5), new InterpolatingDouble(-0.85));
+    hoodMap.put(new InterpolatingDouble(3.0), new InterpolatingDouble(-1.25));
+    hoodMap.put(new InterpolatingDouble(3.5), new InterpolatingDouble(-1.5));
+    hoodMap.put(new InterpolatingDouble(4.0), new InterpolatingDouble(-1.8));
+    hoodMap.put(new InterpolatingDouble(4.5), new InterpolatingDouble(-2.1));
+    hoodMap.put(new InterpolatingDouble(5.0), new InterpolatingDouble(-2.4));
 
     /* Flywheel Hub Shot
     Key = distance from hub in meters
@@ -36,12 +36,12 @@ public class LauncherTable {
 
     flywheelShootingMap.put(new InterpolatingDouble(1.5), new InterpolatingDouble(-27.0));
     flywheelShootingMap.put(new InterpolatingDouble(2.0), new InterpolatingDouble(-28.5));
-    flywheelShootingMap.put(new InterpolatingDouble(2.5), new InterpolatingDouble(-29.5));
+    flywheelShootingMap.put(new InterpolatingDouble(2.5), new InterpolatingDouble(-30.0));
     flywheelShootingMap.put(new InterpolatingDouble(3.0), new InterpolatingDouble(-32.0));
-    flywheelShootingMap.put(new InterpolatingDouble(3.5), new InterpolatingDouble(-34.0));
-    flywheelShootingMap.put(new InterpolatingDouble(4.0), new InterpolatingDouble(-36.0));
-    flywheelShootingMap.put(new InterpolatingDouble(4.5), new InterpolatingDouble(-36.75));
-    flywheelShootingMap.put(new InterpolatingDouble(5.0), new InterpolatingDouble(-37.75));
+    flywheelShootingMap.put(new InterpolatingDouble(3.5), new InterpolatingDouble(-33.25));
+    flywheelShootingMap.put(new InterpolatingDouble(4.0), new InterpolatingDouble(-34.25));
+    flywheelShootingMap.put(new InterpolatingDouble(4.5), new InterpolatingDouble(-35.5));
+    flywheelShootingMap.put(new InterpolatingDouble(5.0), new InterpolatingDouble(-36.5));
 
     /*Flywheel Passing */
     flywheelPassingMap.put(new InterpolatingDouble(4.457), new InterpolatingDouble(-35.0));
