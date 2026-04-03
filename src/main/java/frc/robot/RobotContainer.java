@@ -123,19 +123,23 @@ public class RobotContainer {
                 new VisionIOPhotonVision(
                     VisionConstants.camera0Name,
                     VisionConstants.robotToTurretCamera,
-                    drive::addVisionMeasurement),
+                    drive::addVisionMeasurement,
+                    drive::getRotation3d),
                 new VisionIOPhotonVision(
                     VisionConstants.camera1Name,
                     VisionConstants.robotToClimberCamera,
-                    drive::addVisionMeasurement),
+                    drive::addVisionMeasurement,
+                    drive::getRotation3d),
                 new VisionIOPhotonVision(
                     VisionConstants.camera2Name,
                     VisionConstants.robotToSwerveCamera,
-                    drive::addVisionMeasurement),
+                    drive::addVisionMeasurement,
+                    drive::getRotation3d),
                 new VisionIOPhotonVision(
                     VisionConstants.camera3Name,
                     VisionConstants.robotToHopperCamera,
-                    drive::addVisionMeasurement));
+                    drive::addVisionMeasurement,
+                    drive::getRotation3d));
         // drive::addVisionMeasurement,
         // new VisionIOPhotonVision(
         //     VisionConstants.camera0Name, VisionConstants.robotToBlueCamera),
@@ -204,22 +208,26 @@ public class RobotContainer {
                     VisionConstants.camera0Name,
                     VisionConstants.robotToTurretCamera,
                     drive::getPose,
-                    drive::addVisionMeasurement),
+                    drive::addVisionMeasurement,
+                    drive::getRotation3d),
                 new VisionIOPhotonVisionSim(
                     VisionConstants.camera1Name,
                     VisionConstants.robotToClimberCamera,
                     drive::getPose,
-                    drive::addVisionMeasurement),
+                    drive::addVisionMeasurement,
+                    drive::getRotation3d),
                 new VisionIOPhotonVisionSim(
                     VisionConstants.camera2Name,
                     VisionConstants.robotToSwerveCamera,
                     drive::getPose,
-                    drive::addVisionMeasurement),
+                    drive::addVisionMeasurement,
+                    drive::getRotation3d),
                 new VisionIOPhotonVisionSim(
                     VisionConstants.camera3Name,
                     VisionConstants.robotToHopperCamera,
                     drive::getPose,
-                    drive::addVisionMeasurement));
+                    drive::addVisionMeasurement,
+                    drive::getRotation3d));
         alignment = new Alignment(new AlignmentIO() {});
         turret = new Turret(new TurretIOSim());
         launcherTable = new LauncherTable();
@@ -375,7 +383,7 @@ public class RobotContainer {
     // Switch to X pattern when X button is pressed
     //  operator.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
-    driver.y().onTrue(Commands.runOnce(() -> drive.resetGyro(0), drive));
+    // driver.y().onTrue(Commands.runOnce(() -> drive.resetGyro(0), drive));
 
     // Set robot rotation to 45 degrees when X button is pressed
     driver

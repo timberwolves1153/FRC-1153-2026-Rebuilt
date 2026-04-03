@@ -10,6 +10,7 @@ package frc.robot.subsystems.vision;
 import static frc.robot.subsystems.vision.VisionConstants.aprilTagLayout;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import frc.robot.subsystems.vision.Vision.VisionConsumer;
 import java.util.function.Supplier;
@@ -37,8 +38,9 @@ public class VisionIOPhotonVisionSim extends VisionIOPhotonVision {
       String name,
       Transform3d robotToCamera,
       Supplier<Pose2d> poseSupplier,
-      VisionConsumer estimateConsumer) {
-    super(name, robotToCamera, estimateConsumer);
+      VisionConsumer estimateConsumer,
+      Supplier<Rotation3d> rotation3dSupplier) {
+    super(name, robotToCamera, estimateConsumer, rotation3dSupplier);
     this.estimateConsumer = estimateConsumer;
     this.poseSupplier = poseSupplier;
 

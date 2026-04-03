@@ -12,14 +12,17 @@ import static frc.robot.subsystems.vision.VisionConstants.*;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.vision.Vision.VisionConsumer;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Supplier;
 import org.littletonrobotics.junction.Logger;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
@@ -35,6 +38,7 @@ public class VisionIOPhotonVision implements VisionIO {
   private Matrix<N3, N1> curStdDev;
   private final VisionConsumer estimateConsumer;
   private Pose2d bestPose = Pose2d.kZero;
+  private Supplier<Rotation3d> rotation3dSupplier;
 
   /**
    * Creates a new VisionIOPhotonVision.
@@ -43,7 +47,10 @@ public class VisionIOPhotonVision implements VisionIO {
    * @param robotToCamera The 3D position of the camera relative to the robot.
    */
   public VisionIOPhotonVision(
-      String name, Transform3d robotToCamera, VisionConsumer estimateConsumer) {
+      String name,
+      Transform3d robotToCamera,
+      VisionConsumer estimateConsumer,
+      Supplier<Rotation3d> rotation3dSupplier) {
     camera = new PhotonCamera(name);
     this.robotToCamera = robotToCamera;
     this.visionPoseEstimator =
@@ -51,6 +58,7 @@ public class VisionIOPhotonVision implements VisionIO {
             aprilTagLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, robotToCamera);
     this.curStdDev = kMultiTagStdDevs;
     this.estimateConsumer = estimateConsumer;
+    this.rotation3dSupplier = rotation3dSupplier;
   }
 
   @Override
@@ -62,7 +70,8 @@ public class VisionIOPhotonVision implements VisionIO {
     Optional<EstimatedRobotPose> visionEst = Optional.empty();
 
     for (var result : camera.getAllUnreadResults()) {
-      visionEst = visionPoseEstimator.estimatePnpDistanceTrigSolvePose(result);
+      visionPoseEstimator.addHeadingData(Timer.getFPGATimestamp(), rotation3dSupplier.get());
+      visionEst = visionPoseEstimator.estimateCoprocMultiTagPose(result);
       if (visionEst.isEmpty()) {
         visionEst = visionPoseEstimator.estimateLowestAmbiguityPose(result);
       }
