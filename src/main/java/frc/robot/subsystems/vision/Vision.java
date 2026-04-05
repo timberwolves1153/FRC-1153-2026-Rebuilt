@@ -61,6 +61,7 @@ public class Vision extends SubsystemBase {
           && VisionConstants.camera1Name.equalsIgnoreCase(io[i].getName())) {
         continue;
       }
+
       io[i].updateInputs(inputs[i]);
       Logger.processInputs("Vision/Camera" + Integer.toString(i), inputs[i]);
     }

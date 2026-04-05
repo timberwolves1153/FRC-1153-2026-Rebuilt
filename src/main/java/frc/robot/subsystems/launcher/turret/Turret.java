@@ -133,8 +133,8 @@ public class Turret extends SubsystemBase {
   @AutoLogOutput(key = "Odometry/TurretRotation")
   public Rotation2d calculateTurretRotation(Pose2d robotPose, Pose2d goalPose) {
     // Calculate difference
-    double turretPoseX = robotPose.getX() + turretOffset.getX();
-    double turretPoseY = robotPose.getY() + turretOffset.getY();
+    double turretPoseX = robotPose.getX();
+    double turretPoseY = robotPose.getY();
 
     SmartDashboard.putNumber("Turret Pose X", turretPoseX);
     SmartDashboard.putNumber("Turret Pose Y", turretPoseY);

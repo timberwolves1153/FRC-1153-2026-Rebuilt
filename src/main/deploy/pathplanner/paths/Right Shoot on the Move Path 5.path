@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.237,
-        "y": 2.112
+        "x": 5.877,
+        "y": 3.904
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.33044578313253,
-        "y": 2.559759036144578
+        "x": 5.934728590973958,
+        "y": 3.66075648048887
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.653,
-        "y": 2.308
+        "x": 6.194,
+        "y": 2.352132530120481
       },
       "prevControl": {
-        "x": 4.401590361445783,
-        "y": 2.6143975903614454
+        "x": 6.14504639554854,
+        "y": 2.597292772841869
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,8 +32,8 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.25843230403800116,
-      "maxWaypointRelativePos": 0.7733966745843212,
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.5,
       "constraints": {
         "maxVelocity": 2.0,
         "maxAcceleration": 2.5,
@@ -55,14 +55,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0.25,
+    "velocity": 0,
     "rotation": 115.0
   },
   "reversed": false,
   "folder": "Right Shoot on the Move Auto",
   "idealStartingState": {
-    "velocity": 0.0,
-    "rotation": 115.0
+    "velocity": 0,
+    "rotation": 127.185
   },
   "useDefaultConstraints": true
 }

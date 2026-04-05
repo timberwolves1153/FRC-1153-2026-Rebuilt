@@ -79,6 +79,22 @@ public class VisionIOPhotonVision implements VisionIO {
       updateEstimationStdDevs(visionEst, result.getTargets());
       visionEst.ifPresent(
           est -> {
+            // Log fiducial IDs as int[]
+            Logger.recordOutput(
+                "Vision " + camera.getName() + " TagIds",
+                est.targetsUsed.stream().mapToInt(PhotonTrackedTarget::getFiducialId).toArray());
+            // Log ambiguities as double[]
+            Logger.recordOutput(
+                "Vision " + camera.getName() + " Ambiguities",
+                est.targetsUsed.stream()
+                    .mapToDouble(PhotonTrackedTarget::getPoseAmbiguity)
+                    .toArray());
+
+            // Reject single tag ambiguity poses
+            if (est.targetsUsed.size() == 1
+                && est.targetsUsed.get(0).getPoseAmbiguity() > maxAmbiguity) {
+              return;
+            }
             var estStdDevs = getEstimatedStdDevs();
 
             bestPose = est.estimatedPose.toPose2d();
@@ -143,6 +159,7 @@ public class VisionIOPhotonVision implements VisionIO {
 
   @Override
   public Pose2d getBestPose() {
+
     return this.bestPose;
   }
 

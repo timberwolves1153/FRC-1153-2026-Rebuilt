@@ -7,7 +7,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Deploy Intake"
+            "name": "Run Collector"
           }
         },
         {
@@ -74,7 +74,7 @@
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 4.0
+                              "waitTime": 5.0
                             }
                           }
                         ]
@@ -101,13 +101,13 @@
                                       {
                                         "type": "wait",
                                         "data": {
-                                          "waitTime": 0.25
+                                          "waitTime": 0.1
                                         }
                                       },
                                       {
                                         "type": "named",
                                         "data": {
-                                          "name": "Set Turret Position 300"
+                                          "name": "Set Turret Position 100"
                                         }
                                       }
                                     ]
@@ -119,7 +119,7 @@
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 0.5
+                              "waitTime": 0.25
                             }
                           },
                           {
@@ -170,6 +170,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Reset Robot Pose"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Right Shoot on the Move Path 4"
@@ -182,9 +188,9 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Reset Robot Pose"
+            "pathName": "Right Shoot on the Move Path 6"
           }
         },
         {
@@ -194,7 +200,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right Shoot on the Move Path 6"
+                  "pathName": "Right Shoot on the Move Path 7"
                 }
               },
               {
@@ -253,7 +259,7 @@
                                       {
                                         "type": "named",
                                         "data": {
-                                          "name": "Set Turret Position 300"
+                                          "name": "Set Turret Position 100"
                                         }
                                       }
                                     ]
@@ -318,7 +324,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Right Shoot on the Move Path 7"
+            "pathName": "Right Shoot on the Move Path 8"
           }
         }
       ]

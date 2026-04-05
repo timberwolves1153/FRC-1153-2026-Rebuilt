@@ -1,0 +1,79 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.811,
+        "y": 0.658
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.7960107051402,
+        "y": 0.6583049521333154
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.149795180722892,
+        "y": 0.658
+      },
+      "prevControl": {
+        "x": 7.39635378322668,
+        "y": 0.6576229784345169
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Auto Aim",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Aim to Score"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Run Indexer"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.37,
+    "maxAcceleration": 3.7,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0.0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "Right Shoot on the Move Auto",
+  "idealStartingState": {
+    "velocity": 0.25,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": true
+}

@@ -303,7 +303,10 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "Interpolate Shot", superstructureCommands.interpolateShotCommand().withTimeout(0.25));
     NamedCommands.registerCommand(
-        "Set Turret Position 300", new InstantCommand(() -> turret.setPositionTurret(290)));
+        "Set Turret Position 300", new InstantCommand(() -> turret.setPositionTurret(300)));
+
+    NamedCommands.registerCommand(
+        "Set Turret Position 100", new InstantCommand(() -> turret.setPositionTurret(100)));
     NamedCommands.registerCommand(
         "Set Manual Flywheel RPS", new InstantCommand(() -> flywheel.setVelocityLeader(-32.75)));
     NamedCommands.registerCommand(
@@ -321,7 +324,7 @@ public class RobotContainer {
         "Stop Collector", new InstantCommand(() -> intake.setCollectVoltage(0)));
 
     NamedCommands.registerCommand(
-        "Reset Robot Pose Turret",
+        "Reset Robot Pose",
         new InstantCommand(() -> drive.setPose(vision.getPoseFromTurretCamera())));
 
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());

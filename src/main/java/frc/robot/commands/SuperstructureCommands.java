@@ -114,7 +114,7 @@ public class SuperstructureCommands {
 
     // turretPose = estimatedPose.transformBy(rotatedOffset);
 
-    turretPose = estimatedPose.transformBy(turret.turretOffset);
+    turretPose = estimatedPose;
 
     // estimatedPose.transformBy(rotatedOffset);  //estimatedPose.transformBy(turret.turretOffset);
     // new Pose2d(
@@ -231,7 +231,7 @@ public class SuperstructureCommands {
     Translation2d rotatedOffset =
         turret.turretOffset.getTranslation().rotateBy(estimatedPose.getRotation());
 
-    turretPose = estimatedPose.transformBy(turret.turretOffset);
+    turretPose = estimatedPose;
 
     double turretToPassDistance;
 

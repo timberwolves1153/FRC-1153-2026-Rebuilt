@@ -31,7 +31,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.5,
-      "rotationDegrees": -45.0
+      "rotationDegrees": 135.0
     }
   ],
   "constraintZones": [
@@ -40,8 +40,8 @@
       "minWaypointRelativePos": 0.4895734597156396,
       "maxWaypointRelativePos": 0.7398104265402845,
       "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 2.5,
+        "maxVelocity": 3.0,
+        "maxAcceleration": 3.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -61,7 +61,7 @@
   },
   "goalEndState": {
     "velocity": 0.25,
-    "rotation": -45.0
+    "rotation": 135.0
   },
   "reversed": false,
   "folder": "Right Shoot on the Move Auto",

@@ -62,7 +62,7 @@ public class VisionConstants {
   public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
 
   // Basic filtering thresholds
-  public static double maxAmbiguity = 0.2;
+  public static double maxAmbiguity = 0.15;
   public static double maxZError = 0.75;
 
   // Standard deviation baselines, for 1 meter distance and 1 tag

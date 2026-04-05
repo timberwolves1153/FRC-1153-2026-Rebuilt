@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 4.2,
+        "x": 4.3,
         "y": 0.647
       },
       "prevControl": {
-        "x": 2.986215279153046,
+        "x": 3.0862152791530457,
         "y": 0.6470000000000001
       },
       "nextControl": null,
@@ -31,7 +31,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.5,
-      "rotationDegrees": -45.0
+      "rotationDegrees": 135.0
     }
   ],
   "constraintZones": [
@@ -40,10 +40,10 @@
       "minWaypointRelativePos": 0.0,
       "maxWaypointRelativePos": 0.9875930521091811,
       "constraints": {
-        "maxVelocity": 1.0,
+        "maxVelocity": 0.9,
         "maxAcceleration": 1.5,
-        "maxAngularVelocity": 300.0,
-        "maxAngularAcceleration": 500.0,
+        "maxAngularVelocity": 200.0,
+        "maxAngularAcceleration": 400.0,
         "nominalVoltage": 12.0,
         "unlimited": false
       }
@@ -61,13 +61,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "Right Shoot on the Move Auto",
   "idealStartingState": {
     "velocity": 0.25,
-    "rotation": -45.0
+    "rotation": 135.0
   },
   "useDefaultConstraints": true
 }
