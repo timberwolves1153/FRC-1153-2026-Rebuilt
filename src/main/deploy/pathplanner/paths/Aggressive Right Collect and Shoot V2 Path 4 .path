@@ -1,0 +1,66 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.735,
+        "y": 0.636
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.423626506024096,
+        "y": 0.41778313253011945
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.696409638554217,
+        "y": 2.8329518072289157
+      },
+      "prevControl": {
+        "x": 6.936819277108434,
+        "y": 1.3249277108433728
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Run Intake",
+      "waypointRelativePos": 0.25,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Run Collector"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.37,
+    "maxAcceleration": 3.7,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 107.5924245621816
+  },
+  "reversed": false,
+  "folder": "Aggressive Right Collect and Shoot V2",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}

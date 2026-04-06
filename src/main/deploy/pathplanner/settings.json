@@ -4,9 +4,11 @@
   "holonomicMode": true,
   "pathFolders": [
     "Aggressive Right Collect and Shoot",
+    "Aggressive Right Collect and Shoot V2",
+    "Center Shoot & Score",
+    "Bump to Depot + Outpost Collect and Shoot",
     "Left Collect and Shoot",
     "Middle Sweep Counter Auto",
-    "Center Shoot & Score",
     "Right Shoot on the Move Auto",
     "Safe Right Collect and Shoot V2",
     "Slip N' Slide",

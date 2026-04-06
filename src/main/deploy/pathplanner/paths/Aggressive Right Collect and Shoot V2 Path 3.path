@@ -1,0 +1,162 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.735,
+        "y": 0.636
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.925096820723169,
+        "y": 0.5318800196884788
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.513814655172414,
+        "y": 0.636
+      },
+      "prevControl": {
+        "x": 4.750916335808265,
+        "y": 0.6360000000000001
+      },
+      "nextControl": {
+        "x": 6.286411919651158,
+        "y": 0.636
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.85,
+        "y": 2.0
+      },
+      "prevControl": {
+        "x": 5.914192081348312,
+        "y": 1.691878009528101
+      },
+      "nextControl": {
+        "x": 5.799011436472,
+        "y": 2.2447451049344016
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.85,
+        "y": 3.7
+      },
+      "prevControl": {
+        "x": 5.869547413793104,
+        "y": 4.120269396551725
+      },
+      "nextControl": {
+        "x": 5.838384650161882,
+        "y": 3.450269978480484
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.513814655172414,
+        "y": 0.636
+      },
+      "prevControl": {
+        "x": 7.013814655172414,
+        "y": 0.6359999999999999
+      },
+      "nextControl": {
+        "x": 5.012298715910544,
+        "y": 0.6360000000000001
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.735,
+        "y": 0.636
+      },
+      "prevControl": {
+        "x": 4.020278900543475,
+        "y": 0.636
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.95,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 2.0125786163522115,
+      "rotationDegrees": 119.99999999999999
+    },
+    {
+      "waypointRelativePos": 3.0,
+      "rotationDegrees": 100.0
+    },
+    {
+      "waypointRelativePos": 3.92,
+      "rotationDegrees": 180.0
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.67,
+      "maxWaypointRelativePos": 2.0,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    },
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 3.67,
+      "maxWaypointRelativePos": 4.0,
+      "constraints": {
+        "maxVelocity": 1.52,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 300.0,
+        "maxAngularAcceleration": 500.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.37,
+    "maxAcceleration": 3.7,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "Aggressive Right Collect and Shoot V2",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}
