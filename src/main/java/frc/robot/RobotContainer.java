@@ -321,6 +321,8 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "Run Collector", new InstantCommand(() -> intake.setCollectVoltage(5.5)));
     NamedCommands.registerCommand(
+        "Run Collector 10V", new InstantCommand(() -> intake.setCollectVoltage(10)));
+    NamedCommands.registerCommand(
         "Stop Collector", new InstantCommand(() -> intake.setCollectVoltage(0)));
 
     NamedCommands.registerCommand(

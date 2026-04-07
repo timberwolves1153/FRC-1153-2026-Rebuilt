@@ -3,47 +3,40 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.735,
-        "y": 0.636
+        "x": 8.25,
+        "y": 6.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.423626506024096,
-        "y": 0.41778313253011945
+        "x": 8.25,
+        "y": 5.1
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.696409638554217,
-        "y": 2.8329518072289157
+        "x": 8.55,
+        "y": 1.5
       },
       "prevControl": {
-        "x": 6.936819277108434,
-        "y": 1.3249277108433728
+        "x": 8.55,
+        "y": 2.5
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
-  "constraintZones": [],
-  "pointTowardsZones": [],
-  "eventMarkers": [
+  "rotationTargets": [
     {
-      "name": "Run Intake",
       "waypointRelativePos": 0.25,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Run Collector"
-        }
-      }
+      "rotationDegrees": -105.00000000000001
     }
   ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.37,
     "maxAcceleration": 3.7,
@@ -54,13 +47,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 107.5924245621816
+    "rotation": -105.00000000000001
   },
   "reversed": false,
-  "folder": "Aggressive Right Collect and Shoot V2",
+  "folder": "Infiltrate & Infuse",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 0.0
+    "velocity": 0.0,
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

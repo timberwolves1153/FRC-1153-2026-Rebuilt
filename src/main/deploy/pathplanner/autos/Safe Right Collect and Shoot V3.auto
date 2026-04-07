@@ -7,7 +7,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Deploy Intake"
+            "name": "Run Collector"
           }
         },
         {
@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Aggressive Right Collect And Shoot V2 Path 1"
+                  "pathName": "Safe Right Collect And Shoot V3 Path 1"
                 }
               },
               {
@@ -46,7 +46,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Aggressive Right Collect and Shoot V2 Path 2"
+                        "pathName": "Safe Right Collect and Shoot V3 Path 2"
                       }
                     },
                     {
@@ -118,7 +118,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Aggressive Right Collect and Shoot V2 Path 3"
+                  "pathName": "Safe Right Collect and Shoot V3 Path 3"
                 }
               },
               {

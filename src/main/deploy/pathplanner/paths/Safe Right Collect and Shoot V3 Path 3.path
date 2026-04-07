@@ -178,7 +178,7 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Aggressive Right Collect and Shoot V2",
+  "folder": "Safe Right Collect and Shoot V3",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
