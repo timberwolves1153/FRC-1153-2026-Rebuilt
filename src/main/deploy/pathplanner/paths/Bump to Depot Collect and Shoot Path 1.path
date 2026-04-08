@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7,
-        "y": 5.96
+        "x": 3.55,
+        "y": 4.65
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7,
-        "y": 5.96
+        "x": 1.8179491924311224,
+        "y": 5.65
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.0,
-        "y": 3.75
+        "x": 0.6,
+        "y": 4.9
       },
       "prevControl": {
-        "x": 2.0,
-        "y": 5.75
+        "x": 0.6,
+        "y": 4.65
       },
       "nextControl": {
-        "x": 2.0,
-        "y": 0.25
+        "x": 0.6,
+        "y": 5.15
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.45,
-        "y": 0.625
+        "x": 0.6,
+        "y": 6.0
       },
       "prevControl": {
-        "x": 1.45,
-        "y": 0.625
+        "x": 0.6,
+        "y": 5.75
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,48 +46,18 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.75,
-      "rotationDegrees": 180.0
-    },
-    {
-      "waypointRelativePos": 1.25,
-      "rotationDegrees": 180.0
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 105.00000000000001
     }
   ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 0.75,
-      "maxWaypointRelativePos": 1.25,
-      "constraints": {
-        "maxVelocity": 1.5,
-        "maxAcceleration": 2.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    },
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 1.7,
       "maxWaypointRelativePos": 2.0,
       "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 2.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    },
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.25,
-      "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 1.0,
+        "maxVelocity": 0.5,
+        "maxAcceleration": 1.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -107,13 +77,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 105.00000000000001
   },
   "reversed": false,
   "folder": "Bump to Depot + Outpost Collect and Shoot",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 180.0
+    "velocity": 0.0,
+    "rotation": -176.41706372890164
   },
   "useDefaultConstraints": true
 }

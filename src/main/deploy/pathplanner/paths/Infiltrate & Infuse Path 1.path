@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.550000000000009,
-        "y": 0.65
+        "x": 4.534807753012208,
+        "y": 0.4763518223330697
       },
       "isLocked": false,
       "linkedName": null
@@ -17,15 +17,15 @@
     {
       "anchor": {
         "x": 8.3,
-        "y": 0.65
+        "y": 0.8
       },
       "prevControl": {
         "x": 7.300000000000001,
-        "y": 0.6500000000000001
+        "y": 0.8000000000000002
       },
       "nextControl": {
         "x": 9.3,
-        "y": 0.65
+        "y": 0.8
       },
       "isLocked": false,
       "linkedName": null
@@ -48,28 +48,12 @@
     },
     {
       "anchor": {
-        "x": 10.5,
-        "y": 6.1
-      },
-      "prevControl": {
-        "x": 10.75,
-        "y": 6.1
-      },
-      "nextControl": {
-        "x": 10.25,
-        "y": 6.1
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
         "x": 8.25,
-        "y": 6.1
+        "y": 5.85
       },
       "prevControl": {
         "x": 7.729072289156626,
-        "y": 6.077819277108433
+        "y": 5.827819277108433
       },
       "nextControl": null,
       "isLocked": false,
@@ -78,8 +62,12 @@
   ],
   "rotationTargets": [
     {
+      "waypointRelativePos": 0.35,
+      "rotationDegrees": 180.0
+    },
+    {
       "waypointRelativePos": 1.0,
-      "rotationDegrees": 0.0
+      "rotationDegrees": 65.0
     },
     {
       "waypointRelativePos": 1.5,
@@ -90,11 +78,25 @@
       "rotationDegrees": 90.0
     },
     {
-      "waypointRelativePos": 3.0,
-      "rotationDegrees": 90.0
+      "waypointRelativePos": 2.3,
+      "rotationDegrees": 115.0
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 0.5,
+      "constraints": {
+        "maxVelocity": 4.37,
+        "maxAcceleration": 3.7,
+        "maxAngularVelocity": 90.0,
+        "maxAngularAcceleration": 180.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -113,7 +115,7 @@
   "folder": "Infiltrate & Infuse",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

@@ -40,22 +40,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Safe Right Collect and Shoot V3 Path 2"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    }
-                  ]
+                  "pathName": "Safe Right Collect and Shoot V3 Path 2"
                 }
               }
             ]
