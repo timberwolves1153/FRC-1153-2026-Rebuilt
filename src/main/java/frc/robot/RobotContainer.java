@@ -390,24 +390,65 @@ public class RobotContainer {
 
     // driver.y().onTrue(Commands.runOnce(() -> drive.resetGyro(0), drive));
 
-    // Set robot rotation to 45 degrees when X button is pressed
-    driver
-        .rightBumper()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngle(
-                drive,
-                () -> -driver.getLeftY(),
-                () -> -driver.getLeftX(),
-                () -> Rotation2d.fromDegrees(45)));
-
     driver
         .leftBumper()
         .whileTrue(
-            DriveCommands.joystickDriveAtAngle(
+            DriveCommands.joystickDriveAtAngleAllianceRelative(
                 drive,
                 () -> -driver.getLeftY(),
                 () -> -driver.getLeftX(),
-                () -> Rotation2d.fromDegrees(-45)));
+                () -> Rotation2d.fromDegrees(-45),
+                () -> FieldConstants.isRed()));
+
+    driver
+        .rightBumper()
+        .whileTrue(
+            DriveCommands.joystickDriveAtAngleAllianceRelative(
+                drive,
+                () -> -driver.getLeftY(),
+                () -> -driver.getLeftX(),
+                () -> Rotation2d.fromDegrees(45),
+                () -> FieldConstants.isRed()));
+
+    driver
+        .a()
+        .whileTrue(
+            DriveCommands.joystickDriveAtAngleAllianceRelative(
+                drive,
+                () -> -driver.getLeftY(),
+                () -> -driver.getLeftX(),
+                () -> Rotation2d.fromDegrees(0),
+                () -> FieldConstants.isRed()));
+
+    driver
+        .y()
+        .whileTrue(
+            DriveCommands.joystickDriveAtAngleAllianceRelative(
+                drive,
+                () -> -driver.getLeftY(),
+                () -> -driver.getLeftX(),
+                () -> Rotation2d.fromDegrees(180),
+                () -> FieldConstants.isRed()));
+
+    driver
+        .x()
+        .whileTrue(
+            DriveCommands.joystickDriveAtAngleAllianceRelative(
+                drive,
+                () -> -driver.getLeftY(),
+                () -> -driver.getLeftX(),
+                () -> Rotation2d.fromDegrees(-90),
+                () -> FieldConstants.isRed()));
+
+    driver
+        .b()
+        .whileTrue(
+            DriveCommands.joystickDriveAtAngleAllianceRelative(
+                drive,
+                () -> -driver.getLeftY(),
+                () -> -driver.getLeftX(),
+                () -> Rotation2d.fromDegrees(90),
+                () -> FieldConstants.isRed()));
 
     // Drive Forward Button for testing
     //  operator.povUp().whileTrue(drive.sysIdDynamic(Direction.kForward));
@@ -416,7 +457,7 @@ public class RobotContainer {
     /* Week 0 Bindings */
 
     driver
-        .b()
+        .rightStick()
         .onTrue(
             Commands.runOnce(
                     () ->
