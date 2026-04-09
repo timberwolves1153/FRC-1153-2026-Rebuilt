@@ -27,7 +27,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Run Timed Indexer"
+                        "name": "Run Indexer"
                       }
                     }
                   ]
@@ -40,6 +40,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stop Indexer"
           }
         },
         {
@@ -113,7 +119,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 5.0
+                  "waitTime": 3.5
                 }
               },
               {
@@ -145,7 +151,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Infiltrate & Infuse Path 2a"
+                  "pathName": "Infiltrate & Infuse Path 2b"
                 }
               },
               {
@@ -153,28 +159,21 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "wait",
+                      "type": "named",
                       "data": {
-                        "waitTime": 2.5
+                        "name": "Aim to Pass"
                       }
                     },
                     {
-                      "type": "parallel",
+                      "type": "wait",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "Aim to Pass"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "Run Indexer"
-                            }
-                          }
-                        ]
+                        "waitTime": 3.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Run Indexer"
                       }
                     }
                   ]
@@ -184,19 +183,32 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "Aim to Score"
+                  "pathName": "Infiltrate & Infuse Path 3"
                 }
               },
               {
-                "type": "named",
+                "type": "parallel",
                 "data": {
-                  "name": "Run Indexer"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Aim to Pass"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Run Indexer"
+                      }
+                    }
+                  ]
                 }
               }
             ]
