@@ -21,7 +21,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.5
+                        "waitTime": 1.0
                       }
                     },
                     {
@@ -40,12 +40,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Stop Indexer"
           }
         },
         {
@@ -68,6 +62,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Stop Indexer"
+          }
+        },
+        {
           "type": "race",
           "data": {
             "commands": [
@@ -84,7 +84,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 4.5
+                        "waitTime": 3.0
                       }
                     },
                     {
@@ -110,6 +110,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stop Indexer"
           }
         },
         {
@@ -145,6 +151,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Stop Indexer"
+          }
+        },
+        {
           "type": "race",
           "data": {
             "commands": [
@@ -159,21 +171,28 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "named",
-                      "data": {
-                        "name": "Aim to Pass"
-                      }
-                    },
-                    {
                       "type": "wait",
                       "data": {
-                        "waitTime": 3.5
+                        "waitTime": 2.0
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "parallel",
                       "data": {
-                        "name": "Run Indexer"
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "Aim to Pass"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "Run Indexer"
+                            }
+                          }
+                        ]
                       }
                     }
                   ]

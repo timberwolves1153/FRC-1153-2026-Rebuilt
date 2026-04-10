@@ -276,7 +276,8 @@ public class RobotContainer {
 
     /*Autonomous Commands*/
     NamedCommands.registerCommand("Run Indexer", indexer.setAllIndexingCommand(-12, 12)); // CHANGE
-    NamedCommands.registerCommand("Stop Indexer", indexer.setAllIndexingCommand(0, 0));
+    NamedCommands.registerCommand(
+        "Stop Indexer", indexer.setAllIndexingCommand(0, 0).withTimeout(0.01));
 
     NamedCommands.registerCommand("Run Timed Indexer", feedUntilEmptyCommand);
 
