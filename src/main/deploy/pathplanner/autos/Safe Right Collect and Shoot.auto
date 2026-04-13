@@ -7,7 +7,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Deploy Intake"
+            "name": "Run Collector"
           }
         },
         {
@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Aggressive Right Collect And Shoot V2 Path 1"
+                  "pathName": "Safe Right Collect And Shoot Path 1"
                 }
               },
               {
@@ -40,22 +40,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Aggressive Right Collect and Shoot V2 Path 2"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    }
-                  ]
+                  "pathName": "Safe Right Collect and Shoot Path 2"
                 }
               }
             ]
@@ -118,7 +105,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Aggressive Right Collect and Shoot V2 Path 3"
+                  "pathName": "Safe Right Collect and Shoot Path 3"
                 }
               },
               {
@@ -184,6 +171,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Right Side Autos",
   "choreoAuto": false
 }

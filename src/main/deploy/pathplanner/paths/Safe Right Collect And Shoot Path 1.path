@@ -32,15 +32,15 @@
     },
     {
       "anchor": {
-        "x": 8.3,
+        "x": 7.9,
         "y": 1.757726293103449
       },
       "prevControl": {
-        "x": 8.281522614449297,
+        "x": 7.881522614449298,
         "y": 1.5084100557196582
       },
       "nextControl": {
-        "x": 8.408238403765655,
+        "x": 8.008238403765654,
         "y": 3.2181921957730504
       },
       "isLocked": false,
@@ -48,15 +48,15 @@
     },
     {
       "anchor": {
-        "x": 8.2,
+        "x": 7.9,
         "y": 3.4
       },
       "prevControl": {
-        "x": 8.412001514387251,
+        "x": 8.112001514387252,
         "y": 3.0789994558014926
       },
       "nextControl": {
-        "x": 8.06222555550363,
+        "x": 7.7622255555036315,
         "y": 3.60861016860095
       },
       "isLocked": false,
@@ -64,12 +64,12 @@
     },
     {
       "anchor": {
-        "x": 7.5,
-        "y": 3.8
+        "x": 7.25,
+        "y": 3.7
       },
       "prevControl": {
-        "x": 7.716506350946109,
-        "y": 3.675
+        "x": 7.466506350946109,
+        "y": 3.575
       },
       "nextControl": null,
       "isLocked": false,
@@ -132,7 +132,7 @@
     "rotation": 155.0
   },
   "reversed": false,
-  "folder": "Aggressive Right Collect and Shoot V2",
+  "folder": "Safe Right Collect and Shoot",
   "idealStartingState": {
     "velocity": 0.0,
     "rotation": 180.0

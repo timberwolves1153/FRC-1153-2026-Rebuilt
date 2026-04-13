@@ -7,7 +7,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Deploy Intake"
+            "name": "Run Collector"
           }
         },
         {
@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Safe Right Collect And Shoot V2 Path 1"
+                  "pathName": "Safe Left Collect And Shoot Path 1"
                 }
               },
               {
@@ -30,31 +30,19 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "Set Turret Position 300"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Set Manual Flywheel RPS"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Set Manual Hood Value"
+                  "name": "Aim to Score"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Safe Right Collect and Shoot V2 Path 2"
+                  "pathName": "Safe Left Collect and Shoot Path 2"
                 }
               }
             ]
@@ -89,7 +77,19 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 3.0
+                        "waitTime": 1.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Stop Collector"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
                       }
                     }
                   ]
@@ -99,31 +99,19 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Safe Right Collect and Shoot V2 Path 3"
+                  "pathName": "Safe Left Collect and Shoot Path 3"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Set Turret Position 300"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Set Manual Flywheel RPS"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Set Manual Hood Value"
+                  "name": "Aim to Score"
                 }
               }
             ]
@@ -158,25 +146,31 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 3.0
+                        "waitTime": 1.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Stop Collector"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
                       }
                     }
                   ]
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Safe Right Collect and Shoot V2 Path 4 "
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Left Side Autos",
   "choreoAuto": false
 }

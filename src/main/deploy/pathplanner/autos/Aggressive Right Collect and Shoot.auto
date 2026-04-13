@@ -179,17 +179,11 @@
               }
             ]
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Aggressive Right Collect and Shoot Path 4 "
-          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Right Side Autos",
   "choreoAuto": false
 }

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.25,
-        "y": 3.7
+        "x": 7.5,
+        "y": 4.3
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.383974596215561,
-        "y": 4.199999999999999
+        "x": 6.633974596215562,
+        "y": 3.8
       },
       "isLocked": false,
       "linkedName": null
@@ -17,15 +17,15 @@
     {
       "anchor": {
         "x": 6.346722891566266,
-        "y": 0.8
+        "y": 7.5
       },
       "prevControl": {
-        "x": 6.598681791672194,
-        "y": 0.9405306836888285
+        "x": 7.331530644578474,
+        "y": 7.32635182233307
       },
       "nextControl": {
-        "x": 5.855894396551724,
-        "y": 0.5262392241379312
+        "x": 5.793249041529195,
+        "y": 7.597592372878126
       },
       "isLocked": false,
       "linkedName": null
@@ -33,11 +33,11 @@
     {
       "anchor": {
         "x": 3.735,
-        "y": 0.636
+        "y": 7.45
       },
       "prevControl": {
-        "x": 5.073997844827587,
-        "y": 0.4969181034482756
+        "x": 5.073827060808913,
+        "y": 7.590716394379315
       },
       "nextControl": null,
       "isLocked": false,
@@ -80,7 +80,7 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Safe Right Collect and Shoot V3",
+  "folder": "Aggressive Left Collect and Shoot",
   "idealStartingState": {
     "velocity": 1.5,
     "rotation": 155.0

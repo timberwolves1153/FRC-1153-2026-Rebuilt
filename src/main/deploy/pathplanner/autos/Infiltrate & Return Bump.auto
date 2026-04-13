@@ -178,6 +178,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Steal Autos",
   "choreoAuto": false
 }

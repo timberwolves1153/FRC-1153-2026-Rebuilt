@@ -21,13 +21,13 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.5
+                        "waitTime": 1.0
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "Run Timed Indexer"
+                        "name": "Run Indexer"
                       }
                     }
                   ]
@@ -62,6 +62,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Stop Indexer"
+          }
+        },
+        {
           "type": "race",
           "data": {
             "commands": [
@@ -78,7 +84,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 4.5
+                        "waitTime": 3.0
                       }
                     },
                     {
@@ -107,13 +113,19 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Stop Indexer"
+          }
+        },
+        {
           "type": "race",
           "data": {
             "commands": [
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 5.0
+                  "waitTime": 3.5
                 }
               },
               {
@@ -139,13 +151,19 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Stop Indexer"
+          }
+        },
+        {
           "type": "race",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Infiltrate & Infuse Path 2a"
+                  "pathName": "Infiltrate & Infuse Path 2"
                 }
               },
               {
@@ -155,7 +173,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 2.5
+                        "waitTime": 2.0
                       }
                     },
                     {
@@ -184,19 +202,32 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "Aim to Score"
+                  "pathName": "Infiltrate & Infuse Path 3"
                 }
               },
               {
-                "type": "named",
+                "type": "parallel",
                 "data": {
-                  "name": "Run Indexer"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Aim to Pass"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Run Indexer"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -206,6 +237,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Steal Autos",
   "choreoAuto": false
 }

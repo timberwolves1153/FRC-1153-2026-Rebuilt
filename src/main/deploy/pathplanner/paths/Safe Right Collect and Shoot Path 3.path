@@ -68,8 +68,8 @@
         "y": 0.55
       },
       "prevControl": {
-        "x": 7.506204051355905,
-        "y": 0.37568851450468366
+        "x": 7.755252725878842,
+        "y": 0.35389957881776907
       },
       "nextControl": {
         "x": 5.014207135471237,
@@ -178,7 +178,7 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Aggressive Right Collect and Shoot",
+  "folder": "Safe Right Collect and Shoot",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

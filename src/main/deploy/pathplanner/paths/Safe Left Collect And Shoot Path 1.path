@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 4.61,
-        "y": 0.64
+        "y": 7.46
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.850449722364132,
-        "y": 0.7084392505439097
+        "x": 4.86,
+        "y": 7.46
       },
       "isLocked": false,
       "linkedName": null
@@ -17,15 +17,15 @@
     {
       "anchor": {
         "x": 6.35,
-        "y": 0.67
+        "y": 7.43
       },
       "prevControl": {
-        "x": 6.111825099262302,
-        "y": 0.5940216040009527
+        "x": 6.11223587092621,
+        "y": 7.507254248593737
       },
       "nextControl": {
-        "x": 7.0588510817187275,
-        "y": 0.8961252887032456
+        "x": 7.057628551815705,
+        "y": 7.200077545898309
       },
       "isLocked": false,
       "linkedName": null
@@ -33,15 +33,15 @@
     {
       "anchor": {
         "x": 7.9,
-        "y": 1.757726293103449
+        "y": 6.35
       },
       "prevControl": {
-        "x": 7.881522614449298,
-        "y": 1.5084100557196582
+        "x": 7.882560881563969,
+        "y": 6.599391012564956
       },
       "nextControl": {
-        "x": 8.008238403765654,
-        "y": 3.2181921957730504
+        "x": 8.002156354177743,
+        "y": 4.8890960729016495
       },
       "isLocked": false,
       "linkedName": null
@@ -49,15 +49,15 @@
     {
       "anchor": {
         "x": 7.9,
-        "y": 3.4
+        "y": 4.7
       },
       "prevControl": {
-        "x": 8.112001514387252,
-        "y": 3.0789994558014926
+        "x": 8.109516903950647,
+        "y": 5.022627739720505
       },
       "nextControl": {
-        "x": 7.7622255555036315,
-        "y": 3.60861016860095
+        "x": 7.7638402412462435,
+        "y": 4.490332358013644
       },
       "isLocked": false,
       "linkedName": null
@@ -65,11 +65,11 @@
     {
       "anchor": {
         "x": 7.25,
-        "y": 3.7
+        "y": 4.4
       },
       "prevControl": {
         "x": 7.466506350946109,
-        "y": 3.575
+        "y": 4.525
       },
       "nextControl": null,
       "isLocked": false,
@@ -83,11 +83,11 @@
     },
     {
       "waypointRelativePos": 1.8,
-      "rotationDegrees": 85.0
+      "rotationDegrees": -85.0
     },
     {
       "waypointRelativePos": 2.547169811320758,
-      "rotationDegrees": 100.0
+      "rotationDegrees": -100.0
     }
   ],
   "constraintZones": [
@@ -129,10 +129,10 @@
   },
   "goalEndState": {
     "velocity": 1.5,
-    "rotation": 155.0
+    "rotation": -155.0
   },
   "reversed": false,
-  "folder": "Safe Right Collect and Shoot V3",
+  "folder": "Safe Left Collect and Shoot",
   "idealStartingState": {
     "velocity": 0.0,
     "rotation": 180.0

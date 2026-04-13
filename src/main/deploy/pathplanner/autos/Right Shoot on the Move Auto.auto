@@ -331,6 +331,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Right Side Autos",
   "choreoAuto": false
 }

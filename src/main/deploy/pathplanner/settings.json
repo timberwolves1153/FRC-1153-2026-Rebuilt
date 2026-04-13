@@ -3,21 +3,23 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
+    "Aggressive Left Collect and Shoot",
     "Aggressive Right Collect and Shoot",
-    "Aggressive Right Collect and Shoot V2",
     "Bump to Depot + Outpost Collect and Shoot",
     "Center Shoot & Score",
     "Infiltrate & Infuse",
-    "Left Collect and Shoot",
+    "Infiltrate & Return",
     "Middle Sweep Counter Auto",
-    "Infiltrate & Infuse V3",
     "Right Shoot on the Move Auto",
-    "Safe Right Collect and Shoot V2",
-    "Safe Right Collect and Shoot V3",
-    "Slip N' Slide",
-    "Week 0 Autos"
+    "Safe Left Collect and Shoot",
+    "Safe Right Collect and Shoot"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "Center Autos",
+    "Left Side Autos",
+    "Right Side Autos",
+    "Steal Autos"
+  ],
   "defaultMaxVel": 4.37,
   "defaultMaxAccel": 3.7,
   "defaultMaxAngVel": 540.0,
