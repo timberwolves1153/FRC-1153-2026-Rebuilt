@@ -80,7 +80,7 @@
     "rotation": 105.00000000000001
   },
   "reversed": false,
-  "folder": "Bump to Depot + Outpost Collect and Shoot",
+  "folder": "Hub to Depot + Outpost Collect and Shoot",
   "idealStartingState": {
     "velocity": 0.0,
     "rotation": 180.0

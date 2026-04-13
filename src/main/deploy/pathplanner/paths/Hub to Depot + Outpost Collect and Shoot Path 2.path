@@ -67,6 +67,19 @@
         "nominalVoltage": 12.0,
         "unlimited": false
       }
+    },
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.5,
+      "constraints": {
+        "maxVelocity": 4.37,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
     }
   ],
   "pointTowardsZones": [],
@@ -84,7 +97,7 @@
     "rotation": 90.0
   },
   "reversed": false,
-  "folder": "Bump to Depot + Outpost Collect and Shoot",
+  "folder": "Hub to Depot + Outpost Collect and Shoot",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 105.00000000000001

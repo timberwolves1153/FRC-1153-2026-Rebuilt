@@ -13,7 +13,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Bump to Depot + Outpost Collect and Shoot Path 1"
+            "pathName": "Hub to Depot + Outpost Collect and Shoot Path 1"
           }
         },
         {
@@ -35,7 +35,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Bump to Depot + Outpost Collect and Shoot Path 2"
+                  "pathName": "Hub to Depot + Outpost Collect and Shoot Path 2"
                 }
               },
               {
