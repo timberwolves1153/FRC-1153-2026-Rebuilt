@@ -483,7 +483,7 @@ public class RobotContainer {
     driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-12), indexer));
     driver.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
 
-    driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(12), indexer));
+    driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(10), indexer));
     driver.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
     // driver.leftTrigger().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
