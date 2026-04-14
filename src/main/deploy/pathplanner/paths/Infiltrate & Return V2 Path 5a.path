@@ -1,0 +1,59 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.54,
+        "y": 3.0
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 8.532265060240965,
+        "y": 2.4395542168674704
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.0,
+        "y": 2.5
+      },
+      "prevControl": {
+        "x": 2.4999169960498135,
+        "y": 2.5
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.45,
+      "rotationDegrees": -135.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.37,
+    "maxAcceleration": 3.7,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -135.0
+  },
+  "reversed": false,
+  "folder": "Infiltrate & Return V2",
+  "idealStartingState": {
+    "velocity": 2.0,
+    "rotation": -80.0
+  },
+  "useDefaultConstraints": true
+}
