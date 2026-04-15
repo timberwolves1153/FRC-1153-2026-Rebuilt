@@ -317,7 +317,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("Aim to Pass", superstructureCommands.autoAimTurretPassing());
 
     NamedCommands.registerCommand(
-        "Deploy Intake", intake.setAllCollectCommand(4.9, 5.5).withTimeout(.5));
+        "Deploy Intake", intake.setAllCollectCommand(4.4, 5.5).withTimeout(.3));
+    NamedCommands.registerCommand(
+        "Deploy Intake 10V", intake.setAllCollectCommand(4.4, 10).withTimeout(.3));
 
     NamedCommands.registerCommand(
         "Run Collector", new InstantCommand(() -> intake.setCollectVoltage(5.5)));

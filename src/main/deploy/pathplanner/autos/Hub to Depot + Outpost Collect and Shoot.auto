@@ -7,7 +7,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Run Collector 10V"
+            "name": "Deploy Intake"
           }
         },
         {
@@ -19,13 +19,13 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 0.5
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Run Collector"
+            "pathName": "Hub to Depot + Outpost Collect and Shoot Path 2"
           }
         },
         {
@@ -35,55 +35,34 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Hub to Depot + Outpost Collect and Shoot Path 2"
+                  "pathName": "Hub to Depot + Outpost Collect and Shoot Path 3"
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.5
-                      }
-                    },
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 2.0
-                            }
-                          },
-                          {
-                            "type": "parallel",
-                            "data": {
-                              "commands": [
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "Aim to Score"
-                                  }
-                                },
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "Run Indexer"
-                                  }
-                                }
-                              ]
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
+                  "name": "Aim to Score"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Run Indexer"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stop Indexer"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Hub to Depot + Outpost Collect and Shoot Path 4"
           }
         },
         {
@@ -103,7 +82,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.0
+                        "waitTime": 0.5
                       }
                     },
                     {

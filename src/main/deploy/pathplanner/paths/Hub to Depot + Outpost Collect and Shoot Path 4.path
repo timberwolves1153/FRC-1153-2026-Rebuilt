@@ -3,38 +3,47 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.54,
-        "y": 3.0
+        "x": 2.0,
+        "y": 1.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.532265060240965,
-        "y": 2.4395542168674704
+        "x": 2.0,
+        "y": 0.75
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.0,
-        "y": 2.5
+        "x": 0.5,
+        "y": 0.8
       },
       "prevControl": {
-        "x": 2.4999169960498135,
-        "y": 2.5
+        "x": 2.0,
+        "y": 0.7999999999999998
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
+  "rotationTargets": [],
+  "constraintZones": [
     {
-      "waypointRelativePos": 0.45,
-      "rotationDegrees": -135.0
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
     }
   ],
-  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -46,14 +55,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -135.0
+    "velocity": 0.0,
+    "rotation": 90.0
   },
   "reversed": false,
-  "folder": "Infiltrate & Return V2",
+  "folder": "Hub to Depot + Outpost Collect and Shoot",
   "idealStartingState": {
-    "velocity": 2.0,
-    "rotation": -80.0
+    "velocity": 1.5,
+    "rotation": 105.00000000000001
   },
   "useDefaultConstraints": true
 }

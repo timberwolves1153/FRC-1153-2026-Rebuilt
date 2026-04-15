@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 10.5,
-        "y": 6.5
+        "x": 8.54,
+        "y": 3.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 10.5,
-        "y": 7.5
+        "x": 8.532265060240965,
+        "y": 2.4395542168674704
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.65,
-        "y": 6.5
+        "x": 2.0,
+        "y": 2.5
       },
       "prevControl": {
-        "x": 8.65,
-        "y": 7.5
-      },
-      "nextControl": {
-        "x": 8.65,
-        "y": 5.5
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 8.65,
-        "y": 2.0
-      },
-      "prevControl": {
-        "x": 8.65,
-        "y": 3.0
+        "x": 2.4999169960498135,
+        "y": 2.5
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,18 +30,18 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": -105.00000000000001
+      "waypointRelativePos": 0.45,
+      "rotationDegrees": -135.0
     }
   ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 1.0,
-      "maxWaypointRelativePos": 2.0,
+      "minWaypointRelativePos": 0.45,
+      "maxWaypointRelativePos": 0.75,
       "constraints": {
-        "maxVelocity": 1.5,
-        "maxAcceleration": 3.7,
+        "maxVelocity": 3.0,
+        "maxAcceleration": 3.5,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -76,14 +60,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 1.5,
-    "rotation": -105.00000000000001
+    "velocity": 0,
+    "rotation": -135.0
   },
   "reversed": false,
-  "folder": "Infiltrate & Return",
+  "folder": "Infiltrate & Return V2",
   "idealStartingState": {
-    "velocity": 1.5,
-    "rotation": 90.0
+    "velocity": 2.0,
+    "rotation": -80.0
   },
   "useDefaultConstraints": true
 }

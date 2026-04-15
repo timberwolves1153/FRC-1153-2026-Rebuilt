@@ -36,16 +36,29 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 3.0
+                  "waitTime": 2.5
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "Stop Indexer"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Deploy Intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Stop Indexer"
+                }
+              }
+            ]
           }
         },
         {
@@ -63,33 +76,8 @@
                 "data": {
                   "name": "Aim to Pass"
                 }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 3.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Run Indexer"
-                      }
-                    }
-                  ]
-                }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Stop Indexer"
           }
         },
         {
@@ -99,7 +87,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Infiltrate & Return Path 2a"
+                  "pathName": "Infiltrate & Return Path 2t"
                 }
               },
               {
@@ -107,33 +95,8 @@
                 "data": {
                   "name": "Aim to Pass"
                 }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Run Indexer"
-                      }
-                    }
-                  ]
-                }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Stop Indexer"
           }
         },
         {
@@ -143,7 +106,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Infiltrate & Return Path 3a"
+                  "pathName": "Infiltrate & Return Path 3t"
                 }
               },
               {
