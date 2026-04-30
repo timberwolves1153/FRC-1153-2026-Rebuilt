@@ -343,7 +343,7 @@ public class RobotContainer {
         .or(RobotModeTriggers.teleop())
         .onTrue(Commands.run(() -> hood.homeHood()).until(hood::isHomed));
 
-    RobotModeTriggers.teleop().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-10)));
+    RobotModeTriggers.teleop().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(0)));
     RobotModeTriggers.teleop().onTrue(new InstantCommand(() -> hood.stopHood()));
     RobotModeTriggers.teleop().onTrue(new InstantCommand(() -> turret.stopTurret()));
     RobotModeTriggers.teleop().onTrue(new InstantCommand(() -> indexer.stopAll()));
@@ -374,7 +374,11 @@ public class RobotContainer {
     // Default command, normal field-relative drive
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
-            drive, () -> -driver.getLeftY(), () -> -driver.getLeftX(), () -> -driver.getRightX(), () -> operator.x().getAsBoolean()));
+            drive,
+            () -> -driver.getLeftY(),
+            () -> -driver.getLeftX(),
+            () -> -driver.getRightX(),
+            () -> operator.x().getAsBoolean()));
 
     // driver.x().onTrue(drive.driveToTower());
 
@@ -460,7 +464,7 @@ public class RobotContainer {
     /* Week 0 Bindings */
 
     operator
-        .b()
+        .leftStick()
         .onTrue(
             Commands.runOnce(
                     () ->
@@ -495,7 +499,7 @@ public class RobotContainer {
     //     .onTrue(
     //         superstructureCommands.runIndexerSafe(flywheel::getFlywheelCurrentRPS));
 
-    operator.leftStick().onTrue(superstructureCommands.shootOnTheMoveCommand());
+    // operator.leftStick().onTrue(superstructureCommands.shootOnTheMoveCommand());
     // operator.rightStick().onTrue(superstructureCommands.passOnTheMoveCommand());
 
     operator.povRight().onTrue(new InstantCommand(() -> turret.setPositionTurret(200), turret));
@@ -503,17 +507,22 @@ public class RobotContainer {
     operator.povLeft().onTrue(new InstantCommand(() -> turret.setPositionTurret(160), turret));
     operator.povDown().onTrue(new InstantCommand(() -> turret.setPositionTurret(180), turret));
 
-    operator.y().onTrue(new InstantCommand(() -> hood.setPositionHood(-1), hood));
-    operator.y().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-50)));
-    operator.x().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.1), hood));
-    operator.x().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-35)));
+    operator.povDown().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.05), hood));
+    operator.povDown().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(0)));
 
-    operator.leftBumper().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
-    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setPositionIntake(4.4)));
-    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(5), intake));
+    operator.a().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.5), hood));
+    operator.a().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-35)));
+    operator.b().onTrue(new InstantCommand(() -> hood.setPositionHood(-1), hood));
+    operator.b().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-50)));
+    operator.y().onTrue(new InstantCommand(() -> hood.setPositionHood(-2.5), hood));
+    operator.y().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-75)));
+
+    // operator.leftBumper().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
+    // operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setPositionIntake(4.4)));
+    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(4), intake));
     operator.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
-    operator.a().onTrue(new InstantCommand(() -> hood.homeHood(), hood));
+    // operator.a().onTrue(new InstantCommand(() -> hood.homeHood(), hood));
 
     // driver.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(5), intake));
     // driver.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));

@@ -89,16 +89,16 @@ public class DriveCommands {
           omega = Math.copySign(omega * omega, omega);
 
           // Convert to field relative speeds & send command
-          
+
           if (xButtonSuppler.getAsBoolean() == false) {
             ChassisSpeeds speeds =
-              new ChassisSpeeds(
-                  linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
-                  linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
-                  omega * drive.getMaxAngularSpeedRadPerSec());
+                new ChassisSpeeds(
+                    linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
+                    linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
+                    omega * drive.getMaxAngularSpeedRadPerSec());
             boolean isFlipped =
-              DriverStation.getAlliance().isPresent()
-                  && DriverStation.getAlliance().get() == Alliance.Red;
+                DriverStation.getAlliance().isPresent()
+                    && DriverStation.getAlliance().get() == Alliance.Red;
             drive.runVelocity(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
                     speeds,
@@ -106,14 +106,10 @@ public class DriveCommands {
                         ? drive.getRotation().plus(new Rotation2d(Math.PI))
                         : drive.getRotation()));
           } else {
-            ChassisSpeeds speeds =
-              new ChassisSpeeds(
-                  0,
-                  0,
-                  0);
+            ChassisSpeeds speeds = new ChassisSpeeds(0, 0, 0);
             boolean isFlipped =
-              DriverStation.getAlliance().isPresent()
-                  && DriverStation.getAlliance().get() == Alliance.Red;
+                DriverStation.getAlliance().isPresent()
+                    && DriverStation.getAlliance().get() == Alliance.Red;
             drive.runVelocity(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
                     speeds,
