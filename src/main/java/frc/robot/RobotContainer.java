@@ -374,7 +374,7 @@ public class RobotContainer {
     // Default command, normal field-relative drive
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
-            drive, () -> -driver.getLeftY(), () -> -driver.getLeftX(), () -> -driver.getRightX()));
+            drive, () -> -driver.getLeftY(), () -> -driver.getLeftX(), () -> -driver.getRightX(), () -> operator.x().getAsBoolean()));
 
     // driver.x().onTrue(drive.driveToTower());
 
@@ -393,65 +393,65 @@ public class RobotContainer {
 
     // driver.y().onTrue(Commands.runOnce(() -> drive.resetGyro(0), drive));
 
-    driver
-        .leftBumper()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngleAllianceRelative(
-                drive,
-                () -> -driver.getLeftY(),
-                () -> -driver.getLeftX(),
-                () -> Rotation2d.fromDegrees(-45),
-                () -> FieldConstants.isRed()));
+    // driver
+    //     .leftBumper()
+    //     .whileTrue(
+    //         DriveCommands.joystickDriveAtAngleAllianceRelative(
+    //             drive,
+    //             () -> -driver.getLeftY(),
+    //             () -> -driver.getLeftX(),
+    //             () -> Rotation2d.fromDegrees(-45),
+    //             () -> FieldConstants.isRed()));
 
-    driver
-        .rightBumper()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngleAllianceRelative(
-                drive,
-                () -> -driver.getLeftY(),
-                () -> -driver.getLeftX(),
-                () -> Rotation2d.fromDegrees(45),
-                () -> FieldConstants.isRed()));
+    // driver
+    //     .rightBumper()
+    //     .whileTrue(
+    //         DriveCommands.joystickDriveAtAngleAllianceRelative(
+    //             drive,
+    //             () -> -driver.getLeftY(),
+    //             () -> -driver.getLeftX(),
+    //             () -> Rotation2d.fromDegrees(45),
+    //             () -> FieldConstants.isRed()));
 
-    driver
-        .a()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngleAllianceRelative(
-                drive,
-                () -> -driver.getLeftY(),
-                () -> -driver.getLeftX(),
-                () -> Rotation2d.fromDegrees(0),
-                () -> FieldConstants.isRed()));
+    // driver
+    //     .a()
+    //     .whileTrue(
+    //         DriveCommands.joystickDriveAtAngleAllianceRelative(
+    //             drive,
+    //             () -> -driver.getLeftY(),
+    //             () -> -driver.getLeftX(),
+    //             () -> Rotation2d.fromDegrees(0),
+    //             () -> FieldConstants.isRed()));
 
-    driver
-        .y()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngleAllianceRelative(
-                drive,
-                () -> -driver.getLeftY(),
-                () -> -driver.getLeftX(),
-                () -> Rotation2d.fromDegrees(180),
-                () -> FieldConstants.isRed()));
+    // driver
+    //     .y()
+    //     .whileTrue(
+    //         DriveCommands.joystickDriveAtAngleAllianceRelative(
+    //             drive,
+    //             () -> -driver.getLeftY(),
+    //             () -> -driver.getLeftX(),
+    //             () -> Rotation2d.fromDegrees(180),
+    //             () -> FieldConstants.isRed()));
 
-    driver
-        .x()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngleAllianceRelative(
-                drive,
-                () -> -driver.getLeftY(),
-                () -> -driver.getLeftX(),
-                () -> Rotation2d.fromDegrees(-90),
-                () -> FieldConstants.isRed()));
+    // driver
+    //     .x()
+    //     .whileTrue(
+    //         DriveCommands.joystickDriveAtAngleAllianceRelative(
+    //             drive,
+    //             () -> -driver.getLeftY(),
+    //             () -> -driver.getLeftX(),
+    //             () -> Rotation2d.fromDegrees(-90),
+    //             () -> FieldConstants.isRed()));
 
-    driver
-        .b()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngleAllianceRelative(
-                drive,
-                () -> -driver.getLeftY(),
-                () -> -driver.getLeftX(),
-                () -> Rotation2d.fromDegrees(90),
-                () -> FieldConstants.isRed()));
+    // driver
+    //     .b()
+    //     .whileTrue(
+    //         DriveCommands.joystickDriveAtAngleAllianceRelative(
+    //             drive,
+    //             () -> -driver.getLeftY(),
+    //             () -> -driver.getLeftX(),
+    //             () -> Rotation2d.fromDegrees(90),
+    //             () -> FieldConstants.isRed()));
 
     // Drive Forward Button for testing
     //  operator.povUp().whileTrue(drive.sysIdDynamic(Direction.kForward));
@@ -459,8 +459,8 @@ public class RobotContainer {
 
     /* Week 0 Bindings */
 
-    driver
-        .rightStick()
+    operator
+        .b()
         .onTrue(
             Commands.runOnce(
                     () ->
@@ -482,11 +482,11 @@ public class RobotContainer {
     // operator.rightBumper().onTrue(new InstantCommand(() -> indexer.runSpin(-12), indexer));
     // operator.rightBumper().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
-    driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-12), indexer));
-    driver.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
+    // driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-12), indexer));
+    // driver.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
 
-    driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(10), indexer));
-    driver.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
+    // driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(10), indexer));
+    // driver.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
     // driver.leftTrigger().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
 
@@ -496,19 +496,17 @@ public class RobotContainer {
     //         superstructureCommands.runIndexerSafe(flywheel::getFlywheelCurrentRPS));
 
     operator.leftStick().onTrue(superstructureCommands.shootOnTheMoveCommand());
-    operator.rightStick().onTrue(superstructureCommands.passOnTheMoveCommand());
+    // operator.rightStick().onTrue(superstructureCommands.passOnTheMoveCommand());
 
-    operator.povRight().onTrue(new InstantCommand(() -> turret.setPositionTurret(300), turret));
-    operator.povRight().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.87), hood));
-    operator.povRight().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-33.0)));
-
+    operator.povRight().onTrue(new InstantCommand(() -> turret.setPositionTurret(200), turret));
     operator.povUp().onTrue(new InstantCommand(() -> turret.setPositionTurret(180), turret));
-    operator.povUp().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.8), hood));
-    operator.povUp().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-32.5)));
+    operator.povLeft().onTrue(new InstantCommand(() -> turret.setPositionTurret(160), turret));
+    operator.povDown().onTrue(new InstantCommand(() -> turret.setPositionTurret(180), turret));
 
-    operator.povLeft().onTrue(new InstantCommand(() -> turret.setPositionTurret(60), turret));
-    operator.povLeft().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.87), hood));
-    operator.povLeft().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-33.0)));
+    operator.y().onTrue(new InstantCommand(() -> hood.setPositionHood(-1), hood));
+    operator.y().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-50)));
+    operator.x().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.1), hood));
+    operator.x().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-35)));
 
     operator.leftBumper().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
     operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setPositionIntake(4.4)));
@@ -517,8 +515,8 @@ public class RobotContainer {
 
     operator.a().onTrue(new InstantCommand(() -> hood.homeHood(), hood));
 
-    driver.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(5), intake));
-    driver.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
+    // driver.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(5), intake));
+    // driver.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
     // driver
     //     .x()
