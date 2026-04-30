@@ -24,6 +24,7 @@ public class Turret extends SubsystemBase {
   public final Transform2d turretOffset;
   public double turretDisplacementX;
   public double turretDisplacementY;
+  public double turretMax;
 
   public Turret(TurretIO turretIO) {
     io = turretIO;
@@ -48,7 +49,7 @@ public class Turret extends SubsystemBase {
   }
 
   public void setPositionTurret(double degrees) {
-    degrees = MathUtil.clamp(degrees, 45, 315);
+    degrees = MathUtil.clamp(degrees, 45, 315); // 35, 325
     io.setPositionTurret(Units.degreesToRotations(degrees));
   }
 

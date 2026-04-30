@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Safe Right Collect And Shoot Path 1"
+                  "pathName": "Aggressive Right Collect And Shoot Path 1"
                 }
               },
               {
@@ -34,28 +34,28 @@
           "data": {
             "commands": [
               {
+                "type": "named",
+                "data": {
+                  "name": "Aim to Score"
+                }
+              },
+              {
                 "type": "sequential",
                 "data": {
                   "commands": [
                     {
-                      "type": "wait",
+                      "type": "path",
                       "data": {
-                        "waitTime": 2.0
+                        "pathName": "Aggressive Right Collect and Shoot Path 2"
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "wait",
                       "data": {
-                        "name": "Aim to Score"
+                        "waitTime": 0.5
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Safe Right Collect and Shoot Path 2"
                 }
               }
             ]
@@ -69,12 +69,6 @@
                 "type": "named",
                 "data": {
                   "name": "Run Timed Indexer"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Aim to Score"
                 }
               },
               {
@@ -122,6 +116,31 @@
           "data": {
             "commands": [
               {
+                "type": "path",
+                "data": {
+                  "pathName": "Aggressive Right Collect and Shoot Path 3b"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Aim to Score"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Run Indexer"
+                }
+              },
+              {
                 "type": "named",
                 "data": {
                   "name": "Aim to Score"
@@ -132,9 +151,27 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "path",
+                      "type": "wait",
                       "data": {
-                        "pathName": "Safe Right Collect and Shoot Path 3"
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Run Collector"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Stop Collector"
                       }
                     },
                     {

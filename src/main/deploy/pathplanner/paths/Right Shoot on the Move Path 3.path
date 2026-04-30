@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 4.3,
+        "x": 4.0,
         "y": 0.647
       },
       "prevControl": {
-        "x": 3.0862152791530457,
-        "y": 0.6470000000000001
+        "x": 2.80575459452016,
+        "y": 0.5425170655525936
       },
       "nextControl": null,
       "isLocked": true,
@@ -31,7 +31,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.5,
-      "rotationDegrees": 135.0
+      "rotationDegrees": -125.00000000000001
     }
   ],
   "constraintZones": [
@@ -67,7 +67,7 @@
   "folder": "Right Shoot on the Move Auto",
   "idealStartingState": {
     "velocity": 0.25,
-    "rotation": 135.0
+    "rotation": -125.00000000000001
   },
   "useDefaultConstraints": true
 }

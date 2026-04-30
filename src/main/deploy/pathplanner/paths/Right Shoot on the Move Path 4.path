@@ -3,24 +3,24 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.2,
+        "x": 4.0,
         "y": 0.6474096385542167
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.373927710843373,
-        "y": -0.36886746987951713
+        "x": 7.143927710843372,
+        "y": -0.17216867469879493
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.953325301204819,
+        "x": 5.953,
         "y": 3.7727349397590366
       },
       "prevControl": {
-        "x": 5.876370229851152,
+        "x": 5.876044928646333,
         "y": 4.010596069397639
       },
       "nextControl": null,
@@ -77,7 +77,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 113.70264595096633
+    "rotation": 113.70264595096634
   },
   "reversed": false,
   "folder": "Right Shoot on the Move Auto",

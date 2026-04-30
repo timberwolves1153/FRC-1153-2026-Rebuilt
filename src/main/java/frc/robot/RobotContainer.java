@@ -317,7 +317,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Aim to Pass", superstructureCommands.autoAimTurretPassing());
 
     NamedCommands.registerCommand(
-        "Deploy Intake", intake.setAllCollectCommand(4.4, 5.5).withTimeout(.3));
+        "Deploy Intake", intake.setAllCollectCommand(4.9, 5.5).withTimeout(.3));
     NamedCommands.registerCommand(
         "Deploy Intake 10V", intake.setAllCollectCommand(4.4, 10).withTimeout(.3));
 
@@ -485,7 +485,7 @@ public class RobotContainer {
     driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runFeed(-12), indexer));
     driver.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopFeeder(), indexer));
 
-    driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(10), indexer));
+    driver.rightTrigger().onTrue(new InstantCommand(() -> indexer.runSpin(8), indexer));
     driver.rightTrigger().onFalse(new InstantCommand(() -> indexer.stopSpin(), indexer));
 
     // driver.leftTrigger().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-30)));
@@ -511,7 +511,9 @@ public class RobotContainer {
     operator.povLeft().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-33.0)));
 
     operator.leftBumper().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
-    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setPositionIntake(4.4)));
+    operator
+        .leftTrigger()
+        .onTrue(new InstantCommand(() -> intake.setPositionIntake(4.9)).withTimeout(.3));
     operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(5), intake));
     operator.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
@@ -550,7 +552,24 @@ public class RobotContainer {
     // // operator.leftStick().onTrue(hood.setPositionHoodHub(drive::getPose));
     // operator.leftStick().onTrue(turret.setTurretPositionHub(drive::getPose));
 
-    // SmartDashboard.putNumber("Hood Manual Setpoint Input", -0.05);
+    // operator
+    //     .b()
+    //     .onTrue(
+    //         new DeferredCommand(
+    //             () -> {
+    //               return new InstantCommand(
+    //                   () ->
+    //                       indexer.setAllIndexing(
+    //                           -12, SmartDashboard.getNumber("Indexer Manual Voltage Input", 0)));
+    //             },
+    //             Set.of(indexer)));
+
+    // operator.b().onFalse(new InstantCommand(() -> indexer.setAllIndexing(0, 0), indexer));
+
+    // operator.leftStick().onTrue(hood.setPositionHoodHub(drive::getPose));
+    // operator.leftStick().onTrue(turret.setTurretPositionHub(drive::getPose));
+
+    // SmartDashboard.putNumber("Indexer Manual Voltage Input", 0);
     // operator
     //     .leftStick()
     //     .onTrue(

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.735,
-        "y": 0.636
+        "x": 4.0,
+        "y": 0.647
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.925096820723169,
-        "y": 0.5318800196884788
+        "x": 5.190096820723169,
+        "y": 0.5428800196884788
       },
       "isLocked": false,
       "linkedName": null
@@ -68,12 +68,12 @@
         "y": 0.55
       },
       "prevControl": {
-        "x": 7.755252725878842,
-        "y": 0.35389957881776907
+        "x": 7.078879518072289,
+        "y": 0.4725662650602419
       },
       "nextControl": {
-        "x": 5.014207135471237,
-        "y": 0.5937099941861578
+        "x": 5.012911424593008,
+        "y": 0.5747828757175516
       },
       "isLocked": false,
       "linkedName": null
@@ -96,12 +96,12 @@
     },
     {
       "anchor": {
-        "x": 2.205,
-        "y": 1.063
+        "x": 2.205120481927711,
+        "y": 1.0626626506024093
       },
       "prevControl": {
-        "x": 2.500048192771084,
-        "y": 0.8444457831325307
+        "x": 2.500168674698795,
+        "y": 0.84410843373494
       },
       "nextControl": null,
       "isLocked": false,
@@ -175,9 +175,9 @@
       "minWaypointRelativePos": 5.0,
       "maxWaypointRelativePos": 6.0,
       "constraints": {
-        "maxVelocity": 0.75,
+        "maxVelocity": 1.0,
         "maxAcceleration": 1.0,
-        "maxAngularVelocity": 40.0,
+        "maxAngularVelocity": 300.0,
         "maxAngularAcceleration": 350.0,
         "nominalVoltage": 12.0,
         "unlimited": false
@@ -222,7 +222,7 @@
     "rotation": -128.2901631922431
   },
   "reversed": false,
-  "folder": "Safe Right Collect and Shoot",
+  "folder": "Right Shoot on the Move Auto",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

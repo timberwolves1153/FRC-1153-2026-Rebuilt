@@ -31,7 +31,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.5,
-      "rotationDegrees": 135.0
+      "rotationDegrees": -125.00000000000001
     }
   ],
   "constraintZones": [
@@ -61,7 +61,7 @@
   },
   "goalEndState": {
     "velocity": 0.25,
-    "rotation": 135.0
+    "rotation": -125.00000000000001
   },
   "reversed": false,
   "folder": "Right Shoot on the Move Auto",

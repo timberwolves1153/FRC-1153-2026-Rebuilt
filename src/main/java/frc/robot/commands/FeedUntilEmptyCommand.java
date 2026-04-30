@@ -8,7 +8,7 @@ import org.littletonrobotics.junction.Logger;
 public class FeedUntilEmptyCommand extends Command {
 
   private final Indexer indexer;
-  private MedianFilter currentFilter = new MedianFilter(20);
+  private MedianFilter currentFilter = new MedianFilter(40);
   private static final double EMPTY_FEED_AMPS = 6;
 
   public FeedUntilEmptyCommand(Indexer indexer) {
