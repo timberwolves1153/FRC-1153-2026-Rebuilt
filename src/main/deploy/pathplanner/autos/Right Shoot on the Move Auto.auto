@@ -5,12 +5,6 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Deploy Intake"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -30,19 +24,26 @@
           }
         },
         {
-          "type": "path",
+          "type": "race",
           "data": {
-            "pathName": "Right Shoot on the Move Path 2"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Right Shoot on the Move Path 2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Aim to Score"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Reset Robot Pose"
-          }
-        },
-        {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
@@ -52,115 +53,19 @@
                 }
               },
               {
-                "type": "race",
+                "type": "parallel",
                 "data": {
                   "commands": [
                     {
-                      "type": "sequential",
+                      "type": "named",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.5
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "Run Collector"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 5.0
-                            }
-                          }
-                        ]
+                        "name": "Aim to Score"
                       }
                     },
                     {
-                      "type": "sequential",
+                      "type": "named",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "parallel",
-                            "data": {
-                              "commands": [
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "Interpolate Shot"
-                                  }
-                                },
-                                {
-                                  "type": "sequential",
-                                  "data": {
-                                    "commands": [
-                                      {
-                                        "type": "wait",
-                                        "data": {
-                                          "waitTime": 0.1
-                                        }
-                                      },
-                                      {
-                                        "type": "named",
-                                        "data": {
-                                          "name": "Set Turret Position 100"
-                                        }
-                                      }
-                                    ]
-                                  }
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 0.25
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "Aim to Score"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "sequential",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 0.95
-                            }
-                          },
-                          {
-                            "type": "parallel",
-                            "data": {
-                              "commands": [
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "Run Collector"
-                                  }
-                                },
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "Run Timed Indexer"
-                                  }
-                                }
-                              ]
-                            }
-                          }
-                        ]
+                        "name": "Run Indexer"
                       }
                     }
                   ]
@@ -170,9 +75,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Reset Robot Pose"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Stop Indexer"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Stop Collector"
+                }
+              }
+            ]
           }
         },
         {
@@ -182,137 +100,48 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Right Shoot on the Move Path 5"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Right Shoot on the Move Path 6"
-          }
-        },
-        {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right Shoot on the Move Path 7"
+                  "pathName": "Right Shoot on the Move Path 5"
                 }
               },
               {
-                "type": "race",
+                "type": "named",
+                "data": {
+                  "name": "Aim to Score"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Right Shoot on the Move Path 6"
+                }
+              },
+              {
+                "type": "parallel",
                 "data": {
                   "commands": [
                     {
-                      "type": "sequential",
+                      "type": "named",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.5
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "Run Collector"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 4.0
-                            }
-                          }
-                        ]
+                        "name": "Aim to Score"
                       }
                     },
                     {
-                      "type": "sequential",
+                      "type": "named",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "parallel",
-                            "data": {
-                              "commands": [
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "Interpolate Shot"
-                                  }
-                                },
-                                {
-                                  "type": "sequential",
-                                  "data": {
-                                    "commands": [
-                                      {
-                                        "type": "wait",
-                                        "data": {
-                                          "waitTime": 0.25
-                                        }
-                                      },
-                                      {
-                                        "type": "named",
-                                        "data": {
-                                          "name": "Set Turret Position 100"
-                                        }
-                                      }
-                                    ]
-                                  }
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 0.5
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "Aim to Score"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "sequential",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 0.95
-                            }
-                          },
-                          {
-                            "type": "parallel",
-                            "data": {
-                              "commands": [
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "Run Collector"
-                                  }
-                                },
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "Run Timed Indexer"
-                                  }
-                                }
-                              ]
-                            }
-                          }
-                        ]
+                        "name": "Run Indexer"
                       }
                     }
                   ]
@@ -322,9 +151,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Right Shoot on the Move Path 8"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Aim to Score"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Run Indexer"
+                }
+              }
+            ]
           }
         }
       ]

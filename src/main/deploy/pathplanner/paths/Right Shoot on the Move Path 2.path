@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.139,
-        "y": 3.553
+        "x": 8.15,
+        "y": 3.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.8219638554216875,
-        "y": 2.7018192771084326
+        "x": 7.722474820842915,
+        "y": 2.375384224017614
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.653,
-        "y": 2.308
+        "x": 2.65,
+        "y": 2.35
       },
       "prevControl": {
-        "x": 3.3391600104098376,
-        "y": 2.3654616863497195
+        "x": 3.3361600104098375,
+        "y": 2.40746168634972
       },
       "nextControl": null,
       "isLocked": false,
@@ -67,7 +67,7 @@
   "folder": "Right Shoot on the Move Auto",
   "idealStartingState": {
     "velocity": 0.0,
-    "rotation": 103.025
+    "rotation": 105.00000000000001
   },
   "useDefaultConstraints": true
 }
