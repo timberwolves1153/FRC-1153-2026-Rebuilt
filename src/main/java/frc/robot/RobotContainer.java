@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FeedUntilEmptyCommand;
+import frc.robot.commands.FeedUntilShotCommand;
 import frc.robot.commands.SuperstructureCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.interpolation.LauncherTable;
@@ -86,6 +87,7 @@ public class RobotContainer {
 
   private final SuperstructureCommands superstructureCommands;
   private final FeedUntilEmptyCommand feedUntilEmptyCommand;
+  private final FeedUntilShotCommand feedUntilShotCommand;
 
   // Match constants
 
@@ -271,6 +273,7 @@ public class RobotContainer {
 
     superstructureCommands = new SuperstructureCommands(drive, flywheel, hood, turret, indexer);
     feedUntilEmptyCommand = new FeedUntilEmptyCommand(indexer);
+    feedUntilShotCommand = new FeedUntilShotCommand(indexer);
 
     // Set up auto routines
 
@@ -512,17 +515,17 @@ public class RobotContainer {
 
     operator.a().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.5), hood));
     operator.a().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-35)));
-    operator.b().onTrue(new InstantCommand(() -> hood.setPositionHood(-1), hood));
-    operator.b().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-50)));
-    operator.y().onTrue(new InstantCommand(() -> hood.setPositionHood(-2.5), hood));
-    operator.y().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-75)));
+    operator.b().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.3), hood));
+    operator.b().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-45)));
+    operator.y().onTrue(new InstantCommand(() -> hood.setPositionHood(-0.05), hood));
+    operator.y().onTrue(new InstantCommand(() -> flywheel.setVelocityLeader(-55)));
 
     // operator.leftBumper().onTrue(new InstantCommand(() -> intake.setPositionIntake(0.25)));
     // operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setPositionIntake(4.4)));
-    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(4), intake));
+    operator.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(6), intake));
     operator.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
 
-    // operator.a().onTrue(new InstantCommand(() -> hood.homeHood(), hood));
+    operator.rightStick().onTrue(new InstantCommand(() -> hood.homeHood(), hood));
 
     // driver.leftTrigger().onTrue(new InstantCommand(() -> intake.setCollectVoltage(5), intake));
     // driver.leftTrigger().onFalse(new InstantCommand(() -> intake.setCollectVoltage(0), intake));
