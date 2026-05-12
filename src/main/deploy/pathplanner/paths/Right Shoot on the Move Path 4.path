@@ -17,15 +17,15 @@
     {
       "anchor": {
         "x": 5.5,
-        "y": 0.6
+        "y": 0.65
       },
       "prevControl": {
         "x": 5.253798061746948,
-        "y": 0.5565879555832675
+        "y": 0.6065879555832675
       },
       "nextControl": {
         "x": 6.515565511345439,
-        "y": 0.7790716003271897
+        "y": 0.8290716003271897
       },
       "isLocked": false,
       "linkedName": null
@@ -64,12 +64,12 @@
     },
     {
       "anchor": {
-        "x": 6.25,
+        "x": 5.9,
         "y": 2.5
       },
       "prevControl": {
-        "x": 6.588809040712438,
-        "y": 2.8461870672935663
+        "x": 6.638605814759156,
+        "y": 2.6302361332501976
       },
       "nextControl": null,
       "isLocked": false,
@@ -82,12 +82,12 @@
       "rotationDegrees": 180.0
     },
     {
-      "waypointRelativePos": 1.7,
+      "waypointRelativePos": 1.5,
       "rotationDegrees": 80.0
     },
     {
       "waypointRelativePos": 2.75,
-      "rotationDegrees": 180.0
+      "rotationDegrees": 170.0
     }
   ],
   "constraintZones": [
@@ -128,8 +128,8 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0.5,
-    "rotation": -125.00000000000001
+    "velocity": 2.0,
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "Right Shoot on the Move Auto",

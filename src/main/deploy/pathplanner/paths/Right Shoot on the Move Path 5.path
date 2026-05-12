@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.25,
+        "x": 5.9,
         "y": 2.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.096071096708939,
+        "x": 4.746071096708939,
         "y": 2.5
       },
       "isLocked": false,
@@ -56,13 +56,13 @@
   },
   "goalEndState": {
     "velocity": 0.25,
-    "rotation": -125.00000000000001
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "Right Shoot on the Move Auto",
   "idealStartingState": {
-    "velocity": 0.5,
-    "rotation": -125.00000000000001
+    "velocity": 2.0,
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }
