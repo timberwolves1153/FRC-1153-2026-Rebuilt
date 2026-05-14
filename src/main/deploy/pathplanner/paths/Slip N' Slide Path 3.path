@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0277164465667528,
-        "y": 1.625758958712448
+        "x": 2.0880704392909064,
+        "y": 1.7727855696304942
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.48035560344827655,
-        "y": 0.6435237068965523
+        "x": 0.5,
+        "y": 0.9
       },
       "prevControl": {
-        "x": 1.8661707855593745,
-        "y": 1.526385346395053
+        "x": 1.8119295607090937,
+        "y": 1.6272144303695057
       },
       "nextControl": null,
       "isLocked": false,
@@ -38,10 +38,23 @@
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 1.0,
+      "maxWaypointRelativePos": 0.9,
       "constraints": {
         "maxVelocity": 1.5,
         "maxAcceleration": 3.7,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    },
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.9,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 0.75,
+        "maxAcceleration": 1.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -53,7 +66,7 @@
   "eventMarkers": [
     {
       "name": "Run Indexer",
-      "waypointRelativePos": 0.3,
+      "waypointRelativePos": 0.5,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
