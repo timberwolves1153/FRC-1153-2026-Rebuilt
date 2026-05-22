@@ -86,7 +86,11 @@
       "rotationDegrees": 80.0
     },
     {
-      "waypointRelativePos": 2.75,
+      "waypointRelativePos": 2.0,
+      "rotationDegrees": 110.0
+    },
+    {
+      "waypointRelativePos": 3.0,
       "rotationDegrees": 170.0
     }
   ],
