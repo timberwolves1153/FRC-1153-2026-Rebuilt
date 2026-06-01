@@ -84,8 +84,24 @@
         "y": 7.45
       },
       "prevControl": {
-        "x": 4.020278900543475,
-        "y": 7.45
+        "x": 3.9847096167955622,
+        "y": 7.4620460483069575
+      },
+      "nextControl": {
+        "x": 3.4852903832044375,
+        "y": 7.437953951693043
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.6313012048192768,
+        "y": 7.0729036144578314
+      },
+      "prevControl": {
+        "x": 2.9700602409638552,
+        "y": 7.22589156626506
       },
       "nextControl": null,
       "isLocked": false,
@@ -107,6 +123,10 @@
     },
     {
       "waypointRelativePos": 3.92,
+      "rotationDegrees": 180.0
+    },
+    {
+      "waypointRelativePos": 5.0,
       "rotationDegrees": 180.0
     }
   ],
@@ -149,6 +169,19 @@
         "nominalVoltage": 12.0,
         "unlimited": false
       }
+    },
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 5.0,
+      "maxWaypointRelativePos": 6.0,
+      "constraints": {
+        "maxVelocity": 0.75,
+        "maxAcceleration": 3.7,
+        "maxAngularVelocity": 40.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
     }
   ],
   "pointTowardsZones": [],
@@ -163,6 +196,17 @@
           "name": "Run Collector"
         }
       }
+    },
+    {
+      "name": "Run Indexer",
+      "waypointRelativePos": 4.9,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Run Indexer"
+        }
+      }
     }
   ],
   "globalConstraints": {
@@ -175,7 +219,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 135.0
   },
   "reversed": false,
   "folder": "Safe Left Collect and Shoot",

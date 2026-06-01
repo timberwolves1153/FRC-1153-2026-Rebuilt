@@ -103,28 +103,9 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "Safe Left Collect and Shoot Path 3"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "Aim to Score"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Run Timed Indexer"
                 }
               },
               {
@@ -132,27 +113,9 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "wait",
+                      "type": "path",
                       "data": {
-                        "waitTime": 1.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Run Collector"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Stop Collector"
+                        "pathName": "Safe Left Collect and Shoot Path 3"
                       }
                     },
                     {

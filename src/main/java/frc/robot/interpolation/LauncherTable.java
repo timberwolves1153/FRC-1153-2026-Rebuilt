@@ -41,7 +41,7 @@ public class LauncherTable {
     flywheelShootingMap.put(new InterpolatingDouble(3.5), new InterpolatingDouble(-33.25));
     flywheelShootingMap.put(new InterpolatingDouble(4.0), new InterpolatingDouble(-34.25));
     flywheelShootingMap.put(new InterpolatingDouble(4.5), new InterpolatingDouble(-35.5));
-    flywheelShootingMap.put(new InterpolatingDouble(5.0), new InterpolatingDouble(-36.5));
+    flywheelShootingMap.put(new InterpolatingDouble(5.0), new InterpolatingDouble(-37.25));
 
     /*Flywheel Passing */
     flywheelPassingMap.put(new InterpolatingDouble(4.457), new InterpolatingDouble(-35.0));
