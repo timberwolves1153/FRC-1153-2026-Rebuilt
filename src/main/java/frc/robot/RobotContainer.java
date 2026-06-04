@@ -8,6 +8,7 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -16,11 +17,14 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
+import frc.robot.commands.Autos.BLineTest;
+import frc.robot.commands.Autos.DriveForward;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FeedUntilEmptyCommand;
 import frc.robot.commands.SuperstructureCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.interpolation.LauncherTable;
+import frc.robot.lib.BLine.FollowPath;
 import frc.robot.subsystems.alignment.Alignment;
 import frc.robot.subsystems.alignment.AlignmentConstants;
 import frc.robot.subsystems.alignment.AlignmentIO;
@@ -86,6 +90,8 @@ public class RobotContainer {
 
   private final SuperstructureCommands superstructureCommands;
   private final FeedUntilEmptyCommand feedUntilEmptyCommand;
+
+  public static FollowPath.Builder pathBuilder;
 
   // Match constants
 
@@ -332,12 +338,71 @@ public class RobotContainer {
         "Reset Robot Pose",
         new InstantCommand(() -> drive.setPose(vision.getPoseFromTurretCamera())));
 
+    FollowPath.registerEventTrigger(
+        "Run Indexer", indexer.setAllIndexingCommand(-12, 10)); // CHANGE
+    FollowPath.registerEventTrigger(
+        "Stop Indexer", indexer.setAllIndexingCommand(0, 0).withTimeout(0.01));
+
+    FollowPath.registerEventTrigger("Run Timed Indexer", feedUntilEmptyCommand);
+
+    FollowPath.registerEventTrigger(
+        "Run Feeder Wheel", new InstantCommand(() -> indexer.runFeed(-12), indexer));
+    FollowPath.registerEventTrigger(
+        "Stop Feeder Wheel", new InstantCommand(() -> indexer.runFeed(0), indexer));
+
+    FollowPath.registerEventTrigger(
+        "Run Indexer Wheel", new InstantCommand(() -> indexer.runSpin(12), indexer));
+    FollowPath.registerEventTrigger(
+        "Stop Indexer Wheel", new InstantCommand(() -> indexer.runSpin(0), indexer));
+
+    FollowPath.registerEventTrigger(
+        "Stop Flywheel", new InstantCommand(() -> flywheel.stopFlywheel()));
+    FollowPath.registerEventTrigger(
+        "Reset Hood", new InstantCommand(() -> hood.setPositionHood(-0.05)));
+    FollowPath.registerEventTrigger(
+        "Reset Turret", new InstantCommand(() -> turret.setPositionTurret(-90)));
+
+    FollowPath.registerEventTrigger(
+        "Rev Flywheel", new InstantCommand(() -> flywheel.setVelocityLeader(-35)));
+
+    FollowPath.registerEventTrigger(
+        "Interpolate Shot", superstructureCommands.interpolateShotCommand().withTimeout(0.25));
+    FollowPath.registerEventTrigger(
+        "Set Turret Position 300", new InstantCommand(() -> turret.setPositionTurret(300)));
+
+    FollowPath.registerEventTrigger(
+        "Set Turret Position 100", new InstantCommand(() -> turret.setPositionTurret(100)));
+    FollowPath.registerEventTrigger(
+        "Set Manual Flywheel RPS", new InstantCommand(() -> flywheel.setVelocityLeader(-32.75)));
+    FollowPath.registerEventTrigger(
+        "Set Manual Hood Value", new InstantCommand(() -> hood.setPositionHood(-0.875)));
+
+    FollowPath.registerEventTrigger("Aim to Score", superstructureCommands.shootOnTheMoveCommand());
+    FollowPath.registerEventTrigger("Aim to Pass", superstructureCommands.autoAimTurretPassing());
+
+    FollowPath.registerEventTrigger(
+        "Deploy Intake", intake.setAllCollectCommand(4.9, 5.5).withTimeout(.3));
+    FollowPath.registerEventTrigger(
+        "Deploy Intake 10V", intake.setAllCollectCommand(4.4, 10).withTimeout(.3));
+
+    FollowPath.registerEventTrigger(
+        "Run Collector", new InstantCommand(() -> intake.setCollectVoltage(5.5)));
+    FollowPath.registerEventTrigger(
+        "Run Collector 10V", new InstantCommand(() -> intake.setCollectVoltage(10)));
+    FollowPath.registerEventTrigger(
+        "Stop Collector", new InstantCommand(() -> intake.setCollectVoltage(0)));
+
+    FollowPath.registerEventTrigger(
+        "Reset Robot Pose",
+        new InstantCommand(() -> drive.setPose(vision.getPoseFromTurretCamera())));
+
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
     updateDesiredHub();
 
     // Configure the button bindings
     configureButtonBindings();
+    configureAuto(autoChooser);
 
     RobotModeTriggers.autonomous()
         .or(RobotModeTriggers.teleop())
@@ -372,6 +437,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Default command, normal field-relative drive
+
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive, () -> -driver.getLeftY(), () -> -driver.getLeftX(), () -> -driver.getRightX()));
@@ -581,6 +647,24 @@ public class RobotContainer {
     //                           SmartDashboard.getNumber("Hood Manual Setpoint Input", -0.05)));
     //             },
     //             Set.of(hood)));
+  }
+
+  private void configureAuto(LoggedDashboardChooser<Command> autoChooser) {
+
+    RobotContainer.pathBuilder =
+        new FollowPath.Builder(
+                drive,
+                drive::getPose,
+                drive::getChassisSpeeds,
+                drive::runVelocity,
+                new PIDController(5, 0, 0),
+                new PIDController(3, 0, 0),
+                new PIDController(2, 0, 0))
+            .withDefaultShouldFlip()
+            .withPoseReset(drive::setPose);
+
+    autoChooser.addOption("BLine Test", BLineTest.getCommand());
+    autoChooser.addOption("Drive Forward", DriveForward.getCommand());
   }
 
   /**
